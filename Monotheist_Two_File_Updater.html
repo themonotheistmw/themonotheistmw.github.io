@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>The Monotheist — Two-file updater</title><style>body{font-family:system-ui,Arial,sans-serif;background:#f7f5ee;color:#172744;max-width:680px;margin:35px auto;padding:20px;line-height:1.55}h1{font-family:Georgia,serif}button{background:#17345b;color:white;border:0;border-radius:8px;padding:13px 17px;font-weight:700;cursor:pointer;margin:6px 6px 6px 0}button:disabled{opacity:.45;cursor:default}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:white;border:1px solid #ddd6c6;padding:15px;border-radius:8px}small{color:#515b6d}</style></head><body><h1>The Monotheist</h1><p><strong>Homepage + sitemap updater</strong></p><p>This tool reads the latest files from your public GitHub repository and adds the ethics essay to your homepage and XML sitemap. It does not change your GitHub repository.</p><button id="prepare">1. Prepare updated files</button><div id="downloads" hidden><button id="home">2. Download index.html</button><button id="map">3. Download sitemap.xml</button></div><pre id="status">Ready.</pre><p><small>After downloading, upload <strong>both files</strong> to your repository's root folder and commit them together. You may need to allow your browser to download multiple files.</small></p><script>
+const base='https://raw.githubusercontent.com/themonotheistmw/themonotheistmw.github.io/main/';
+const name='the-moral-danger-of-believing-oneself-virtuous.html';
+const card=`<article class="card writing-card">
+                <span class="card-tag">Ethics · Society</span>
+                <h3>The Moral Danger of Believing Oneself Virtuous</h3>
+                <p>
+                    Can a record of generosity exempt a person from scrutiny?
+                    An essay on self-admiration, testimony, and the duties of a moral critic.
+                </p>
+                <a class="card-link" href="${name}">Read the essay →</a>
+            </article>`;
+const status=document.querySelector('#status');let files={};
+const download=(text,filename,mime)=>{const url=URL.createObjectURL(new Blob([text],{type:mime}));const a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),20000)};
+document.querySelector('#prepare').onclick=async()=>{document.querySelector('#prepare').disabled=true;status.textContent='Retrieving current files from GitHub…';try{
+const [a,b]=await Promise.all(['index.html','sitemap.xml'].map(n=>fetch(base+n+'?v='+Date.now(),{cache:'no-store'})));
+if(!a.ok||!b.ok)throw Error('Could not download one of the original files. Please verify the repository is public.');
+let home=await a.text(),map=await b.text();
+const pattern=/<article class="card writing-card">\s*<span class="card-tag">Ethics · Society<\/span>[\s\S]*?<\/article>/;
+if(home.includes('href="'+name+'"')){status.textContent='The homepage already links to the ethics article. No replacement is needed for that section.'} else {if(!pattern.test(home))throw Error('The Ethics card has changed. Nothing was modified: review the new homepage before applying updates.');home=home.replace(pattern,card)}
+if(!map.includes(name)){if(!map.includes('</urlset>'))throw Error('The XML sitemap appears to have changed. Nothing was modified.');map=map.replace('</urlset>',`  <url>\n    <loc>https://themonotheistmw.github.io/${name}</loc>\n  </url>\n</urlset>`)}
+if(!home.includes('href="'+name+'"')||!map.includes(name))throw Error('Validation failed; files not generated.');
+files={home,map};document.querySelector('#downloads').hidden=false;status.textContent='Success. Both files are ready. No other sections were intentionally changed. Download BOTH files and upload them together to the repository root.';
+}catch(e){status.textContent='Unable to prepare files: '+e.message}finally{document.querySelector('#prepare').disabled=false}};
+document.querySelector('#home').onclick=()=>download(files.home,'index.html','text/html;charset=utf-8');
+document.querySelector('#map').onclick=()=>download(files.map,'sitemap.xml','application/xml;charset=utf-8');
+</script></body></html>
