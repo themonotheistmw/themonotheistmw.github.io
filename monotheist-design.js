@@ -1,0 +1,28 @@
+/* The Monotheist — shared navigation, dark mode, progress and manuscript index */
+(function(){'use strict';
+const body=document.body, path=decodeURIComponent(location.pathname.split('/').pop()||'index.html').toLowerCase();
+const articleFiles=['the-burden-of-certainty.html','reason-revelation-and-the-burning-of-cotton.html','the-moral-danger-of-believing-oneself-virtuous.html'];
+let kind='utility';if(path==='index.html'||path==='')kind='home';else if(articleFiles.includes(path))kind='article';else if(path==='science-of-learning.html')kind='learning';else if(path==='opinion.html')kind='opinion';else if(path==='muslim-philosophy-and-philosophers.html')kind='manuscript';else if(path==='certificates.html')kind='certificate';
+body.classList.add('tm-active','tm-'+kind);
+try{let preference=localStorage.getItem('monotheist-theme');if(preference==='dark'||preference==='light')document.documentElement.setAttribute('data-theme',preference)}catch(e){}
+function create(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
+function anchor(href,label){const a=create('a','',label);a.href=href;return a}
+const nav=create('header','tm-site-nav'),inner=create('nav','tm-nav-inner');inner.setAttribute('aria-label','Primary navigation');nav.append(inner);
+const skip=anchor('#tm-main','Skip to main content');skip.className='tm-skip';nav.append(skip);
+const brand=anchor('index.html','The Monotheist');brand.className='tm-logo';inner.append(brand);
+const links=create('div','tm-nav-links');links.id='tm-navigation';[['index.html','Home'],['index.html#writings','Writings'],['index.html#books','Manuscripts'],['science-of-learning.html','Education'],['opinion.html','Opinion'],['index.html#about','About']].forEach(([h,t])=>{let a=anchor(h,t);if((kind==='home'&&t==='Home')||(kind==='learning'&&t==='Education')||(kind==='opinion'&&t==='Opinion')||(kind==='manuscript'&&t==='Manuscripts')||(kind==='article'&&t==='Writings'))a.setAttribute('aria-current','page');links.append(a)});inner.append(links);
+const tools=create('div','tm-nav-tools'),theme=create('button','tm-tool'),menu=create('button','tm-tool tm-menu-button','Menu');theme.type='button';menu.type='button';menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-controls','tm-navigation');tools.append(theme,menu);inner.append(tools);
+function themeLabel(){theme.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'Light':'Dark';theme.setAttribute('aria-label','Switch to '+theme.textContent.toLowerCase()+' mode')}themeLabel();theme.addEventListener('click',()=>{let next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',next);try{localStorage.setItem('monotheist-theme',next)}catch(e){}themeLabel()});
+menu.addEventListener('click',()=>{let open=links.classList.toggle('tm-open');menu.setAttribute('aria-expanded',String(open))});links.addEventListener('click',e=>{if(e.target.closest('a')){links.classList.remove('tm-open');menu.setAttribute('aria-expanded','false')}});
+body.prepend(nav);
+const main=body.querySelector('main')||body.querySelector('.container')||body.querySelector('article');if(main&&!main.id)main.id='tm-main';
+// Hide duplicate legacy theme buttons; the shared switch controls the root theme attribute.
+[...body.querySelectorAll('#themeToggle,#theme')].forEach(el=>{if(!el.classList.contains('tm-tool'))el.hidden=true});
+// The original homepage navigation is hidden visually by the stylesheet.
+const footer=create('footer','tm-site-footer');footer.innerHTML='<div class="tm-footer-inner"><div><strong>The Monotheist</strong><div>Independent thought · Scholarship · Education</div><div>Personal writing and manuscripts; no institutional affiliation implied.</div></div><div><a href="index.html">Home</a><a href="index.html#writings">Writings</a><a href="index.html#books">Books</a><a href="index.html#contact">Contact</a><div>© <span id="tm-year"></span> The Monotheist</div></div></div>';body.append(footer);footer.querySelector('#tm-year').textContent=new Date().getFullYear();
+const top=create('button','tm-to-top','↑');top.type='button';top.setAttribute('aria-label','Back to top');top.onclick=()=>scrollTo({top:0,behavior:'smooth'});body.append(top);
+if(['article','learning','manuscript'].includes(kind)){const prog=create('div','tm-progress');prog.setAttribute('aria-hidden','true');body.append(prog);let update=()=>{const max=document.documentElement.scrollHeight-innerHeight;prog.style.width=(max>0?Math.max(0,Math.min(100,scrollY/max*100)):0)+'%';top.classList.toggle('tm-visible',scrollY>400)};addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update()}else addEventListener('scroll',()=>top.classList.toggle('tm-visible',scrollY>400),{passive:true});
+if(kind==='manuscript'){const sections=[...body.querySelectorAll('main section[id]')].filter(x=>x.querySelector('h2'));if(sections.length){const aside=create('aside','tm-chapters');const title=create('h2','','Chapters');aside.append(title);sections.slice(0,70).forEach(x=>{let heading=x.querySelector('h2');aside.append(anchor('#'+x.id,heading.textContent.trim()))});body.append(aside)}}
+// Repair invalid nested article semantics on the older opinion archive without editing its text.
+if(kind==='opinion'){const wrap=body.querySelector('.container');if(wrap){const arts=[...wrap.querySelectorAll('article')];if(arts.length&&arts[0].querySelector('article')){const outer=arts[0];while(outer.firstChild)outer.parentNode.insertBefore(outer.firstChild,outer);outer.remove()}}}
+})();
