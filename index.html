@@ -594,8 +594,25 @@ footer a {
 </script>
 
 
-<link rel="stylesheet" href="monotheist-design.css">
-<script defer src="monotheist-design.js"></script>
+<!-- The Monotheist: visitor welcome video -->
+<style id="monotheist-welcome-style">
+  .mw-welcome-backdrop{position:fixed;inset:0;z-index:2147483000;background:rgba(5,12,29,.82);display:none;align-items:center;justify-content:center;padding:18px;overflow-y:auto;backdrop-filter:blur(5px)}
+  .mw-welcome-backdrop.mw-open{display:flex}
+  .mw-welcome-dialog{position:relative;width:min(100%,780px);max-height:calc(100dvh - 36px);overflow-y:auto;border:1px solid rgba(200,162,74,.5);border-radius:16px;background:#f7f4ec;color:#14264f;box-shadow:0 22px 80px rgba(0,0,0,.45);padding:clamp(15px,3vw,25px);text-align:center}
+  .mw-welcome-eyebrow{font:600 11px/1.5 Georgia,serif;letter-spacing:.19em;color:#94732c;text-transform:uppercase;margin:0 38px 9px}
+  .mw-welcome-title{font:600 clamp(25px,5vw,37px)/1.15 'Cormorant Garamond',Georgia,serif;margin:0 30px 9px;color:#14264f}
+  .mw-welcome-description{font:400 14px/1.6 'Lora',Georgia,serif;color:#525c70;margin:0 auto 15px;max-width:560px}
+  .mw-welcome-video{display:block;background:#090f20;width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:10px;border:1px solid #c6b78f}
+  .mw-welcome-actions{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:15px}
+  .mw-welcome-enter{cursor:pointer;border:0;background:#14264f;color:#fff;border-radius:8px;padding:12px 23px;font:600 13px 'Lora',Georgia,serif;min-height:44px}
+  .mw-welcome-enter:hover,.mw-welcome-enter:focus-visible{background:#273e70}
+  .mw-welcome-close{position:absolute;top:10px;right:10px;width:38px;height:38px;display:grid;place-items:center;border:1px solid #d8cba7;background:#fff;color:#14264f;border-radius:50%;font-size:23px;cursor:pointer;z-index:1}
+  .mw-welcome-reopen{position:fixed;right:16px;bottom:16px;z-index:1000;border:1px solid #c8a24a;border-radius:99px;background:#14264f;color:#fff;font:600 12px/1.2 'Lora',Georgia,serif;padding:10px 15px;box-shadow:0 4px 18px rgba(0,0,0,.2);cursor:pointer;max-width:calc(100vw - 32px)}
+  .mw-welcome-reopen:hover{background:#273e70}
+  body.mw-welcome-locked{overflow:hidden}
+  @media(max-width:480px){.mw-welcome-backdrop{padding:10px}.mw-welcome-dialog{max-height:calc(100dvh - 20px)}.mw-welcome-description{font-size:12.5px}.mw-welcome-reopen{font-size:11px;bottom:12px;right:12px}}
+  @media(prefers-reduced-motion:reduce){.mw-welcome-backdrop{backdrop-filter:none}}
+</style>
 </head>
 
 <body>
@@ -758,26 +775,35 @@ footer a {
 
             <article class="card writing-card">
                 <span class="card-tag">Philosophy · Reasoning</span>
-                <h3>The Burden of Certainty</h3>
-                <p>When three pupils repeat the same allegation, what does their teacher know? An essay on testimony, doubt, and the ethics of speaking with certainty.</p>
-                <a class="card-link" href="the-burden-of-certainty.html">Read the essay →</a>
+                <h3>Philosophy and Reasoning</h3>
+                <p>
+                    Reflections on arguments, rational inquiry,
+                    knowledge, truth, assumptions and the foundations
+                    of critical thinking.
+                </p>
+                <span class="about-note">More writings forthcoming.</span>
             </article>
 
             <article class="card writing-card">
                 <span class="card-tag">Islamic Thought</span>
-                <h3>Reason, Revelation and the Burning of Cotton</h3>
-                <p>What does burning cotton prove about causation? Al-Ghazālī and Ibn Rushd on natural powers, miracles, and the interpretation of scripture.</p>
-                <a class="card-link" href="reason-revelation-and-the-burning-of-cotton.html">Read the essay →</a>
+                <h3>Islamic Sciences and Intellectual History</h3>
+                <p>
+                    Explorations of Islamic intellectual traditions,
+                    theology, philosophy, scholarship, ethics
+                    and the history of ideas.
+                </p>
+                <span class="about-note">More writings forthcoming.</span>
             </article>
 
             <article class="card writing-card">
                 <span class="card-tag">Ethics · Society</span>
-                <h3>The Moral Danger of Believing Oneself Virtuous</h3>
+                <h3>Ethics and Morality</h3>
                 <p>
-                    Can a record of generosity exempt a person from scrutiny?
-                    An essay on self-admiration, testimony, and the duties of a moral critic.
+                    Essays on moral responsibility, human conduct,
+                    social values, justice, character and the
+                    philosophical foundations of ethical life.
                 </p>
-                <a class="card-link" href="the-moral-danger-of-believing-oneself-virtuous.html">Read the essay →</a>
+                <span class="about-note">More writings forthcoming.</span>
             </article>
 
             <article class="card writing-card">
@@ -1214,5 +1240,70 @@ document.getElementById("year").textContent =
 
 </script>
 
+
+<!-- Visitor welcome video; video playback starts only when the visitor taps Play. -->
+<div class="mw-welcome-backdrop" id="mw-welcome-backdrop" aria-hidden="true">
+  <section class="mw-welcome-dialog" id="mw-welcome-dialog" role="dialog" aria-modal="true" aria-labelledby="mw-welcome-title" aria-describedby="mw-welcome-description" tabindex="-1">
+    <button type="button" class="mw-welcome-close" id="mw-welcome-close" aria-label="Close welcome video">&times;</button>
+    <p class="mw-welcome-eyebrow">The Monotheist</p>
+    <h2 class="mw-welcome-title" id="mw-welcome-title">Welcome to The Monotheist</h2>
+    <p class="mw-welcome-description" id="mw-welcome-description">An independent space for thought, inquiry, and reflection. Watch this short welcome message, or continue to the website.</p>
+    <video id="mw-welcome-video" class="mw-welcome-video" controls playsinline preload="none" poster="welcome-poster.jpg" aria-label="Welcome message from The Monotheist">
+      <source src="welcome-video.mp4" type="video/mp4">
+      Your browser does not support embedded video. <a href="welcome-video.mp4">View the welcome video</a>.
+    </video>
+    <div class="mw-welcome-actions">
+      <button type="button" class="mw-welcome-enter" id="mw-welcome-enter">Enter the Library</button>
+    </div>
+  </section>
+</div>
+<button type="button" class="mw-welcome-reopen" id="mw-welcome-reopen" aria-label="Replay the welcome video">Welcome Video &#9654;</button>
+<script id="monotheist-welcome-script">
+(function () {
+  'use strict';
+  var STORAGE_KEY = 'monotheist-welcome-seen-v1';
+  var backdrop = document.getElementById('mw-welcome-backdrop');
+  var dialog = document.getElementById('mw-welcome-dialog');
+  var closeButton = document.getElementById('mw-welcome-close');
+  var enterButton = document.getElementById('mw-welcome-enter');
+  var reopenButton = document.getElementById('mw-welcome-reopen');
+  var video = document.getElementById('mw-welcome-video');
+  var previousFocus = null;
+  function seen() { try { return localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) { return false; } }
+  function markSeen() { try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {} }
+  function openWelcome() {
+    previousFocus = document.activeElement;
+    backdrop.classList.add('mw-open');
+    backdrop.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('mw-welcome-locked');
+    closeButton.focus();
+  }
+  function closeWelcome() {
+    video.pause();
+    backdrop.classList.remove('mw-open');
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('mw-welcome-locked');
+    markSeen();
+    if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus();
+    else reopenButton.focus();
+  }
+  closeButton.addEventListener('click', closeWelcome);
+  enterButton.addEventListener('click', closeWelcome);
+  reopenButton.addEventListener('click', openWelcome);
+  backdrop.addEventListener('click', function (event) { if (event.target === backdrop) closeWelcome(); });
+  document.addEventListener('keydown', function (event) {
+    if (!backdrop.classList.contains('mw-open')) return;
+    if (event.key === 'Escape') closeWelcome();
+    if (event.key === 'Tab') {
+      var items = Array.prototype.slice.call(dialog.querySelectorAll('button:not([disabled]), video[controls], a[href]')).filter(function(el){return el.getClientRects().length;});
+      if (!items.length) return;
+      var first = items[0], last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {event.preventDefault();last.focus();}
+      else if (!event.shiftKey && document.activeElement === last) {event.preventDefault();first.focus();}
+    }
+  });
+  if (!seen()) openWelcome();
+})();
+</script>
 </body>
 </html>
