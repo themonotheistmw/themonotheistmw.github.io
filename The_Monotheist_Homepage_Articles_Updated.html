@@ -1,0 +1,1309 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>The Monotheist | Independent Thought and Writing</title>
+
+<meta name="description" content="The Monotheist is an independent intellectual space exploring philosophy, Islamic thought, ethics, education, science, literature and contemporary affairs.">
+
+<meta name="author" content="The Monotheist">
+<meta name="theme-color" content="#14264f">
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://themonotheistmw.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Monotheist">
+<meta property="og:description" content="An independent exploration of philosophy, Islamic thought, ethics, education, science, literature and contemporary affairs.">
+<meta property="og:url" content="https://themonotheistmw.github.io/">
+    
+<meta property="og:image" content="https://themonotheistmw.github.io/The_Monotheist_Scholarly_Library_WhatsApp.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Monotheist — Independent Thought and Writing">
+<meta name="twitter:image" content="https://themonotheistmw.github.io/The_Monotheist_Scholarly_Library_WhatsApp.jpg">
+  
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Monotheist">
+<meta name="twitter:description" content="Independent thought, original writing and intellectual inquiry.">
+
+<link rel="icon" type="image/x-icon" href="./favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #f7f4ec;
+    --paper: #ffffff;
+    --ink: #18233b;
+    --muted: #58627a;
+    --navy: #14264f;
+    --deep: #0c1730;
+    --gold: #c8a24a;
+    --gold-light: #e0b962;
+    --line: #ded7c6;
+    --soft: #f0eadb;
+    --shadow: 0 8px 28px rgba(20,38,79,.07);
+    color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+    --bg: #0c1730;
+    --paper: #132245;
+    --ink: #f3ead2;
+    --muted: #bbc4d6;
+    --navy: #14264f;
+    --deep: #081329;
+    --gold: #e0b962;
+    --gold-light: #efd18a;
+    --line: #2a3b60;
+    --soft: #1a2b4e;
+    --shadow: 0 8px 28px rgba(0,0,0,.2);
+    color-scheme: dark;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+a {
+    color: var(--navy);
+}
+
+:root[data-theme="dark"] a {
+    color: var(--gold-light);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 4px;
+}
+
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 10px;
+    z-index: 100;
+    padding: 10px 16px;
+    background: var(--gold);
+    color: var(--deep);
+}
+
+.skip-link:focus {
+    top: 10px;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    line-height: 1.15;
+}
+
+h1 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+}
+
+h2 {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    color: var(--navy);
+    margin: 0 0 12px;
+}
+
+:root[data-theme="dark"] h2,
+:root[data-theme="dark"] h3 {
+    color: var(--gold-light);
+}
+
+h3 {
+    font-size: 1.65rem;
+    color: var(--navy);
+    margin: 10px 0;
+}
+
+p {
+    margin: 0 0 16px;
+}
+
+.container {
+    max-width: 1120px;
+    margin: auto;
+    padding-left: 22px;
+    padding-right: 22px;
+}
+
+/* NAVIGATION */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--deep);
+    border-bottom: 2px solid var(--gold);
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: auto;
+    min-height: 70px;
+    padding: 10px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.brand {
+    color: white;
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-links a,
+.theme-toggle {
+    color: white;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    font-family: Arial, sans-serif;
+    font-size: .88rem;
+    padding: 9px 11px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.nav-links a:hover,
+.theme-toggle:hover {
+    color: var(--gold-light);
+    background: rgba(255,255,255,.07);
+}
+
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* HERO */
+
+.hero {
+    background:
+        radial-gradient(circle at 50% 0%, #294476 0%, transparent 55%),
+        linear-gradient(135deg, #081329, #14264f 65%, #1b315c);
+    color: white;
+    text-align: center;
+    padding: 105px 22px 95px;
+    border-bottom: 4px solid var(--gold);
+}
+
+.hero-inner {
+    max-width: 900px;
+    margin: auto;
+}
+
+.eyebrow {
+    display: inline-block;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    font-family: Arial, sans-serif;
+    font-size: .8rem;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    color: white;
+    margin: 0 0 18px;
+    font-weight: 600;
+}
+
+.hero .subtitle {
+    max-width: 760px;
+    margin: auto;
+    color: #e5eaf3;
+    font-size: 1.12rem;
+}
+
+.hero .identity {
+    margin-top: 22px;
+    color: var(--gold-light);
+    font-size: .9rem;
+    letter-spacing: .08em;
+}
+
+.hero-actions {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* BUTTONS */
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 7px;
+    padding: 11px 22px;
+    font-family: Arial, sans-serif;
+    font-size: .9rem;
+    font-weight: 600;
+    transition: .2s ease;
+    border: 1px solid var(--gold);
+}
+
+.btn-primary {
+    background: var(--gold);
+    color: var(--deep) !important;
+}
+
+.btn-outline {
+    color: white !important;
+    background: transparent;
+    border-color: rgba(255,255,255,.7);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,.15);
+}
+
+/* GENERAL SECTIONS */
+
+section {
+    padding-top: 75px;
+    padding-bottom: 12px;
+}
+
+.section-heading {
+    margin-bottom: 30px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    max-width: 760px;
+}
+
+.section-kicker {
+    display: block;
+    color: #a47d2c;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font: 600 .75rem Arial, sans-serif;
+    margin-bottom: 8px;
+}
+
+:root[data-theme="dark"] .section-kicker {
+    color: var(--gold-light);
+}
+
+/* ABOUT */
+
+.about-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.about-card p:last-child {
+    margin-bottom: 0;
+}
+
+.about-note {
+    color: var(--muted);
+    font-style: italic;
+}
+
+/* GRIDS AND CARDS */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: .94rem;
+}
+
+.card .btn {
+    margin-top: auto;
+}
+
+.card-tag {
+    display: inline-block;
+    background: var(--soft);
+    color: var(--navy);
+    border-radius: 30px;
+    padding: 4px 11px;
+    font: 600 .72rem Arial, sans-serif;
+    margin-bottom: 10px;
+}
+
+:root[data-theme="dark"] .card-tag {
+    color: var(--gold-light);
+}
+
+.card-link {
+    margin-top: auto;
+    display: inline-block;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.card-link:hover {
+    text-decoration: underline;
+}
+
+/* BOOKS */
+
+.status {
+    display: inline-block;
+    color: var(--navy);
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    padding: 4px 12px;
+    font: 600 .72rem Arial, sans-serif;
+    margin-bottom: 10px;
+}
+
+:root[data-theme="dark"] .status {
+    color: var(--gold-light);
+}
+
+/* WRITINGS */
+
+.writing-card {
+    min-height: 245px;
+}
+
+.writing-date {
+    font: .78rem Arial, sans-serif;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+/* PROJECTS */
+
+.project-list {
+    padding-left: 22px;
+    margin: 10px 0 0;
+}
+
+.project-list li {
+    margin: 9px 0;
+    color: var(--muted);
+}
+
+/* CONTACT */
+
+.contact-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.contact-links a {
+    text-decoration: none;
+    border: 1px solid var(--line);
+    padding: 10px 15px;
+    border-radius: 7px;
+}
+
+.contact-links a:hover {
+    border-color: var(--gold);
+}
+
+/* FOOTER */
+
+footer {
+    margin-top: 85px;
+    background: var(--deep);
+    color: #d6dbea;
+    border-top: 3px solid var(--gold);
+    padding: 38px 20px;
+    text-align: center;
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: .85rem;
+}
+
+footer a {
+    color: var(--gold-light) !important;
+    text-decoration: none;
+}
+
+.footer-brand {
+    font: 600 1.7rem 'Cormorant Garamond', serif;
+    color: white;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 850px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+    }
+
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 0;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a,
+    .theme-toggle {
+        text-align: left;
+        padding: 12px;
+    }
+}
+
+@media(max-width: 600px) {
+    body {
+        font-size: 15px;
+    }
+
+    .hero {
+        padding: 75px 18px;
+    }
+
+    .hero .subtitle {
+        font-size: 1rem;
+    }
+
+    section {
+        padding-top: 55px;
+    }
+
+    .container {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+    .about-card,
+    .contact-card {
+        padding: 21px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "The Monotheist",
+  "url": "https://themonotheistmw.github.io/",
+  "sameAs": [
+    "https://www.instagram.com/themonotheist1",
+    "https://www.facebook.com/share/19zCHe2Qod/"
+  ]
+}
+</script>
+
+
+<!-- The Monotheist: visitor welcome video -->
+<style id="monotheist-welcome-style">
+  .mw-welcome-backdrop{position:fixed;inset:0;z-index:2147483000;background:rgba(5,12,29,.82);display:none;align-items:center;justify-content:center;padding:18px;overflow-y:auto;backdrop-filter:blur(5px)}
+  .mw-welcome-backdrop.mw-open{display:flex}
+  .mw-welcome-dialog{position:relative;width:min(100%,780px);max-height:calc(100dvh - 36px);overflow-y:auto;border:1px solid rgba(200,162,74,.5);border-radius:16px;background:#f7f4ec;color:#14264f;box-shadow:0 22px 80px rgba(0,0,0,.45);padding:clamp(15px,3vw,25px);text-align:center}
+  .mw-welcome-eyebrow{font:600 11px/1.5 Georgia,serif;letter-spacing:.19em;color:#94732c;text-transform:uppercase;margin:0 38px 9px}
+  .mw-welcome-title{font:600 clamp(25px,5vw,37px)/1.15 'Cormorant Garamond',Georgia,serif;margin:0 30px 9px;color:#14264f}
+  .mw-welcome-description{font:400 14px/1.6 'Lora',Georgia,serif;color:#525c70;margin:0 auto 15px;max-width:560px}
+  .mw-welcome-video{display:block;background:#090f20;width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:10px;border:1px solid #c6b78f}
+  .mw-welcome-actions{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:15px}
+  .mw-welcome-enter{cursor:pointer;border:0;background:#14264f;color:#fff;border-radius:8px;padding:12px 23px;font:600 13px 'Lora',Georgia,serif;min-height:44px}
+  .mw-welcome-enter:hover,.mw-welcome-enter:focus-visible{background:#273e70}
+  .mw-welcome-close{position:absolute;top:10px;right:10px;width:38px;height:38px;display:grid;place-items:center;border:1px solid #d8cba7;background:#fff;color:#14264f;border-radius:50%;font-size:23px;cursor:pointer;z-index:1}
+  .mw-welcome-reopen{position:fixed;right:16px;bottom:16px;z-index:1000;border:1px solid #c8a24a;border-radius:99px;background:#14264f;color:#fff;font:600 12px/1.2 'Lora',Georgia,serif;padding:10px 15px;box-shadow:0 4px 18px rgba(0,0,0,.2);cursor:pointer;max-width:calc(100vw - 32px)}
+  .mw-welcome-reopen:hover{background:#273e70}
+  body.mw-welcome-locked{overflow:hidden}
+  @media(max-width:480px){.mw-welcome-backdrop{padding:10px}.mw-welcome-dialog{max-height:calc(100dvh - 20px)}.mw-welcome-description{font-size:12.5px}.mw-welcome-reopen{font-size:11px;bottom:12px;right:12px}}
+  @media(prefers-reduced-motion:reduce){.mw-welcome-backdrop{backdrop-filter:none}}
+</style>
+</head>
+
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header>
+    <div class="navbar">
+
+        <a class="brand" href="#home">The Monotheist</a>
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="navLinks">
+            ☰
+        </button>
+
+        <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+            <a href="#home">Home</a>
+            <a href="#writings">Writings</a>
+            <a href="#books">Books</a>
+            <a href="#education">Education</a>
+            <a href="#projects">Projects</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+
+            <button class="theme-toggle" id="themeToggle" type="button">
+                Dark mode
+            </button>
+        </nav>
+
+    </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+
+<div class="hero" id="home">
+    <div class="hero-inner">
+
+        <span class="eyebrow">
+            Independent Thought and Writing
+        </span>
+
+        <h1>The Monotheist</h1>
+
+        <p class="subtitle">
+            An independent exploration of philosophy, Islamic thought,
+            ethics, education, science, literature and contemporary affairs.
+        </p>
+
+        <p class="identity">
+            Independent Writer · Educator · Author
+        </p>
+
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="#writings">
+                Explore Writings
+            </a>
+
+            <a class="btn btn-outline" href="#books">
+                Explore Books and Manuscripts
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- ABOUT -->
+
+<section id="about">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="section-kicker">The person behind the work</span>
+            <h2>About The Monotheist</h2>
+        </div>
+
+        <div class="about-card">
+
+            <p>
+                The Monotheist is the personal intellectual and
+                creative space of an independent writer and educator.
+                It brings together work on philosophy, Islamic thought,
+                ethics, education, science, literature and contemporary affairs.
+            </p>
+
+            <p>
+                The purpose of this space is to examine ideas carefully,
+                question assumptions, follow arguments wherever the evidence
+                leads, and make serious subjects accessible without stripping
+                them of their complexity.
+            </p>
+
+            <p>
+                It encompasses original essays, philosophical reflections,
+                educational resources, book manuscripts and ongoing
+                intellectual projects. Some works are intended for general
+                readers, while others are designed for students and readers
+                seeking a deeper engagement with a subject.
+            </p>
+
+            <p class="about-note">
+                The Monotheist is an independent personal endeavour,
+                unaffiliated with and unsupported by any institution
+                or organisation.
+            </p>
+
+        </div>
+    </div>
+</section>
+
+<!-- WRITINGS -->
+
+<section id="writings">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="section-kicker">Ideas, arguments and reflections</span>
+            <h2>Writings</h2>
+            <p>
+                Essays, articles and reflections exploring questions
+                of knowledge, belief, society, morality and the world
+                in which we live.
+            </p>
+        </div>
+
+        <div class="grid">
+
+            <article class="card writing-card">
+                <span class="card-tag">Education · Research</span>
+                <h3>The Science of Learning</h3>
+                <p>
+                    How the human mind acquires, retains, understands
+                    and applies knowledge. An exploration of memory,
+                    retrieval practice, spaced learning, feedback
+                    and effective teaching.
+                </p>
+                <a class="card-link" href="science-of-learning.html">
+                    Read the article →
+                </a>
+            </article>
+
+            <article class="card writing-card">
+                <span class="card-tag">Geopolitics · Commentary</span>
+                <h3>Opinion and Contemporary Affairs</h3>
+                <p>
+                    Personal analysis and commentary on geopolitical
+                    developments, international relations, political
+                    movements and the changing global order.
+                </p>
+                <a class="card-link" href="opinion.html">
+                    Explore opinion writings →
+                </a>
+            </article>
+
+            <article class="card writing-card">
+                <span class="card-tag">Philosophy · Reasoning</span>
+                <h3>The Burden of Certainty: Why Thinking Begins with Doubt</h3>
+                <p>
+                    A scholarly inquiry into knowledge, evidence, skepticism and intellectual responsibility, with Qur’anic and philosophical perspectives.
+                </p>
+                <a class="card-link" href="the-burden-of-certainty.html">
+                    Read the article →
+                </a>
+            </article>
+
+            <article class="card writing-card">
+                <span class="card-tag">Islamic Thought</span>
+                <h3>Reason, Revelation and the Burning of Cotton</h3>
+                <p>
+                    An exploration of reason, revelation, causation and interpretation through the debates of al-Ghazālī, Ibn Rushd and later Muslim scholars.
+                </p>
+                <a class="card-link" href="reason-revelation-and-the-burning-of-cotton.html">
+                    Read the article →
+                </a>
+            </article>
+
+            <article class="card writing-card">
+                <span class="card-tag">Ethics · Society</span>
+                <h3>The Moral Danger of Believing Oneself Virtuous</h3>
+                <p>
+                    A reflection on self-righteousness, moral accountability, humility and the ethical responsibilities of judging ourselves and others.
+                </p>
+                <a class="card-link" href="the-moral-danger-of-believing-oneself-virtuous.html">
+                    Read the article →
+                </a>
+            </article>
+
+            <article class="card writing-card">
+                <span class="card-tag">Literature · Reflection</span>
+                <h3>Literature and Personal Reflections</h3>
+                <p>
+                    Literary observations, philosophical reflections,
+                    cultural commentary and explorations of
+                    the human condition.
+                </p>
+                <span class="about-note">More writings forthcoming.</span>
+            </article>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- BOOKS AND MANUSCRIPTS -->
+
+<section id="books">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="section-kicker">Long-form intellectual work</span>
+            <h2>Books and Manuscripts</h2>
+            <p>
+                Book-length projects, educational textbooks and
+                manuscripts currently being prepared, revised
+                or developed.
+            </p>
+        </div>
+
+        <div class="grid">
+
+            <article class="card">
+                <span class="card-tag">Textbook Manuscript</span>
+
+                <h3>Foundations of Computer Science</h3>
+
+                <p>
+                    A structured introduction to computer fundamentals,
+                    productivity software, computational thinking,
+                    coding, Python, artificial intelligence and
+                    AI ethics.
+                </p>
+
+                <p class="about-note">
+                    Working educational manuscript.
+                </p>
+
+                <a class="btn btn-primary"
+                   href="Foundations_of_Computer_Science.pdf"
+                   target="_blank"
+                   rel="noopener">
+                    View PDF
+                </a>
+
+                
+            </article>
+
+            <article class="card">
+                <span class="card-tag">Educational Series</span>
+
+                <h3>Computer Studies — Classes 1–8</h3>
+
+                <p>
+                    An eight-level educational series designed
+                    to develop computer literacy, practical skills,
+                    logical thinking, computational understanding
+                    and familiarity with emerging technologies.
+                </p>
+
+                <p class="about-note">
+                    Series under development and revision.
+                </p>
+            </article>
+
+            <article class="card">
+                <span class="card-tag">Educational Series</span>
+
+                <h3>Islamic Studies — Classes 1–10</h3>
+
+                <p>
+                    A developing educational series intended to bring
+                    together foundational Islamic knowledge, Qur'anic
+                    studies, Sirah, history, manners, ethics and
+                    age-appropriate religious learning.
+                </p>
+
+                <p class="about-note">
+                    Series under development.
+                </p>
+            </article>
+
+            <article class="card">
+
+                <span class="card-tag">Philosophy · Islamic Intellectual History</span>
+
+                <h3>Muslim Philosophy and Philosophers</h3>
+
+                <p>
+                    A historical and philosophical exploration of
+                    Muslim intellectual traditions, from the
+                    Graeco-Arabic translation movement to classical,
+                    post-classical and modern thought.
+                </p>
+
+                <span class="status">Unpublished manuscript · Under review</span>
+
+                <a class="btn btn-primary"
+                   href="muslim-philosophy-and-philosophers.html">
+                    Read the manuscript
+                </a>
+
+            </article>
+
+            <article class="card">
+                <span class="card-tag">Philosophy</span>
+
+                <h3>General Philosophy</h3>
+
+                <p>
+                    A comprehensive philosophical project intended
+                    to introduce fundamental questions, arguments
+                    and schools of thought through a progressive
+                    educational approach.
+                </p>
+
+                <p class="about-note">
+                    Book project under development.
+                </p>
+            </article>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- EDUCATION -->
+
+<section id="education">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="section-kicker">Learning and teaching</span>
+            <h2>Education</h2>
+            <p>
+                Educational material designed to make knowledge
+                understandable, structured and useful.
+            </p>
+        </div>
+
+        <div class="grid">
+
+            <article class="card">
+                <span class="card-tag">Learning Science</span>
+                <h3>How Learning Works</h3>
+                <p>
+                    Research-informed principles for students,
+                    teachers and independent learners.
+                </p>
+                <a class="card-link" href="science-of-learning.html">
+                    Explore the article →
+                </a>
+            </article>
+
+            <article class="card">
+                <span class="card-tag">Computer Education</span>
+                <h3>Computer Literacy</h3>
+                <p>
+                    From elementary computer awareness to
+                    programming, computational thinking
+                    and artificial intelligence.
+                </p>
+                <a class="card-link" href="#books">
+                    Explore the series →
+                </a>
+            </article>
+
+            <article class="card">
+                <span class="card-tag">Islamic Education</span>
+                <h3>Foundational Islamic Learning</h3>
+                <p>
+                    Structured learning material covering
+                    Islamic knowledge, history, ethics,
+                    Qur'anic studies and related disciplines.
+                </p>
+                <a class="card-link" href="#books">
+                    Explore the series →
+                </a>
+            </article>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- PROJECTS -->
+
+<section id="projects">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="section-kicker">Ongoing intellectual work</span>
+            <h2>Research and Projects</h2>
+            <p>
+                Ongoing intellectual, educational and creative initiatives.
+            </p>
+        </div>
+
+        <div class="about-card">
+
+            <h3>Current Areas of Work</h3>
+
+            <ul class="project-list">
+
+                <li>
+                    Development and revision of Computer Studies
+                    textbooks for Classes 1–8.
+                </li>
+
+                <li>
+                    Preparation of Islamic Studies textbooks
+                    for Classes 1–10.
+                </li>
+
+                <li>
+                    Research, writing and revision of
+                    <i>Muslim Philosophy and Philosophers</i>.
+                </li>
+
+                <li>
+                    Development of a comprehensive General
+                    Philosophy book.
+                </li>
+
+                <li>
+                    Essays on philosophy, ethics, Islamic
+                    intellectual history, education and
+                    contemporary affairs.
+                </li>
+
+                <li>
+                    Development of an organised digital
+                    collection of educational and intellectual
+                    resources.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="section-kicker">Correspondence</span>
+            <h2>Contact</h2>
+            <p>
+                For discussions, questions, educational enquiries
+                and intellectual correspondence.
+            </p>
+        </div>
+
+        <div class="contact-card">
+
+            <h3>Get in Touch</h3>
+
+            <p>
+                Email is the preferred channel for detailed
+                correspondence and enquiries.
+            </p>
+
+            <div class="contact-links">
+
+                <a href="mailto:mehrajwan771@gmail.com">
+                    ✉ Email
+                </a>
+
+                <a href="https://www.instagram.com/themonotheist1"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Instagram
+                </a>
+
+                <a href="https://www.facebook.com/share/19zCHe2Qod/"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Facebook
+                </a>
+
+            </div>
+
+            <p style="margin-top:24px;color:var(--muted);font-size:.9rem">
+                Email: mehrajwan771@gmail.com
+            </p>
+
+        </div>
+
+    </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-brand">The Monotheist</div>
+
+    <p>
+        Independent thought, original writing and intellectual inquiry.
+    </p>
+
+    <p>
+        Philosophy · Islamic Thought · Ethics · Education · Science · Literature
+    </p>
+
+    <p style="margin-top:20px">
+        © <span id="year"></span> The Monotheist.
+        All rights reserved.
+    </p>
+
+    <p>
+        An independent personal endeavour.
+    </p>
+
+</footer>
+
+<script>
+
+/* MOBILE NAVIGATION */
+
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", function () {
+
+    const isOpen = navLinks.classList.toggle("open");
+
+    menuToggle.setAttribute("aria-expanded", isOpen);
+
+    menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+    );
+
+    menuToggle.textContent = isOpen ? "✕" : "☰";
+
+});
+
+/* CLOSE MENU AFTER NAVIGATION */
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+
+    link.addEventListener("click", function () {
+
+        navLinks.classList.remove("open");
+
+        menuToggle.setAttribute("aria-expanded", "false");
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Open navigation menu"
+        );
+
+        menuToggle.textContent = "☰";
+
+    });
+
+});
+
+/* DARK MODE */
+
+const themeToggle = document.getElementById("themeToggle");
+
+function applyTheme(theme) {
+
+    document.documentElement.setAttribute("data-theme", theme);
+
+    themeToggle.textContent =
+        theme === "dark" ? "Light mode" : "Dark mode";
+
+    try {
+        localStorage.setItem("monotheist-theme", theme);
+    } catch (error) {
+        // Theme remains usable without browser storage.
+    }
+
+}
+
+let savedTheme = null;
+
+try {
+    savedTheme = localStorage.getItem("monotheist-theme");
+} catch (error) {
+    savedTheme = null;
+}
+
+if (savedTheme === "dark" || savedTheme === "light") {
+
+    applyTheme(savedTheme);
+
+} else {
+
+    applyTheme(
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light"
+    );
+
+}
+
+themeToggle.addEventListener("click", function () {
+
+    const currentTheme =
+        document.documentElement.getAttribute("data-theme");
+
+    applyTheme(currentTheme === "dark" ? "light" : "dark");
+
+});
+
+/* AUTOMATIC COPYRIGHT YEAR */
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+</script>
+
+
+<!-- Visitor welcome video; video playback starts only when the visitor taps Play. -->
+<div class="mw-welcome-backdrop" id="mw-welcome-backdrop" aria-hidden="true">
+  <section class="mw-welcome-dialog" id="mw-welcome-dialog" role="dialog" aria-modal="true" aria-labelledby="mw-welcome-title" aria-describedby="mw-welcome-description" tabindex="-1">
+    <button type="button" class="mw-welcome-close" id="mw-welcome-close" aria-label="Close welcome video">&times;</button>
+    <p class="mw-welcome-eyebrow">The Monotheist</p>
+    <h2 class="mw-welcome-title" id="mw-welcome-title">Welcome to The Monotheist</h2>
+    <p class="mw-welcome-description" id="mw-welcome-description">An independent space for thought, inquiry, and reflection. Watch this short welcome message, or continue to the website.</p>
+    <video id="mw-welcome-video" class="mw-welcome-video" controls playsinline preload="none" poster="welcome-poster.jpg" aria-label="Welcome message from The Monotheist">
+      <source src="welcome-video.mp4" type="video/mp4">
+      Your browser does not support embedded video. <a href="welcome-video.mp4">View the welcome video</a>.
+    </video>
+    <div class="mw-welcome-actions">
+      <button type="button" class="mw-welcome-enter" id="mw-welcome-enter">Enter the Library</button>
+    </div>
+  </section>
+</div>
+<button type="button" class="mw-welcome-reopen" id="mw-welcome-reopen" aria-label="Replay the welcome video">Welcome Video &#9654;</button>
+<script id="monotheist-welcome-script">
+(function () {
+  'use strict';
+  var STORAGE_KEY = 'monotheist-welcome-seen-v1';
+  var backdrop = document.getElementById('mw-welcome-backdrop');
+  var dialog = document.getElementById('mw-welcome-dialog');
+  var closeButton = document.getElementById('mw-welcome-close');
+  var enterButton = document.getElementById('mw-welcome-enter');
+  var reopenButton = document.getElementById('mw-welcome-reopen');
+  var video = document.getElementById('mw-welcome-video');
+  var previousFocus = null;
+  function seen() { try { return localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) { return false; } }
+  function markSeen() { try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {} }
+  function openWelcome() {
+    previousFocus = document.activeElement;
+    backdrop.classList.add('mw-open');
+    backdrop.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('mw-welcome-locked');
+    closeButton.focus();
+  }
+  function closeWelcome() {
+    video.pause();
+    backdrop.classList.remove('mw-open');
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('mw-welcome-locked');
+    markSeen();
+    if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus();
+    else reopenButton.focus();
+  }
+  closeButton.addEventListener('click', closeWelcome);
+  enterButton.addEventListener('click', closeWelcome);
+  reopenButton.addEventListener('click', openWelcome);
+  backdrop.addEventListener('click', function (event) { if (event.target === backdrop) closeWelcome(); });
+  document.addEventListener('keydown', function (event) {
+    if (!backdrop.classList.contains('mw-open')) return;
+    if (event.key === 'Escape') closeWelcome();
+    if (event.key === 'Tab') {
+      var items = Array.prototype.slice.call(dialog.querySelectorAll('button:not([disabled]), video[controls], a[href]')).filter(function(el){return el.getClientRects().length;});
+      if (!items.length) return;
+      var first = items[0], last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {event.preventDefault();last.focus();}
+      else if (!event.shiftKey && document.activeElement === last) {event.preventDefault();first.focus();}
+    }
+  });
+  if (!seen()) openWelcome();
+})();
+</script>
+</body>
+</html>
