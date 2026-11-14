@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://themonotheistmw.github.io/sitemap.xml
