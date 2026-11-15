@@ -1,0 +1,30 @@
+name: Personal website review checks
+on:
+  push:
+    branches:
+      - improve-personal-site-nov-2026
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'opinion.html'
+      - 'ahl-al-fatrah-divine-justice.html'
+      - 'muslim-philosophy-and-philosophers.html'
+      - 'manuscript-reader.*'
+      - 'tests/**'
+      - '.github/workflows/website-review.yml'
+permissions:
+  contents: read
+jobs:
+  site-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate website sources and navigation
+        run: node --test tests/site-review.test.mjs
+      - name: Check manuscript reader JavaScript syntax
+        run: node --check manuscript-reader.js
+      - name: Check shared script syntax
+        run: node --check monotheist-design.js
