@@ -15,7 +15,9 @@ const tools=create('div','tm-nav-tools'),theme=create('button','tm-tool'),menu=c
 function themeLabel(){theme.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'Light':'Dark';theme.setAttribute('aria-label','Switch to '+theme.textContent.toLowerCase()+' mode')}themeLabel();theme.addEventListener('click',()=>{let next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',next);try{localStorage.setItem('monotheist-theme',next)}catch(e){}themeLabel()});
 menu.addEventListener('click',()=>{let open=links.classList.toggle('tm-open');menu.setAttribute('aria-expanded',String(open))});links.addEventListener('click',e=>{if(e.target.closest('a')){links.classList.remove('tm-open');menu.setAttribute('aria-expanded','false')}});
 body.prepend(nav);
-const main=body.querySelector('main')||body.querySelector('.container')||body.querySelector('article');if(main&&!main.id)main.id='tm-main';
+const main=body.querySelector('main')||body.querySelector('.container')||body.querySelector('article');
+if(main){if(!main.id)main.id='tm-main';skip.href='#'+main.id;}
+else {skip.remove();}
 // Hide duplicate legacy theme buttons; the shared switch controls the root theme attribute.
 [...body.querySelectorAll('#themeToggle,#theme')].forEach(el=>{if(!el.classList.contains('tm-tool'))el.hidden=true});
 // The original homepage navigation is hidden visually by the stylesheet.
