@@ -9,6 +9,7 @@ on:
       - 'opinion.html'
       - 'ahl-al-fatrah-divine-justice.html'
       - 'muslim-philosophy-and-philosophers.html'
+      - 'the-burden-of-certainty.html'
       - 'manuscript-reader.*'
       - 'tests/**'
       - '.github/workflows/website-review.yml'
