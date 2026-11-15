@@ -8,14 +8,16 @@ try{let preference=localStorage.getItem('monotheist-theme');if(preference==='dar
 function create(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
 function anchor(href,label){const a=create('a','',label);a.href=href;return a}
 const nav=create('header','tm-site-nav'),inner=create('nav','tm-nav-inner');inner.setAttribute('aria-label','Primary navigation');nav.append(inner);
-const skip=anchor('#tm-main','Skip to main content');skip.className='tm-skip';nav.append(skip);
+const skip=anchor('#tm-main','Skip to main content');skip.className='tm-skip';nav.prepend(skip);
 const brand=anchor('index.html','The Monotheist');brand.className='tm-logo';inner.append(brand);
 const links=create('div','tm-nav-links');links.id='tm-navigation';[['index.html','Home'],['index.html#writings','Writings'],['index.html#books','Manuscripts'],['science-of-learning.html','Education'],['opinion.html','Opinion'],['index.html#about','About']].forEach(([h,t])=>{let a=anchor(h,t);if((kind==='home'&&t==='Home')||(kind==='learning'&&t==='Education')||(kind==='opinion'&&t==='Opinion')||(kind==='manuscript'&&t==='Manuscripts')||(kind==='article'&&t==='Writings'))a.setAttribute('aria-current','page');links.append(a)});inner.append(links);
 const tools=create('div','tm-nav-tools'),theme=create('button','tm-tool'),menu=create('button','tm-tool tm-menu-button','Menu');theme.type='button';menu.type='button';menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-controls','tm-navigation');tools.append(theme,menu);inner.append(tools);
 function themeLabel(){theme.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'Light':'Dark';theme.setAttribute('aria-label','Switch to '+theme.textContent.toLowerCase()+' mode')}themeLabel();theme.addEventListener('click',()=>{let next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',next);try{localStorage.setItem('monotheist-theme',next)}catch(e){}themeLabel()});
 menu.addEventListener('click',()=>{let open=links.classList.toggle('tm-open');menu.setAttribute('aria-expanded',String(open))});links.addEventListener('click',e=>{if(e.target.closest('a')){links.classList.remove('tm-open');menu.setAttribute('aria-expanded','false')}});
 body.prepend(nav);
-const main=body.querySelector('main')||body.querySelector('.container')||body.querySelector('article');if(main&&!main.id)main.id='tm-main';
+const main=body.querySelector('main')||body.querySelector('.container')||body.querySelector('article');
+if(main){if(!main.id)main.id='tm-main';skip.href='#'+main.id;}
+else {skip.remove();}
 // Hide duplicate legacy theme buttons; the shared switch controls the root theme attribute.
 [...body.querySelectorAll('#themeToggle,#theme')].forEach(el=>{if(!el.classList.contains('tm-tool'))el.hidden=true});
 // The original homepage navigation is hidden visually by the stylesheet.

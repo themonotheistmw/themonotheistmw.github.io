@@ -612,6 +612,12 @@ footer a {
   body.mw-welcome-locked{overflow:hidden}
   @media(max-width:480px){.mw-welcome-backdrop{padding:10px}.mw-welcome-dialog{max-height:calc(100dvh - 20px)}.mw-welcome-description{font-size:12.5px}.mw-welcome-reopen{font-size:11px;bottom:12px;right:12px}}
   @media(prefers-reduced-motion:reduce){.mw-welcome-backdrop{backdrop-filter:none}}
+.writing-topics{display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;margin:0 0 26px;padding:14px 17px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+.writing-topics span{font-weight:600;color:var(--ink)}
+.writing-topics a{display:inline-block;color:var(--ink);border-bottom:1px solid var(--gold);text-decoration:none;padding:3px 1px}
+.writing-topics a:hover,.writing-topics a:focus-visible{color:var(--gold);text-decoration:underline}
+.writing-card[id]{scroll-margin-top:90px}
+#urdu-writings h3{font-family:Georgia,"Noto Nastaliq Urdu",serif;line-height:1.9}
 </style>
 </head>
 
@@ -636,6 +642,7 @@ footer a {
         <nav class="nav-links" id="navLinks" aria-label="Main navigation">
             <a href="#home">Home</a>
             <a href="#writings">Writings</a>
+            <a href="#urdu-writings" lang="ur" dir="rtl" aria-label="Urdu writings">اردو</a>
             <a href="#books">Books</a>
             <a href="#education">Education</a>
             <a href="#projects">Projects</a>
@@ -744,9 +751,19 @@ footer a {
             </p>
         </div>
 
+        <nav class="writing-topics" aria-label="Browse writings by subject">
+            <span>Explore by subject:</span>
+            <a href="#learning-article">Learning</a>
+            <a href="#philosophy-articles">Philosophy</a>
+            <a href="#islamic-thought-article">Islamic Thought</a>
+            <a href="#ethics-article">Ethics</a>
+            <a href="#urdu-writings" lang="ur" dir="rtl">اردو مضامین</a>
+            <a href="#commentary-articles">Commentary</a>
+        </nav>
+
         <div class="grid">
 
-            <article class="card writing-card">
+            <article class="card writing-card" id="learning-article">
                 <span class="card-tag">Education · Research</span>
                 <h3>The Science of Learning</h3>
                 <p>
@@ -760,7 +777,7 @@ footer a {
                 </a>
             </article>
 
-            <article class="card writing-card">
+            <article class="card writing-card" id="commentary-articles">
                 <span class="card-tag">Geopolitics · Commentary</span>
                 <h3>Opinion and Contemporary Affairs</h3>
                 <p>
@@ -773,7 +790,7 @@ footer a {
                 </a>
             </article>
 
-            <article class="card writing-card">
+            <article class="card writing-card" id="philosophy-articles">
                 <span class="card-tag">Philosophy · Reasoning</span>
                 <h3>The Burden of Certainty: Why Thinking Begins with Doubt</h3>
                 <p>
@@ -784,7 +801,7 @@ footer a {
                 </a>
             </article>
 
-            <article class="card writing-card">
+            <article class="card writing-card" id="islamic-thought-article">
                 <span class="card-tag">Islamic Thought</span>
                 <h3>Reason, Revelation and the Burning of Cotton</h3>
                 <p>
@@ -795,7 +812,7 @@ footer a {
                 </a>
             </article>
 
-            <article class="card writing-card">
+            <article class="card writing-card" id="ethics-article">
                 <span class="card-tag">Ethics · Society</span>
                 <h3>The Moral Danger of Believing Oneself Virtuous</h3>
                 <p>
@@ -803,6 +820,18 @@ footer a {
                 </p>
                 <a class="card-link" href="the-moral-danger-of-believing-oneself-virtuous.html">
                     Read the article →
+                </a>
+            </article>
+
+            <article class="card writing-card" id="urdu-writings">
+                <span class="card-tag">Islamic Thought · Urdu Research</span>
+                <h3 lang="ur" dir="rtl">اہلِ فترۃ اور الٰہی عدل</h3>
+                <p>
+                    An Urdu study of divine justice, the communication of revelation,
+                    human reason and accountability in Islamic theological thought.
+                </p>
+                <a class="card-link" href="ahl-al-fatrah-divine-justice.html" lang="ur" dir="rtl">
+                    اردو مضمون پڑھیں ←
                 </a>
             </article>
 
