@@ -5,7 +5,8 @@ import {resolve,dirname} from 'node:path';
 
 const pages=[
   'index.html','opinion.html','ahl-al-fatrah-divine-justice.html',
-  'muslim-philosophy-and-philosophers.html'
+  'muslim-philosophy-and-philosophers.html',
+  'the-burden-of-certainty.html'
 ];
 const source=p=>readFileSync(p,'utf8');
 const hrefs=s=>[...s.matchAll(/\b(?:href|src)=["']([^"']+)["']/g)].map(m=>m[1]);
@@ -58,4 +59,17 @@ test('opinion page uses valid top-level article structure',()=>{
 });
 test('manuscript script is not referenced on the home page',()=>{
   assert.doesNotMatch(source('index.html'),/src=["']manuscript-reader\.js["']/);
+});
+
+test('burden of certainty: all six source notes resolve and quotations remain attributed',()=>{
+  const h=source('the-burden-of-certainty.html');
+  for(let i=1;i<=6;i++){
+    assert.ok(h.includes('id="ref-'+i+'"'), 'missing source note '+i);
+    assert.ok(h.includes('href="#ref-'+i+'"'), 'missing in-text source link '+i);
+  }
+  assert.equal((h.match(/<p class="arabic"/g)||[]).length,3);
+  assert.equal((h.match(/Marmaduke Pickthall/g)||[]).length,3);
+  assert.match(h,/tafseer\/tabary\/sura17-aya36\.html/);
+  assert.match(h,/tafseer\/tabary\/sura49-aya12\.html/);
+  assert.match(h,/ethical analogy/);
 });
