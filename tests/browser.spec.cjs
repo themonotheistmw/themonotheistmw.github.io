@@ -103,3 +103,37 @@ test('scholarly essay: Arabic quotations, notes, dark mode, and internal navigat
   await noHorizontalOverflow(page);
   expect(errors).toEqual([]);
 });
+
+for(const article of ['divine-mercy-nuzulan.html','khauf-raja-balance.html','religious-scrupulosity.html']){
+  test('Urdu reader: mobile visual layout, theme, keyboard access — '+article,async({page})=>{
+    const errors=watchPageErrors(page);
+    await page.goto('/'+article,{waitUntil:'domcontentloaded'});
+    await expect(page.locator('html')).toHaveAttribute('dir','rtl');
+    await expect(page.locator('.ur-site-header')).toBeVisible();
+    await expect(page.locator('main#ur-main h1')).toBeVisible();
+    await expect(page.locator('a.ur-skip')).toHaveAttribute('href','#ur-main');
+    await expect(page.locator('.ur-theme-toggle')).toBeVisible();
+    const initial=await page.locator('html').getAttribute('data-theme');
+    await page.locator('.ur-theme-toggle').click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme',initial==='dark'?'light':'dark');
+    await expect(page.locator('.quran-verse').first()).toBeVisible();
+    await page.evaluate(()=>window.scrollTo(0,1000));
+    await expect(page.locator('.ur-top')).toBeVisible();
+    await noHorizontalOverflow(page);
+    expect(errors).toEqual([]);
+  });
+}
+test('Urdu page CSP blocks injected inline scripts',async({page})=>{
+  await page.goto('/khauf-raja-balance.html',{waitUntil:'domcontentloaded'});
+  const ran = await page.evaluate(async()=>{
+    const flag='__monotheistCspTest';
+    const script=document.createElement('script');
+    script.textContent='window.'+flag+'=true';
+    document.body.append(script);
+    await new Promise(resolve=>setTimeout(resolve,40));
+    const executed=Boolean(window[flag]);
+    script.remove();
+    return executed;
+  });
+  expect(ran).toBe(false);
+});
