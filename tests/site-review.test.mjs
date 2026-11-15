@@ -68,7 +68,7 @@ test('burden of certainty: all six source notes resolve and quotations remain at
     assert.ok(h.includes('href="#ref-'+i+'"'), 'missing in-text source link '+i);
   }
   assert.equal((h.match(/<p class="arabic"/g)||[]).length,3);
-  assert.equal((h.match(/Marmaduke Pickthall/g)||[]).length,3);
+  assert.equal((h.match(/<p class="source">— Marmaduke Pickthall/g)||[]).length,3);
   assert.match(h,/tafseer\/tabary\/sura17-aya36\.html/);
   assert.match(h,/tafseer\/tabary\/sura49-aya12\.html/);
   assert.match(h,/ethical analogy/);
