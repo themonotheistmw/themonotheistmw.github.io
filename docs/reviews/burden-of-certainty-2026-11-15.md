@@ -38,5 +38,6 @@ Compare claims against the linked original papers, translated primary works, Qur
 - [x] Qur'anic Arabic/translation and translator attribution retained
 - [x] Distinguish primary claims from authorial analogy
 - [x] All cited reference IDs present in HTML
-- [ ] Automated source and browser tests on the final commit
-- [ ] Pull request review / deployment checks
+- [x] Source and browser tests verified on the article correction commit (GitHub Actions); subsequent commits must be rechecked
+- [x] Pull request created for review
+- Deployment status: verify from GitHub Pages Actions after merge (do not infer from this audit file)
