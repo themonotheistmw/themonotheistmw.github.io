@@ -8,7 +8,7 @@ try{let preference=localStorage.getItem('monotheist-theme');if(preference==='dar
 function create(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
 function anchor(href,label){const a=create('a','',label);a.href=href;return a}
 const nav=create('header','tm-site-nav'),inner=create('nav','tm-nav-inner');inner.setAttribute('aria-label','Primary navigation');nav.append(inner);
-const skip=anchor('#tm-main','Skip to main content');skip.className='tm-skip';nav.append(skip);
+const skip=anchor('#tm-main','Skip to main content');skip.className='tm-skip';nav.prepend(skip);
 const brand=anchor('index.html','The Monotheist');brand.className='tm-logo';inner.append(brand);
 const links=create('div','tm-nav-links');links.id='tm-navigation';[['index.html','Home'],['index.html#writings','Writings'],['index.html#books','Manuscripts'],['science-of-learning.html','Education'],['opinion.html','Opinion'],['index.html#about','About']].forEach(([h,t])=>{let a=anchor(h,t);if((kind==='home'&&t==='Home')||(kind==='learning'&&t==='Education')||(kind==='opinion'&&t==='Opinion')||(kind==='manuscript'&&t==='Manuscripts')||(kind==='article'&&t==='Writings'))a.setAttribute('aria-current','page');links.append(a)});inner.append(links);
 const tools=create('div','tm-nav-tools'),theme=create('button','tm-tool'),menu=create('button','tm-tool tm-menu-button','Menu');theme.type='button';menu.type='button';menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-controls','tm-navigation');tools.append(theme,menu);inner.append(tools);
