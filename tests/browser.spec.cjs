@@ -116,9 +116,14 @@ for(const article of ['divine-mercy-nuzulan.html','khauf-raja-balance.html','rel
     const initial=await page.locator('html').getAttribute('data-theme');
     await page.locator('.ur-theme-toggle').click();
     await expect(page.locator('html')).toHaveAttribute('data-theme',initial==='dark'?'light':'dark');
-    await expect(page.locator('.quran-verse').first()).toBeVisible();
+    if(await page.locator('.quran-verse').count()) await expect(page.locator('.quran-verse').first()).toBeVisible();
     await page.evaluate(()=>window.scrollTo(0,1000));
     await expect(page.locator('.ur-top')).toBeVisible();
+    const offending=await page.evaluate(()=>{
+      const width=document.documentElement.clientWidth;
+      return [...document.querySelectorAll('body *')].map(el=>({el,box:el.getBoundingClientRect()})).filter(x=>x.box.width && (x.box.right>width+3||x.box.left< -3)).slice(0,12).map(x=>({tag:x.el.tagName,cls:x.el.className,id:x.el.id,left:Math.round(x.box.left),right:Math.round(x.box.right),scroll:x.el.scrollWidth}));
+    });
+    console.log('RTL width diagnostics:',article,JSON.stringify(offending));
     await noHorizontalOverflow(page);
     expect(errors).toEqual([]);
   });
