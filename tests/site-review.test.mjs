@@ -73,3 +73,30 @@ test('burden of certainty: all six source notes resolve and quotations remain at
   assert.match(h,/tafseer\/tabary\/sura49-aya12\.html/);
   assert.match(h,/ethical analogy/);
 });
+
+test('Urdu pages carry restrictive CSP, referrer policy and separate reader files',()=>{
+  for(const page of ['divine-mercy-nuzulan.html','khauf-raja-balance.html','religious-scrupulosity.html']){
+    const html=source(page);
+    assert.match(html,/<html\s+dir=["']rtl["']\s+lang=["']ur["']/i);
+    assert.match(html,/http-equiv=["']Content-Security-Policy["']/i);
+    assert.match(html,/script-src 'self'/);
+    assert.match(html,/object-src 'none'/);
+    assert.match(html,/form-action 'none'/);
+    assert.match(html,/name=["']referrer["']\s+content=["']no-referrer["']/);
+    assert.match(html,/href=["']\.\/urdu-reader\.css["']/);
+    assert.match(html,/src=["']\.\/urdu-reader\.js["']/);
+    assert.match(html,/class=["']urdu-reader["']/);
+    assert.match(html,/id=["']ur-main["']/);
+    assert.match(html,/class=["']ur-skip["']/);
+    assert.equal((html.match(/<main\b/gi)||[]).length,1);
+    assert.equal((html.match(/<h1\b/gi)||[]).length,1);
+    const ids= [...html.matchAll(/\bid=["']([^"']+)["']/g)].map(x=>x[1]);
+    assert.equal(new Set(ids).size,ids.length);
+    for(const anchor of html.matchAll(/href=["']#([^"']+)["']/g)){
+      assert.ok(ids.includes(anchor[1]),page+': missing fragment '+anchor[1]);
+    }
+    for(const anchor of html.matchAll(/<a\b[^>]*target=["']_blank["'][^>]*>/gi)){
+      assert.match(anchor[0],/rel=["'][^"']*noopener[^"']*noreferrer/);
+    }
+  }
+});

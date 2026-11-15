@@ -1,0 +1,49 @@
+/* The Monotheist — Urdu reading experience. Presentation only: article content remains unchanged. */
+body.urdu-reader *,body.urdu-reader *::before,body.urdu-reader *::after{box-sizing:border-box}
+:root{--ur-bg:#f5f1e8;--ur-paper:#fffdf8;--ur-ink:#192840;--ur-muted:#59667a;--ur-line:#ded5c2;--ur-soft:#f4efe3;--ur-link:#174a80;--ur-gold:#b38b47;--ur-quote:#f8f5ed}
+:root[data-theme="dark"]{color-scheme:dark;--ur-bg:#0e1828;--ur-paper:#19283d;--ur-ink:#f1eddf;--ur-muted:#c4c9d1;--ur-line:#45516a;--ur-soft:#22334b;--ur-link:#e9c98d;--ur-gold:#d9b873;--ur-quote:#23354c}
+html{scroll-padding-top:95px}
+body.urdu-reader{background:var(--ur-bg);color:var(--ur-ink);font-family:'Noto Nastaliq Urdu',serif;font-size:16px;line-height:2.65;overflow-wrap:anywhere}
+body.urdu-reader :is(a,button):focus-visible{outline:3px solid var(--ur-gold);outline-offset:3px}
+.ur-skip{position:fixed;top:-90px;right:12px;z-index:99999;padding:3px 14px;border:2px solid var(--ur-gold);border-radius:6px;background:var(--ur-paper);color:var(--ur-ink)!important}
+.ur-skip:focus{top:8px}
+body.urdu-reader .ur-site-header{position:sticky;top:0;z-index:999;background:#112446;border-bottom:3px solid #b99553;padding:0 18px;box-shadow:0 7px 20px #09172a1c}
+.ur-header-inner{max-width:1120px;margin:auto;min-height:67px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px 16px}
+.ur-brand{font:700 18px/1.2 Georgia,serif;letter-spacing:.07em;text-decoration:none!important;direction:ltr;color:#fff!important}
+.ur-header-nav{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font:650 13px/1.7 system-ui,sans-serif}
+.ur-header-nav a{color:#fff1d1!important;padding:7px 11px;border-radius:8px;text-decoration:none!important}
+.ur-header-nav a:hover{background:#ffffff21}
+.ur-theme-toggle{color:#fff1d1;background:transparent;border:1px solid #b69c68;padding:7px 12px;min-height:40px;border-radius:8px;cursor:pointer;font:650 13px/1.5 system-ui,sans-serif}
+.ur-theme-toggle:hover{background:#ffffff21}
+body.urdu-reader main{width:min(100% - 24px,920px);max-width:920px;margin:24px auto 50px;padding:clamp(22px,4vw,54px);border:1px solid var(--ur-line);border-radius:13px;background:var(--ur-paper);box-shadow:0 15px 50px #13234213}
+body.urdu-reader main h1{font-size:clamp(27px,4vw,40px);line-height:2.05;color:var(--ur-ink);margin:8px 0 2px;letter-spacing:0}
+body.urdu-reader main h2{color:var(--ur-ink);font-size:clamp(20px,2.9vw,26px);line-height:1.85;margin-top:28px}
+body.urdu-reader main h3{color:var(--ur-ink)}
+body.urdu-reader main p{color:var(--ur-ink);text-align:start}
+body.urdu-reader .article-meta{color:var(--ur-muted);font:700 12px/1.6 system-ui,sans-serif;letter-spacing:.07em;text-align:right}
+body.urdu-reader .subtitle{color:var(--ur-muted);line-height:2.4;margin-bottom:26px}
+body.urdu-reader main section{border-top:1px solid var(--ur-line);padding-top:12px;scroll-margin-top:95px}
+body.urdu-reader main a{color:var(--ur-link);text-underline-offset:.16em}
+body.urdu-reader .contents{background:var(--ur-soft);border:1px solid var(--ur-line);border-top:3px solid var(--ur-gold);border-radius:10px;padding:clamp(16px,3vw,25px);margin:29px 0}
+body.urdu-reader .contents h2{margin:0 0 12px;font-size:21px}
+body.urdu-reader .contents ol{padding-inline-start:24px}
+body.urdu-reader .contents li{margin-bottom:10px;line-height:2.25}
+body.urdu-reader .contents a{text-decoration:none}
+body.urdu-reader .contents a:hover,body.urdu-reader .related a:hover{text-decoration:underline}
+body.urdu-reader .quran-verse{background:var(--ur-quote);color:var(--ur-ink);border:1px solid var(--ur-line);border-inline-start:4px solid var(--ur-gold);border-radius:10px}
+body.urdu-reader .quran-verse h3{color:var(--ur-muted)}
+body.urdu-reader .verse-arabic{color:var(--ur-ink);font-size:clamp(22px,3vw,27px)!important;line-height:2.2!important}
+body.urdu-reader :is(.verse-urdu,.verse-credit,.source-link){color:var(--ur-ink)}
+body.urdu-reader :is(.status,.source-check,.method-note,.disclosure){background:var(--ur-soft);color:var(--ur-ink);border-color:var(--ur-gold);border-radius:7px}
+body.urdu-reader .bibliography{line-height:2.3}
+body.urdu-reader .bibliography li{margin-bottom:15px}
+body.urdu-reader .related{margin-top:40px;padding:clamp(17px,3vw,24px);background:var(--ur-soft);border:1px solid var(--ur-line);border-radius:10px}
+body.urdu-reader .related h2{margin-top:0;font-size:21px}
+body.urdu-reader .related ul{padding-inline-start:24px}
+body.urdu-reader footer{border-top:1px solid var(--ur-line);color:var(--ur-muted);font:13px/1.8 system-ui,sans-serif}
+.ur-progress{position:fixed;top:0;right:0;height:3px;width:0;background:#e8bd6c;z-index:1002;pointer-events:none}
+.ur-top{position:fixed;bottom:16px;left:16px;z-index:500;padding:8px 12px;min-height:42px;border-radius:10px;border:1px solid var(--ur-gold);background:#112446;color:#fff!important;box-shadow:0 5px 20px #08132b40;cursor:pointer;font:700 13px/1.5 system-ui,sans-serif}
+.ur-top[hidden]{display:none!important}
+@media(max-width:650px){body.urdu-reader .ur-site-header{padding:8px 12px}.ur-header-inner{min-height:53px}.ur-brand{font-size:15px}.ur-header-nav{font-size:12px}body.urdu-reader main{width:100%;border-inline:0;border-radius:0;margin:0 auto 28px;padding:22px 17px;box-shadow:none}body.urdu-reader .contents ol{columns:1}body.urdu-reader .bibliography li{font-size:14px}body.urdu-reader main h2{font-size:20px}body.urdu-reader .ur-top{bottom:12px;left:12px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
+@media print{body.urdu-reader{background:#fff!important;color:#000!important}body.urdu-reader main{width:100%;max-width:none;border:0;box-shadow:none;padding:0}body.urdu-reader main :is(h1,h2,p,li){color:#000!important}.ur-site-header,.ur-skip,.ur-progress,.ur-top{display:none!important}body.urdu-reader .quran-verse{break-inside:avoid}}
