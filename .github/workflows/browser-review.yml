@@ -1,0 +1,41 @@
+name: Browser and mobile review
+on:
+  push:
+    branches:
+      - improve-personal-site-nov-2026
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'opinion.html'
+      - 'ahl-al-fatrah-divine-justice.html'
+      - 'muslim-philosophy-and-philosophers.html'
+      - 'manuscript-reader.*'
+      - 'monotheist-design.*'
+      - 'tests/**'
+      - '.github/workflows/browser-review.yml'
+permissions:
+  contents: read
+jobs:
+  chromium-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright test runner
+        run: npm install --no-save @playwright/test@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run desktop and mobile browser tests
+        run: npx playwright test --config tests/playwright.config.cjs
+      - name: Upload diagnostic browser traces on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-diagnostics
+          path: |
+            test-results
+            playwright-report
+          if-no-files-found: ignore
