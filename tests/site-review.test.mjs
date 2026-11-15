@@ -46,7 +46,7 @@ test('manuscript reader assets and all chapter anchors present',()=>{
   const h=source('muslim-philosophy-and-philosophers.html');
   assert.match(h,/src=["']manuscript-reader\.js["']/);
   assert.match(h,/href=["']manuscript-reader\.css["']/);
-  for(let n=1;n<=30;n++)assert.match(h,new RegExp('id=["\\\']ch'+n+'["\\\']'));
+  for(let n=1;n<=30;n++)assert.ok(h.includes('id="ch'+n+'"'), 'missing chapter '+n);
 });
 test('main manuscript text retains independent draft label',()=>{
   assert.match(source('muslim-philosophy-and-philosophers.html'),/unpublished manuscript/i);
