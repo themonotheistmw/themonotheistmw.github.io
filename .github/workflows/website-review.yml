@@ -6,6 +6,10 @@ on:
   pull_request:
     paths:
       - 'index.html'
+      - 'divine-mercy-nuzulan.html'
+      - 'khauf-raja-balance.html'
+      - 'religious-scrupulosity.html'
+      - 'urdu-reader.*'
       - 'opinion.html'
       - 'ahl-al-fatrah-divine-justice.html'
       - 'muslim-philosophy-and-philosophers.html'
