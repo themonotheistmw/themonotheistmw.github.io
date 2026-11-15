@@ -18,16 +18,14 @@ permissions:
 jobs:
   chromium-review:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.0-noble
+      options: --ipc=host
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
       - name: Install Playwright test runner
         run: npm install --no-save @playwright/test@1.55.0
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
       - name: Run desktop and mobile browser tests
         run: npx playwright test --config tests/playwright.config.cjs
       - name: Upload diagnostic browser traces on failure
