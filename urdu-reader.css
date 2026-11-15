@@ -1,4 +1,5 @@
 /* The Monotheist — Urdu reading experience. Presentation only: article content remains unchanged. */
+body.urdu-reader *,body.urdu-reader *::before,body.urdu-reader *::after{box-sizing:border-box}
 :root{--ur-bg:#f5f1e8;--ur-paper:#fffdf8;--ur-ink:#192840;--ur-muted:#59667a;--ur-line:#ded5c2;--ur-soft:#f4efe3;--ur-link:#174a80;--ur-gold:#b38b47;--ur-quote:#f8f5ed}
 :root[data-theme="dark"]{color-scheme:dark;--ur-bg:#0e1828;--ur-paper:#19283d;--ur-ink:#f1eddf;--ur-muted:#c4c9d1;--ur-line:#45516a;--ur-soft:#22334b;--ur-link:#e9c98d;--ur-gold:#d9b873;--ur-quote:#23354c}
 html{scroll-padding-top:95px}
