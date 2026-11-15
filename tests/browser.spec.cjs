@@ -88,3 +88,18 @@ test('mobile navigation on manuscript and opinion remains usable',async({page,is
     await noHorizontalOverflow(page);
   }
 });
+
+test('scholarly essay: Arabic quotations, notes, dark mode, and internal navigation',async({page})=>{
+  const errors=watchPageErrors(page);
+  await page.goto('/the-burden-of-certainty.html',{waitUntil:'domcontentloaded'});
+  await expect(page.locator('h1')).toContainText('The Burden of Certainty');
+  await expect(page.locator('.arabic[lang="ar"][dir="rtl"]')).toHaveCount(3);
+  await expect(page.locator('#ref-1, #ref-2, #ref-3, #ref-4, #ref-5, #ref-6')).toHaveCount(6);
+  await page.locator('details summary').click();
+  await page.locator('.toc a[href="#references"]').click();
+  await expect(page).toHaveURL(/#references$/);
+  await page.locator('.tm-nav-tools button').first().click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+  await noHorizontalOverflow(page);
+  expect(errors).toEqual([]);
+});
