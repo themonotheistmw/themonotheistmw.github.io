@@ -1,0 +1,80 @@
+
+name: Update Sitemap Automatically
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.html'
+      - '.github/workflows/update-sitemap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout website
+        uses: actions/checkout@v4
+
+      - name: Generate sitemap
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from urllib.parse import quote
+          import xml.etree.ElementTree as ET
+
+          base = "https://themonotheistmw.github.io/"
+          excluded = {
+              "results.html",
+              "classwork.html",
+              "certificates.html",
+              "The Monotheist – Certificate Verification.html",
+              "Monotheist_Two_File_Updater.html",
+              "The_Monotheist_Homepage_Articles_Updated.html",
+          }
+
+          pages = []
+          for file in Path(".").glob("*.html"):
+              name = file.name
+              if name in excluded:
+                  continue
+              if name.lower().startswith("google"):
+                  continue
+              pages.append(name)
+
+          pages.sort(key=lambda n: (n != "index.html", n))
+
+          ns = "http://www.sitemaps.org/schemas/sitemap/0.9"
+          ET.register_namespace("", ns)
+          root = ET.Element(f"{{{ns}}}urlset")
+
+          for name in pages:
+              url = ET.SubElement(root, f"{{{ns}}}url")
+              address = base if name == "index.html" else base + quote(name)
+              ET.SubElement(url, f"{{{ns}}}loc").text = address
+
+          tree = ET.ElementTree(root)
+          ET.indent(tree, space="  ")
+          tree.write(
+              "sitemap.xml",
+              encoding="utf-8",
+              xml_declaration=True
+          )
+          PY
+
+      - name: Commit sitemap if changed
+        shell: bash
+        run: |
+          if ! git diff --quiet -- sitemap.xml; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add sitemap.xml
+            git commit -m "Automatically update sitemap"
+            git push
+          fi
+          
