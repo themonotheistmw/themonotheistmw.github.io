@@ -28,7 +28,7 @@ jobs:
           from urllib.parse import quote
           import xml.etree.ElementTree as ET
 
-          base = "https://themonotheistmw.github.io/"
+          base = "https://themonotheistmw.netlify.app/"
           excluded = {
               "results.html",
               "classwork.html",
