@@ -304,10 +304,56 @@
       line-height: 1.78;
       color: var(--ink2);
     }
+  
+    .mw-site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background: #0c1730;
+      border-bottom: 3px solid #c8a24a;
+      direction: ltr;
+      text-align: left;
+      box-shadow: 0 3px 14px rgba(12,23,48,.14);
+    }
+    .mw-site-header-inner {
+      max-width: 1200px;
+      min-height: 70px;
+      margin: auto;
+      padding: 10px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .mw-site-brand {
+      color: #fff;
+      text-decoration: none;
+      font: 700 1.8rem/1.1 'Cormorant Garamond', Georgia, serif;
+      white-space: nowrap;
+    }
+    .mw-site-brand:hover { color: #efd18a; }
+    .mw-site-section {
+      color: #efd18a;
+      font: 600 .88rem/1.5 Arial, sans-serif;
+      text-decoration: none;
+      text-align: right;
+    }
+    .mw-site-section:hover { color: #fff; text-decoration: underline; }
+    @media(max-width:600px) {
+      .mw-site-header-inner { min-height: 62px; padding: 9px 16px; gap: 10px; }
+      .mw-site-brand { font-size: 1.45rem; }
+      .mw-site-section { font-size: .72rem; max-width: 45%; }
+    }
   </style>
 </head>
 <body>
-  <nav style="max-width:1000px;margin:0 auto 28px;text-align:left;direction:ltr;font:600 14px Arial,sans-serif"><a href="index.html#writings">← The Monotheist MW · Literature and Personal Reflections</a></nav>
+  <header class="mw-site-header">
+    <div class="mw-site-header-inner">
+      <a class="mw-site-brand" href="index.html">The Monotheist MW</a>
+      <a class="mw-site-section" href="index.html#writings">Literature and Personal Reflections&nbsp; ←</a>
+    </div>
+  </header>
   <main class="grid">
     <header class="col-full">
       <h1>لفظ، فن اور مابعدالطبیعیات: احمد جاوید کے تصورِ ادب و شاعری کا جامع فلسفیانہ و تنقیدی مطالعہ</h1>
