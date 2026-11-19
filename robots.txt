@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://themonotheistmw.github.io/sitemap.xml
+Sitemap: https://themonotheistmw.netlify.app/sitemap.xml
