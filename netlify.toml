@@ -1,0 +1,17 @@
+[[redirects]]
+  from = "/results.html"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/certificates.html"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/The Monotheist – Certificate Verification.html"
+  to = "/"
+  status = 404
+  force = true
