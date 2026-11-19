@@ -15,3 +15,15 @@
   to = "/"
   status = 404
   force = true
+
+[[redirects]]
+  from = "/the monotheist – certificate verification"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/the monotheist – certificate verification.html"
+  to = "/"
+  status = 404
+  force = true
