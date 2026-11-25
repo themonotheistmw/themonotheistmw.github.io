@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.themonotheistmw.twa",
+        "sha256_cert_fingerprints": ["4E:95:40:14:25:50:58:02:21:56:44:DC:3B:6A:60:A5:21:89:8F:B6:59:33:47:83:39:90:19:3B:D8:90:AF:2C"]
+      }
+    }]
