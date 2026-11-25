@@ -70,41 +70,11 @@
     .card-interactive:active { transform: scale(0.985); }
   </style>
 </head>
-<body class="text-slate-100 flex flex-col items-center justify-start py-4 px-3 sm:py-6">
-
-  <!-- Top Prototype Bar (Outside Phone) -->
-  <header class="w-full max-w-[440px] mb-3 flex flex-wrap items-center justify-between gap-2 px-1">
-    <div class="flex items-center gap-2">
-      <span class="inline-flex h-2.5 w-2.5 rounded-full bg-[#C9A24D] pulse-gold"></span>
-      <h1 class="text-sm font-semibold tracking-wide text-slate-100">The Monotheist · Android</h1>
-    </div>
-    <div class="flex items-center gap-1.5">
-      <button id="outer-open-reader" type="button" class="text-xs px-2.5 py-1 rounded-full bg-[#C9A24D]/15 hover:bg-[#C9A24D]/25 text-[#E5C87D] border border-[#C9A24D]/30 transition">
-        Open Reader
-      </button>
-      <button id="outer-toggle-theme" type="button" class="text-xs px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 border border-white/10 transition">
-        Toggle Theme
-      </button>
-    </div>
-  </header>
+<body class="min-h-screen w-full overflow-hidden">
 
   <!-- Android Device Frame -->
-  <main class="w-full max-w-[404px] rounded-[46px] p-[11px] bg-gradient-to-b from-slate-600 via-slate-800 to-slate-950 shadow-[0_28px_80px_rgba(0,0,0,0.68)] border border-slate-500/40 relative">
-    <div class="hidden sm:block absolute -right-[3px] top-28 w-[3px] h-12 rounded-r bg-slate-600"></div>
-    <div class="hidden sm:block absolute -right-[3px] top-44 w-[3px] h-16 rounded-r bg-slate-600"></div>
-
-    <div id="phone-screen" class="relative w-full h-[768px] max-h-[85vh] rounded-[36px] overflow-hidden flex flex-col theme-transition bg-[#FAF6EE] text-[#0B1B3D]">
-
-      <!-- Android Status Bar -->
-      <div id="status-bar" class="shrink-0 h-8 px-6 flex items-center justify-between text-[11px] font-medium select-none z-20">
-        <span id="clock-time">12:30</span>
-        <div class="w-3.5 h-3.5 rounded-full bg-slate-950 border border-slate-700/70 shadow-inner"></div>
-        <div class="flex items-center gap-1.5">
-          <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
-          <i data-lucide="signal" class="w-3.5 h-3.5"></i>
-          <i data-lucide="battery-medium" class="w-4 h-4"></i>
-        </div>
-      </div>
+  <main class="w-full h-[100dvh] flex flex-col">
+    <div id="phone-screen" class="relative w-full flex-1 overflow-hidden flex flex-col theme-transition bg-[#FAF6EE] text-[#0B1B3D]">
 
       <!-- Top App Bar -->
       <div id="app-bar" class="shrink-0 px-3.5 py-2.5 flex items-center justify-between border-b backdrop-blur-md theme-transition z-10">
@@ -124,9 +94,6 @@
           <button id="btn-notif-open" type="button" aria-label="Notifications" class="relative p-1.5 rounded-full hover:bg-black/5 transition">
             <i data-lucide="bell" class="w-4 h-4"></i>
             <span id="notif-badge" class="hidden absolute top-1 right-1 min-w-[14px] h-3.5 px-1 rounded-full bg-rose-500 text-white text-[9px] font-bold flex items-center justify-center">0</span>
-          </button>
-          <button id="btn-studio-open" type="button" aria-label="Author Studio" title="Edit & Publish Content" class="p-1.5 rounded-full hover:bg-black/5 transition">
-            <i data-lucide="square-pen" class="w-4 h-4 text-[#C9A24D]"></i>
           </button>
           <button id="btn-theme-toggle" type="button" aria-label="Toggle Dark Mode" class="p-1.5 rounded-full hover:bg-black/5 transition">
             <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
@@ -174,19 +141,8 @@
         </button>
       </nav>
 
-      <!-- Gesture Pill -->
-      <div id="gesture-bar" class="shrink-0 h-4 flex items-center justify-center">
-        <div class="w-24 h-1 rounded-full opacity-30 bg-current"></div>
-      </div>
-
       <!-- Full-Screen Reader Overlay -->
       <div id="reader-overlay" class="hidden absolute inset-0 z-30 flex flex-col theme-transition animate-slide-up">
-        <div class="shrink-0 h-7 px-6 flex items-center justify-between text-[11px] font-medium opacity-75">
-          <span>12:30</span>
-          <div class="w-3.5 h-3.5 rounded-full bg-slate-950 border border-slate-700/70"></div>
-          <span>Reader</span>
-        </div>
-
         <div id="reader-header" class="shrink-0 px-3 py-2 flex items-center justify-between border-b">
           <button id="btn-reader-close" type="button" aria-label="Close Reader" class="p-2 rounded-full hover:bg-black/10 transition">
             <i data-lucide="arrow-left" class="w-4 h-4"></i>
@@ -195,9 +151,6 @@
             <div id="reader-topbar-title" class="text-xs font-semibold truncate">The Monotheist</div>
           </div>
           <div class="flex items-center gap-0.5">
-            <button id="btn-reader-edit" type="button" aria-label="Edit in Author Studio" title="Edit this item" class="p-2 rounded-full hover:bg-black/10 transition">
-              <i data-lucide="square-pen" class="w-4 h-4 text-[#C9A24D]"></i>
-            </button>
             <button id="btn-reader-share" type="button" aria-label="Copy Citation" class="p-2 rounded-full hover:bg-black/10 transition">
               <i data-lucide="share-2" class="w-4 h-4"></i>
             </button>
@@ -234,30 +187,6 @@
             <span>Next</span>
             <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
           </button>
-        </div>
-      </div>
-
-      <!-- Author Studio Overlay (Edit, Add & Export Content) -->
-      <div id="studio-overlay" class="hidden absolute inset-0 z-35 flex flex-col theme-transition animate-slide-up">
-        <div class="shrink-0 h-7 px-6 flex items-center justify-between text-[11px] font-medium opacity-75">
-          <span>12:30</span>
-          <div class="w-3.5 h-3.5 rounded-full bg-slate-950 border border-slate-700/70"></div>
-          <span>Author Studio</span>
-        </div>
-        <div id="studio-header" class="shrink-0 px-3 py-2.5 flex items-center justify-between border-b">
-          <button id="btn-studio-close" type="button" aria-label="Close Studio" class="p-2 rounded-full hover:bg-black/10 transition">
-            <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          </button>
-          <div class="text-center">
-            <div class="font-serif-editorial font-bold text-base">Author Studio</div>
-            <div class="text-[10px] opacity-65">Edit, Publish & Notify Readers</div>
-          </div>
-          <button id="btn-export-json" type="button" title="Export content.json" class="p-2 rounded-full hover:bg-black/10 transition">
-            <i data-lucide="download" class="w-4 h-4 text-[#C9A24D]"></i>
-          </button>
-        </div>
-        <div id="studio-body" class="flex-1 overflow-y-auto no-scrollbar p-4 space-y-4">
-          <!-- Rendered by JS -->
         </div>
       </div>
 
@@ -594,10 +523,7 @@
     const readerContent = document.getElementById('reader-content');
     const readerToolbar = document.getElementById('reader-toolbar');
     const readerProgress = document.getElementById('reader-progress');
-    const studioOverlay = document.getElementById('studio-overlay');
-    const studioHeader = document.getElementById('studio-header');
-    const studioBody = document.getElementById('studio-body');
-    const notifModal = document.getElementById('notif-modal');
+                const notifModal = document.getElementById('notif-modal');
     const notifPanel = document.getElementById('notif-panel');
     const notifBody = document.getElementById('notif-body');
     const bookSheetModal = document.getElementById('book-sheet-modal');
@@ -651,7 +577,7 @@
 
     function applyAppTheme() {
       const dark = state.appTheme === 'dark';
-      phoneScreen.className = `relative w-full h-[768px] max-h-[85vh] rounded-[36px] overflow-hidden flex flex-col theme-transition ${
+      phoneScreen.className = `relative w-full flex-1 overflow-hidden flex flex-col theme-transition ${
         dark ? 'bg-[#0B1B3D] text-[#FAF6EE]' : 'bg-[#FAF6EE] text-[#0B1B3D]'
       }`;
       appBar.className = `shrink-0 px-3.5 py-2.5 flex items-center justify-between border-b backdrop-blur-md theme-transition z-10 ${
@@ -670,13 +596,7 @@
       aboutSheet.className = `w-full rounded-t-3xl p-5 pb-6 space-y-3.5 border-t theme-transition animate-slide-up max-h-[85%] overflow-y-auto no-scrollbar ${sheetCls}`;
       bookSheetPanel.className = `w-full rounded-t-3xl p-5 pb-6 space-y-3 border-t theme-transition animate-slide-up max-h-[80%] overflow-y-auto no-scrollbar ${sheetCls}`;
       notifPanel.className = `w-full rounded-t-3xl p-5 pb-6 space-y-3 border-t theme-transition animate-slide-up max-h-[82%] overflow-y-auto no-scrollbar ${sheetCls}`;
-      studioOverlay.className = `${studioOverlay.classList.contains('hidden') ? 'hidden' : ''} absolute inset-0 z-35 flex flex-col theme-transition animate-slide-up ${
-        dark ? 'bg-[#0B1B3D] text-[#FAF6EE]' : 'bg-[#FAF6EE] text-[#0B1B3D]'
-      }`;
-      studioHeader.className = `shrink-0 px-3 py-2.5 flex items-center justify-between border-b ${
-        dark ? 'border-white/10 bg-[#07122B]' : 'border-[#E8DFCE] bg-white'
-      }`;
-      aboutVideoBox.className = `rounded-xl p-3 border text-xs space-y-1.5 ${
+            aboutVideoBox.className = `rounded-xl p-3 border text-xs space-y-1.5 ${
         dark ? 'bg-[#07122B] border-white/10' : 'bg-white border-[#E8DFCE]'
       }`;
       themeIcon.setAttribute('data-lucide', dark ? 'sun' : 'moon');
@@ -734,9 +654,6 @@
           <div class="flex items-start justify-between gap-2 mb-1.5">
             <span class="text-[10px] font-semibold uppercase tracking-wider text-[#C9A24D]">${w.tag}</span>
             <div class="flex items-center gap-1 shrink-0">
-              <button data-edit-writing="${w.id}" type="button" aria-label="Edit essay" title="Edit in Studio" class="p-1 rounded-full hover:bg-black/10 transition opacity-60 hover:opacity-100">
-                <i data-lucide="pencil" class="w-3 h-3"></i>
-              </button>
               <button data-bookmark="${w.id}" type="button" aria-label="Bookmark" class="p-1 rounded-full hover:bg-black/10 transition">
                 <i data-lucide="bookmark" class="w-3.5 h-3.5 ${isSaved ? 'fill-[#C9A24D] text-[#C9A24D]' : 'opacity-60'}"></i>
               </button>
@@ -847,10 +764,7 @@
         <div class="space-y-3 animate-fade-in">
           <div class="flex items-center justify-between">
             <h2 class="font-serif-editorial text-xl font-bold ${dark ? 'text-[#E5C87D]' : ''}">Writings & Essays</h2>
-            <button data-new-writing="1" type="button" class="text-[11px] px-2.5 py-1 rounded-full bg-[#C9A24D] text-[#0B1B3D] font-semibold flex items-center gap-1">
-              <i data-lucide="plus" class="w-3 h-3"></i>
-              <span>New Essay</span>
-            </button>
+            <span class="text-[11px] opacity-65">${items.length} results</span>
           </div>
 
           <div class="flex items-center justify-between gap-2">
@@ -932,7 +846,7 @@
                       <p class="text-[10px] opacity-70 mb-2">${b.subtitle}</p>
                     </div>
                     <div class="pt-2 border-t ${dark ? 'border-white/10' : 'border-[#E8DFCE]'} flex items-center justify-between gap-1">
-                      <button data-edit-book="${b.id}" type="button" class="text-[9px] opacity-65 hover:opacity-100 underline truncate">${b.status}</button>
+                      <span class="text-[9px] opacity-60 truncate">${b.status}</span>
                       ${b.readable
                         ? `<button data-read-book="${b.id}" type="button" class="text-[10px] font-semibold text-[#C9A24D] shrink-0">Open</button>`
                         : `<button data-peek-book="${b.id}" type="button" class="text-[10px] font-semibold text-[#C9A24D] shrink-0">Preview</button>`}
@@ -1179,147 +1093,6 @@
       lucide.createIcons();
     }
 
-    // Author Studio (Edit & Add Content)
-    function openStudio(target = null) {
-      state.editingTarget = target;
-      studioOverlay.classList.remove('hidden');
-      applyAppTheme();
-      renderStudio();
-    }
-
-    function renderStudio() {
-      const dark = state.appTheme === 'dark';
-      const inputCls = `w-full px-3 py-2 text-xs rounded-xl border outline-none ${
-        dark ? 'bg-[#122652] border-white/15 text-white' : 'bg-white border-[#E8DFCE] text-[#0B1B3D]'
-      }`;
-
-      if (!state.editingTarget) {
-        studioBody.innerHTML = `
-          <div class="space-y-3">
-            <button data-studio-new-writing="1" type="button" class="w-full py-2.5 rounded-xl bg-[#C9A24D] text-[#0B1B3D] font-semibold text-xs flex items-center justify-center gap-1.5 shadow">
-              <i data-lucide="plus-circle" class="w-4 h-4"></i>
-              <span>Publish New Essay (Triggers Notification)</span>
-            </button>
-
-            <div class="rounded-2xl p-3 border space-y-2 ${dark ? 'bg-[#122652]/70 border-white/10' : 'bg-white border-[#E8DFCE]'}">
-              <div class="text-xs font-semibold">Backup, Sync & Install</div>
-              <div class="grid grid-cols-2 gap-2">
-                <button id="studio-export-btn" type="button" class="py-2 px-2.5 rounded-xl border text-[11px] font-semibold border-[#C9A24D]/50 text-[#C9A24D]">Export JSON</button>
-                <button id="studio-reset-btn" type="button" class="py-2 px-2.5 rounded-xl border text-[11px] font-semibold opacity-75">Reset Defaults</button>
-              </div>
-              <p class="text-[10px] opacity-65">To install on Android: open in Chrome and tap Menu → Install App / Add to Home Screen, or wrap with PWABuilder.</p>
-            </div>
-
-            <div class="space-y-1.5">
-              <h3 class="text-xs font-semibold uppercase tracking-wider opacity-65">Edit Essays (${state.writings.length})</h3>
-              ${state.writings.map(w => `
-                <div class="rounded-xl p-2.5 border flex items-center justify-between gap-2 ${dark ? 'bg-[#122652]/70 border-white/10' : 'bg-white border-[#E8DFCE]'}">
-                  <div class="min-w-0">
-                    <div class="text-xs font-semibold truncate">${w.title}</div>
-                    <div class="text-[10px] opacity-60">${w.tag}</div>
-                  </div>
-                  <button data-studio-edit="writing:${w.id}" type="button" class="shrink-0 px-2.5 py-1 rounded-lg bg-[#C9A24D]/20 text-[#C9A24D] text-[11px] font-semibold">Edit</button>
-                </div>
-              `).join('')}
-            </div>
-
-            <div class="space-y-1.5 pt-1">
-              <h3 class="text-xs font-semibold uppercase tracking-wider opacity-65">Edit Books (${state.books.length})</h3>
-              ${state.books.map(b => `
-                <div class="rounded-xl p-2.5 border flex items-center justify-between gap-2 ${dark ? 'bg-[#122652]/70 border-white/10' : 'bg-white border-[#E8DFCE]'}">
-                  <div class="min-w-0">
-                    <div class="text-xs font-semibold truncate">${b.title}</div>
-                    <div class="text-[10px] opacity-60">${b.status} · ${b.progress}%</div>
-                  </div>
-                  <button data-studio-edit="book:${b.id}" type="button" class="shrink-0 px-2.5 py-1 rounded-lg bg-[#C9A24D]/20 text-[#C9A24D] text-[11px] font-semibold">Edit</button>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-      } else if (state.editingTarget.kind === 'writing') {
-        const isNew = !state.editingTarget.id;
-        const w = isNew
-          ? { id: '', lang: 'en', subject: 'Philosophy', tag: 'Philosophy · Essay', title: '', summary: '', paragraphs: [''] }
-          : state.writings.find(x => x.id === state.editingTarget.id);
-
-        studioBody.innerHTML = `
-          <form id="studio-writing-form" class="space-y-3">
-            <div class="flex items-center justify-between">
-              <h3 class="font-serif-editorial text-lg font-bold">${isNew ? 'Publish New Essay' : 'Edit Essay'}</h3>
-              <button data-studio-back="1" type="button" class="text-xs text-[#C9A24D] font-semibold">← All Items</button>
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold mb-1">Title</label>
-              <input id="f-title" required value="${w.title.replace(/"/g, '&quot;')}" class="${inputCls}" placeholder="Essay title (English or Urdu)..." />
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block text-[11px] font-semibold mb-1">Language</label>
-                <select id="f-lang" class="${inputCls}">
-                  <option value="en" ${w.lang === 'en' ? 'selected' : ''}>English</option>
-                  <option value="ur" ${w.lang === 'ur' ? 'selected' : ''}>Urdu (RTL)</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-[11px] font-semibold mb-1">Subject</label>
-                <select id="f-subject" class="${inputCls}">
-                  ${SUBJECTS.filter(s => s !== 'All').map(s => `<option value="${s}" ${w.subject === s ? 'selected' : ''}>${s}</option>`).join('')}
-                </select>
-              </div>
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold mb-1">Category Tag</label>
-              <input id="f-tag" required value="${w.tag.replace(/"/g, '&quot;')}" class="${inputCls}" />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold mb-1">Summary</label>
-              <textarea id="f-summary" rows="2" required class="${inputCls}">${w.summary}</textarea>
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold mb-1">Body Paragraphs (blank line between paragraphs)</label>
-              <textarea id="f-body" rows="6" required class="${inputCls}">${w.paragraphs.join('\n\n')}</textarea>
-            </div>
-            <button type="submit" class="w-full py-2.5 rounded-xl bg-[#C9A24D] text-[#0B1B3D] font-semibold text-xs shadow">
-              ${isNew ? 'Publish & Send Notification' : 'Save Update & Notify Readers'}
-            </button>
-          </form>
-        `;
-      } else {
-        const b = state.books.find(x => x.id === state.editingTarget.id);
-        studioBody.innerHTML = `
-          <form id="studio-book-form" class="space-y-3">
-            <div class="flex items-center justify-between">
-              <h3 class="font-serif-editorial text-lg font-bold">Edit Book / Manuscript</h3>
-              <button data-studio-back="1" type="button" class="text-xs text-[#C9A24D] font-semibold">← All Items</button>
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold mb-1">Book Title</label>
-              <input id="b-title" required value="${b.title.replace(/"/g, '&quot;')}" class="${inputCls}" />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold mb-1">Subtitle</label>
-              <input id="b-subtitle" required value="${b.subtitle.replace(/"/g, '&quot;')}" class="${inputCls}" />
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block text-[11px] font-semibold mb-1">Status Label</label>
-                <input id="b-status" required value="${b.status.replace(/"/g, '&quot;')}" class="${inputCls}" />
-              </div>
-              <div>
-                <label class="block text-[11px] font-semibold mb-1">Progress (%)</label>
-                <input id="b-progress" type="number" min="0" max="100" required value="${b.progress}" class="${inputCls}" />
-              </div>
-            </div>
-            <button type="submit" class="w-full py-2.5 rounded-xl bg-[#C9A24D] text-[#0B1B3D] font-semibold text-xs shadow">
-              Update Book & Send Notification
-            </button>
-          </form>
-        `;
-      }
-      lucide.createIcons();
-    }
-
     function renderApp() {
       applyAppTheme();
       updateNavState();
@@ -1337,7 +1110,9 @@
       if (e.target.closest('#btn-next-reflection')) {
         state.reflectionIdx = (state.reflectionIdx + 1) % REFLECTIONS.length;
     
-    // Sync remote content.json from GitHub Pages when online and notify on new version
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
     async function checkRemoteUpdates() {
       try {
         const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
@@ -1369,13 +1144,7 @@
       if (subBtn) { state.selectedSubject = subBtn.dataset.subject; renderApp(); return; }
       const tabJump = e.target.closest('[data-tab-jump]');
       if (tabJump) { state.activeTab = tabJump.dataset.tabJump; mainScroll.scrollTop = 0; renderApp(); return; }
-      const newW = e.target.closest('[data-new-writing]');
-      if (newW) { openStudio({ kind: 'writing', id: null }); return; }
-      const editW = e.target.closest('[data-edit-writing]');
-      if (editW) { openStudio({ kind: 'writing', id: editW.dataset.editWriting }); return; }
-      const editB = e.target.closest('[data-edit-book]');
-      if (editB) { openStudio({ kind: 'book', id: editB.dataset.editBook }); return; }
-
+      
       const bmBtn = e.target.closest('[data-bookmark]');
       if (bmBtn) {
         const id = bmBtn.dataset.bookmark;
@@ -1410,78 +1179,6 @@
 
     mainScroll.addEventListener('change', (e) => {
       if (e.target.id === 'sort-select') { state.sortBy = e.target.value; renderApp(); }
-    });
-
-    // Studio Events
-    studioBody.addEventListener('click', (e) => {
-      if (e.target.closest('[data-studio-new-writing]')) {
-        state.editingTarget = { kind: 'writing', id: null };
-        renderStudio(); return;
-      }
-      if (e.target.closest('[data-studio-back]')) {
-        state.editingTarget = null;
-        renderStudio(); return;
-      }
-      const editItem = e.target.closest('[data-studio-edit]');
-      if (editItem) {
-        const [kind, id] = editItem.dataset.studioEdit.split(':');
-        state.editingTarget = { kind, id };
-        renderStudio(); return;
-      }
-      if (e.target.closest('#studio-export-btn')) {
-        const payload = JSON.stringify({ writings: state.writings, books: state.books }, null, 2);
-        const blob = new Blob([payload], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url; a.download = 'themonotheist-content.json'; a.click();
-        URL.revokeObjectURL(url);
-        showToast('Exported themonotheist-content.json');
-        return;
-      }
-      if (e.target.closest('#studio-reset-btn')) {
-        state.writings = structuredClone(DEFAULT_WRITINGS);
-        state.books = structuredClone(DEFAULT_BOOKS);
-        persistState(); renderStudio(); renderApp();
-        showToast('Restored default content');
-      }
-    });
-
-    studioBody.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (e.target.id === 'studio-writing-form') {
-        const title = document.getElementById('f-title').value.trim();
-        const lang = document.getElementById('f-lang').value;
-        const subject = document.getElementById('f-subject').value;
-        const tag = document.getElementById('f-tag').value.trim();
-        const summary = document.getElementById('f-summary').value.trim();
-        const paragraphs = document.getElementById('f-body').value.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
-        const mins = Math.max(3, Math.round(paragraphs.join(' ').split(/\s+/).length / 150) + 4);
-
-        if (!state.editingTarget.id) {
-          const newId = 'essay-' + Date.now();
-          state.writings.unshift({ id: newId, lang, subject, tag, title, summary, readTime: `${mins} min`, mins, paragraphs });
-          pushNotification('new', `New Essay: ${title}`, summary.slice(0, 72) + '...', 'writing', newId);
-        } else {
-          const idx = state.writings.findIndex(x => x.id === state.editingTarget.id);
-          if (idx !== -1) {
-            state.writings[idx] = { ...state.writings[idx], lang, subject, tag, title, summary, readTime: `${mins} min`, mins, paragraphs };
-            pushNotification('update', `Updated: ${title}`, 'Essay content has been revised.', 'writing', state.writings[idx].id);
-          }
-        }
-        state.editingTarget = null;
-        persistState(); renderStudio(); renderApp();
-      } else if (e.target.id === 'studio-book-form') {
-        const idx = state.books.findIndex(x => x.id === state.editingTarget.id);
-        if (idx !== -1) {
-          state.books[idx].title = document.getElementById('b-title').value.trim();
-          state.books[idx].subtitle = document.getElementById('b-subtitle').value.trim();
-          state.books[idx].status = document.getElementById('b-status').value.trim();
-          state.books[idx].progress = Math.min(100, Math.max(0, Number(document.getElementById('b-progress').value) || 0));
-          pushNotification('update', `Book Updated: ${state.books[idx].title}`, `${state.books[idx].status} · ${state.books[idx].progress}%`, 'book', state.books[idx].id);
-        }
-        state.editingTarget = null;
-        persistState(); renderStudio(); renderApp();
-      }
     });
 
     // Notifications Modal Events
@@ -1539,7 +1236,9 @@
         state.activeTab = btn.dataset.tab;
         mainScroll.scrollTop = 0;
     
-    // Sync remote content.json from GitHub Pages when online and notify on new version
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
     async function checkRemoteUpdates() {
       try {
         const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
@@ -1573,13 +1272,7 @@
       persistState(); renderApp();
     }
     document.getElementById('btn-theme-toggle').addEventListener('click', toggleAppTheme);
-    document.getElementById('outer-toggle-theme').addEventListener('click', toggleAppTheme);
-    document.getElementById('outer-open-reader').addEventListener('click', () => openBook('philosophy-foundations'));
-    document.getElementById('btn-studio-open').addEventListener('click', () => openStudio(null));
-    document.getElementById('btn-studio-close').addEventListener('click', () => studioOverlay.classList.add('hidden'));
-    document.getElementById('btn-export-json').addEventListener('click', () => {
-      const payload = JSON.stringify({ writings: state.writings, books: state.books }, null, 2);
-      const blob = new Blob([payload], { type: 'application/json' });
+                          const blob = new Blob([payload], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url; a.download = 'themonotheist-content.json'; a.click();
@@ -1598,7 +1291,9 @@
       state.searchQuery = e.target.value;
       btnSearchClear.classList.toggle('hidden', !state.searchQuery);
   
-    // Sync remote content.json from GitHub Pages when online and notify on new version
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
     async function checkRemoteUpdates() {
       try {
         const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
@@ -1629,7 +1324,9 @@
       state.searchQuery = ''; searchInput.value = '';
       btnSearchClear.classList.add('hidden');
   
-    // Sync remote content.json from GitHub Pages when online and notify on new version
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
     async function checkRemoteUpdates() {
       try {
         const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
@@ -1663,7 +1360,9 @@
       aboutModal.classList.add('hidden');
       state.activeTab = 'library';
   
-    // Sync remote content.json from GitHub Pages when online and notify on new version
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
     async function checkRemoteUpdates() {
       try {
         const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
@@ -1704,7 +1403,9 @@
       readerOverlay.classList.add('hidden');
       state.readerItem = null;
   
-    // Sync remote content.json from GitHub Pages when online and notify on new version
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
     async function checkRemoteUpdates() {
       try {
         const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
@@ -1731,11 +1432,7 @@
     renderApp();
     });
 
-    document.getElementById('btn-reader-edit').addEventListener('click', () => {
-      if (!state.readerItem) return;
-      const { kind, data } = state.readerItem;
-      readerOverlay.classList.add('hidden');
-      openStudio({ kind, id: data.id });
+          openStudio({ kind, id: data.id });
     });
 
     document.getElementById('btn-reader-share').addEventListener('click', () => {
@@ -1829,7 +1526,9 @@
     });
 
 
-    // Sync remote content.json from GitHub Pages when online and notify on new version
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
     async function checkRemoteUpdates() {
       try {
         const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
