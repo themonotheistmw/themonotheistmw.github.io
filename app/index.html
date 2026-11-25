@@ -1110,32 +1110,6 @@
       if (e.target.closest('#btn-next-reflection')) {
         state.reflectionIdx = (state.reflectionIdx + 1) % REFLECTIONS.length;
     
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
-    }
-    async function checkRemoteUpdates() {
-      try {
-        const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return;
-        const remote = await res.json();
-        const localVer = Number(localStorage.getItem('monotheist_feed_version') || '1');
-        if (remote && remote.version && remote.version > localVer && Array.isArray(remote.writings)) {
-          state.writings = remote.writings;
-          if (Array.isArray(remote.books)) state.books = remote.books;
-          localStorage.setItem('monotheist_feed_version', String(remote.version));
-          persistState();
-          renderApp();
-          const title = remote.lastAlert?.title || 'New Content Available';
-          const body = remote.lastAlert?.body || 'New essays or book updates have been published.';
-          pushNotification('new', title, body, 'writing', remote.writings[0]?.id || '');
-          if (window.AndroidBridge && typeof window.AndroidBridge.notify === 'function') {
-            window.AndroidBridge.notify(title, body);
-          }
-        }
-      } catch (e) {}
-    }
-    window.addEventListener('load', () => { setTimeout(checkRemoteUpdates, 1200); });
-
     renderApp(); return;
       }
       const langBtn = e.target.closest('[data-lang]');
@@ -1236,32 +1210,6 @@
         state.activeTab = btn.dataset.tab;
         mainScroll.scrollTop = 0;
     
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
-    }
-    async function checkRemoteUpdates() {
-      try {
-        const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return;
-        const remote = await res.json();
-        const localVer = Number(localStorage.getItem('monotheist_feed_version') || '1');
-        if (remote && remote.version && remote.version > localVer && Array.isArray(remote.writings)) {
-          state.writings = remote.writings;
-          if (Array.isArray(remote.books)) state.books = remote.books;
-          localStorage.setItem('monotheist_feed_version', String(remote.version));
-          persistState();
-          renderApp();
-          const title = remote.lastAlert?.title || 'New Content Available';
-          const body = remote.lastAlert?.body || 'New essays or book updates have been published.';
-          pushNotification('new', title, body, 'writing', remote.writings[0]?.id || '');
-          if (window.AndroidBridge && typeof window.AndroidBridge.notify === 'function') {
-            window.AndroidBridge.notify(title, body);
-          }
-        }
-      } catch (e) {}
-    }
-    window.addEventListener('load', () => { setTimeout(checkRemoteUpdates, 1200); });
-
     renderApp();
       });
     });
@@ -1272,13 +1220,6 @@
       persistState(); renderApp();
     }
     document.getElementById('btn-theme-toggle').addEventListener('click', toggleAppTheme);
-                          const blob = new Blob([payload], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'themonotheist-content.json'; a.click();
-      URL.revokeObjectURL(url);
-      showToast('Exported themonotheist-content.json');
-    });
     document.getElementById('btn-notif-open').addEventListener('click', openNotifications);
 
     document.getElementById('btn-search-toggle').addEventListener('click', () => {
@@ -1291,32 +1232,6 @@
       state.searchQuery = e.target.value;
       btnSearchClear.classList.toggle('hidden', !state.searchQuery);
   
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
-    }
-    async function checkRemoteUpdates() {
-      try {
-        const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return;
-        const remote = await res.json();
-        const localVer = Number(localStorage.getItem('monotheist_feed_version') || '1');
-        if (remote && remote.version && remote.version > localVer && Array.isArray(remote.writings)) {
-          state.writings = remote.writings;
-          if (Array.isArray(remote.books)) state.books = remote.books;
-          localStorage.setItem('monotheist_feed_version', String(remote.version));
-          persistState();
-          renderApp();
-          const title = remote.lastAlert?.title || 'New Content Available';
-          const body = remote.lastAlert?.body || 'New essays or book updates have been published.';
-          pushNotification('new', title, body, 'writing', remote.writings[0]?.id || '');
-          if (window.AndroidBridge && typeof window.AndroidBridge.notify === 'function') {
-            window.AndroidBridge.notify(title, body);
-          }
-        }
-      } catch (e) {}
-    }
-    window.addEventListener('load', () => { setTimeout(checkRemoteUpdates, 1200); });
-
     renderApp();
     });
 
@@ -1324,32 +1239,6 @@
       state.searchQuery = ''; searchInput.value = '';
       btnSearchClear.classList.add('hidden');
   
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
-    }
-    async function checkRemoteUpdates() {
-      try {
-        const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return;
-        const remote = await res.json();
-        const localVer = Number(localStorage.getItem('monotheist_feed_version') || '1');
-        if (remote && remote.version && remote.version > localVer && Array.isArray(remote.writings)) {
-          state.writings = remote.writings;
-          if (Array.isArray(remote.books)) state.books = remote.books;
-          localStorage.setItem('monotheist_feed_version', String(remote.version));
-          persistState();
-          renderApp();
-          const title = remote.lastAlert?.title || 'New Content Available';
-          const body = remote.lastAlert?.body || 'New essays or book updates have been published.';
-          pushNotification('new', title, body, 'writing', remote.writings[0]?.id || '');
-          if (window.AndroidBridge && typeof window.AndroidBridge.notify === 'function') {
-            window.AndroidBridge.notify(title, body);
-          }
-        }
-      } catch (e) {}
-    }
-    window.addEventListener('load', () => { setTimeout(checkRemoteUpdates, 1200); });
-
     renderApp();
     });
 
@@ -1360,32 +1249,6 @@
       aboutModal.classList.add('hidden');
       state.activeTab = 'library';
   
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
-    }
-    async function checkRemoteUpdates() {
-      try {
-        const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return;
-        const remote = await res.json();
-        const localVer = Number(localStorage.getItem('monotheist_feed_version') || '1');
-        if (remote && remote.version && remote.version > localVer && Array.isArray(remote.writings)) {
-          state.writings = remote.writings;
-          if (Array.isArray(remote.books)) state.books = remote.books;
-          localStorage.setItem('monotheist_feed_version', String(remote.version));
-          persistState();
-          renderApp();
-          const title = remote.lastAlert?.title || 'New Content Available';
-          const body = remote.lastAlert?.body || 'New essays or book updates have been published.';
-          pushNotification('new', title, body, 'writing', remote.writings[0]?.id || '');
-          if (window.AndroidBridge && typeof window.AndroidBridge.notify === 'function') {
-            window.AndroidBridge.notify(title, body);
-          }
-        }
-      } catch (e) {}
-    }
-    window.addEventListener('load', () => { setTimeout(checkRemoteUpdates, 1200); });
-
     renderApp();
     });
     document.getElementById('contact-form').addEventListener('submit', (e) => {
@@ -1403,37 +1266,9 @@
       readerOverlay.classList.add('hidden');
       state.readerItem = null;
   
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
-    }
-    async function checkRemoteUpdates() {
-      try {
-        const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return;
-        const remote = await res.json();
-        const localVer = Number(localStorage.getItem('monotheist_feed_version') || '1');
-        if (remote && remote.version && remote.version > localVer && Array.isArray(remote.writings)) {
-          state.writings = remote.writings;
-          if (Array.isArray(remote.books)) state.books = remote.books;
-          localStorage.setItem('monotheist_feed_version', String(remote.version));
-          persistState();
-          renderApp();
-          const title = remote.lastAlert?.title || 'New Content Available';
-          const body = remote.lastAlert?.body || 'New essays or book updates have been published.';
-          pushNotification('new', title, body, 'writing', remote.writings[0]?.id || '');
-          if (window.AndroidBridge && typeof window.AndroidBridge.notify === 'function') {
-            window.AndroidBridge.notify(title, body);
-          }
-        }
-      } catch (e) {}
-    }
-    window.addEventListener('load', () => { setTimeout(checkRemoteUpdates, 1200); });
-
     renderApp();
     });
 
-          openStudio({ kind, id: data.id });
-    });
 
     document.getElementById('btn-reader-share').addEventListener('click', () => {
       if (!state.readerItem) return;
@@ -1551,7 +1386,6 @@
       } catch (e) {}
     }
     window.addEventListener('load', () => { setTimeout(checkRemoteUpdates, 1200); });
-
     renderApp();
   </script>
 </body>
