@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0B1B3D" />
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" type="image/png" href="./icon-192.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>The Monotheist — Interactive Android App & Author Studio</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
@@ -417,13 +415,15 @@
       {
         id: 'cs-classes-1-8', type: 'Educational Series', title: 'Computer Studies — Classes 1–8',
         subtitle: '8-level progressive series', status: 'Under development', progress: 55,
-        accent: '#34D399', bg: '#0F292E', motif: 'circuit', readable: false,
+        accent: '#34D399', bg: '#0F292E', motif: 'circuit', readable: true,
+        chapters: [{ title: 'Series Overview (Classes 1–8)', body: ['An eight-level educational series designed to develop computer literacy, practical skills, logical thinking, computational understanding, and familiarity with emerging technologies.'] }, { title: 'Levels 1–4: Foundations', body: ['Mouse & keyboard fluency, digital safety, visual block logic, and everyday productivity tools.'] }, { title: 'Levels 5–8: Programming & AI', body: ['Structured problem solving, Python fundamentals, data representation, and responsible AI literacy.'] }],
         overview: 'An eight-level educational series designed to develop computer literacy, practical skills, logical thinking, computational understanding, and familiarity with emerging technologies.'
       },
       {
         id: 'islamic-classes-1-10', type: 'Educational Series', title: 'Islamic Studies — Classes 1–10',
         subtitle: "Qur'an, Sirah, Ethics & History", status: 'Under development', progress: 45,
-        accent: '#FBBF24', bg: '#231B12', motif: 'arch', readable: false,
+        accent: '#FBBF24', bg: '#231B12', motif: 'arch', readable: true,
+        chapters: [{ title: 'Series Overview (Classes 1–10)', body: ["A developing educational series intended to bring together foundational Islamic knowledge, Qur'anic studies, Sirah, history, manners, ethics, and age-appropriate religious learning."] }, { title: 'Core Pillars', body: ["Qur'anic recitation & reflection, Prophetic biography (Sirah), Islamic character & ethics, and historical literacy."] }],
         overview: "A developing educational series intended to bring together foundational Islamic knowledge, Qur'anic studies, Sirah, history, manners, ethics, and age-appropriate religious learning."
       },
       {
@@ -443,7 +443,8 @@
       {
         id: 'general-philosophy', type: 'Philosophy', title: 'General Philosophy',
         subtitle: 'Progressive introduction', status: 'Book project', progress: 35,
-        accent: '#A78BFA', bg: '#1E1B3A', motif: 'sphere', readable: false,
+        accent: '#A78BFA', bg: '#1E1B3A', motif: 'sphere', readable: true,
+        chapters: [{ title: 'Project Overview', body: ['A comprehensive philosophical project intended to introduce fundamental questions, arguments, and schools of thought through a progressive educational approach.'] }, { title: 'Planned Scope', body: ['Epistemology, logic, metaphysics, ethics, and contemporary philosophical debates written for students and general readers.'] }],
         overview: 'A comprehensive philosophical project intended to introduce fundamental questions, arguments, and schools of thought through a progressive educational approach.'
       }
     ];
@@ -752,7 +753,7 @@
 
           <section class="space-y-3">
             ${items.length
-              ? items.slice(0, 5).map(renderWritingCard).join('')
+              ? items.map(renderWritingCard).join('')
               : `<div class="text-center py-8 text-xs opacity-60">No matching essays found.</div>`}
           </section>
         </div>
@@ -956,37 +957,84 @@
         const isSaved = state.bookmarks.includes(data.id);
         document.getElementById('reader-bookmark-icon').setAttribute('class', `w-4 h-4 ${isSaved ? 'fill-[#C9A24D] text-[#C9A24D]' : ''}`);
 
+        const secs = Array.isArray(data.sections) && data.sections.length
+          ? data.sections
+          : [{ title: '', body: data.paragraphs || [] }];
         readerContent.innerHTML = `
-          <div ${isUrdu ? 'dir="rtl" lang="ur"' : ''} class="space-y-4">
-            <div class="text-[11px] font-semibold text-[#C9A24D] uppercase tracking-wider">${data.tag} · ${data.readTime}</div>
-            <h1 class="${isUrdu ? 'font-urdu text-2xl' : 'font-serif-editorial text-2xl leading-snug'} font-bold">${data.title}</h1>
-            <div class="h-px w-16 bg-[#C9A24D]/60"></div>
-            ${data.paragraphs.map(p => `
-              <p style="font-size: ${isUrdu ? state.fontSize + 2 : state.fontSize}px" class="${isUrdu ? 'font-urdu' : 'leading-relaxed'} opacity-90">${p}</p>
-            `).join('')}
+          <div ${isUrdu ? 'dir="rtl" lang="ur"' : ''} class="space-y-5">
+            <div>
+              <div class="text-[11px] font-semibold text-[#C9A24D] uppercase tracking-wider">${data.tag} · ${data.readTime}</div>
+              <h1 class="${isUrdu ? 'font-urdu text-2xl' : 'font-serif-editorial text-2xl leading-snug'} font-bold mt-1">${data.title}</h1>
+            </div>
+            ${secs.length > 1 ? `
+              <div class="rounded-2xl p-4 border border-[#C9A24D]/35 bg-black/5 space-y-2">
+                <div class="text-xs font-bold uppercase tracking-wider text-[#C9A24D]">${isUrdu ? 'فہرستِ مضامین' : 'Table of Contents'}</div>
+                <ol class="space-y-1.5 text-xs">
+                  ${secs.map((s, idx) => `
+                    <li>
+                      <button data-jump-chapter="wsec-${idx}" type="button" class="text-start hover:text-[#C9A24D] hover:underline font-medium flex items-center gap-2">
+                        <span class="text-[#C9A24D] font-mono">${idx + 1}.</span>
+                        <span class="${isUrdu ? 'font-urdu text-sm' : ''}">${s.title}</span>
+                      </button>
+                    </li>
+                  `).join('')}
+                </ol>
+              </div>
+            ` : ''}
+            <div class="space-y-6">
+              ${secs.map((s, idx) => `
+                <section id="wsec-${idx}" class="space-y-3 ${idx > 0 ? 'pt-3 border-t border-current/10' : ''}">
+                  ${s.title && secs.length > 1 ? `<h2 class="${isUrdu ? 'font-urdu text-lg' : 'font-serif-editorial text-xl'} font-bold text-[#C9A24D]">${s.title}</h2>` : ''}
+                  ${(s.body || []).map(p => `
+                    <p style="font-size: ${isUrdu ? state.fontSize + 2 : state.fontSize}px" class="${isUrdu ? 'font-urdu' : 'leading-relaxed'} opacity-90">${p}</p>
+                  `).join('')}
+                </section>
+              `).join('')}
+            </div>
           </div>
         `;
       } else {
         readerTopbarTitle.textContent = data.title;
-        const ch = data.chapters[chapterIdx];
         const isSaved = state.downloads.includes(data.id);
         document.getElementById('reader-bookmark-icon').setAttribute('class', `w-4 h-4 ${isSaved ? 'fill-[#C9A24D] text-[#C9A24D]' : ''}`);
 
-        readerChapterBar.classList.remove('hidden');
-        readerChapterBar.innerHTML = data.chapters.map((c, idx) => `
-          <button data-chapter-idx="${idx}" type="button" class="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium transition ${
-            idx === chapterIdx ? 'bg-[#C9A24D] text-[#0B1B3D] font-semibold' : 'bg-black/10 opacity-75'
-          }">${c.title}</button>
-        `).join('');
+        readerChapterBar.classList.add('hidden');
 
+        const isUrduBook = data.lang === "ur";
         readerContent.innerHTML = `
-          <div class="space-y-4">
-            <div class="text-[11px] font-semibold text-[#C9A24D] uppercase tracking-wider">${data.type}</div>
-            <h1 class="font-serif-editorial text-2xl font-bold leading-snug">${ch.title}</h1>
-            <div class="h-px w-16 bg-[#C9A24D]/60"></div>
-            ${ch.body.map(p => `
-              <p style="font-size: ${state.fontSize}px" class="leading-relaxed opacity-90">${p}</p>
-            `).join('')}
+          <div ${isUrduBook ? 'dir="rtl" lang="ur"' : ""} class="space-y-6">
+            <div>
+              <div class="text-[11px] font-semibold text-[#C9A24D] uppercase tracking-wider">${data.type}</div>
+              <h1 class="font-serif-editorial text-2xl font-bold leading-snug mt-1">${data.title}</h1>
+              <p class="text-xs opacity-70 mt-1">${data.subtitle}</p>
+            </div>
+
+            <!-- Table of Contents at the top -->
+            <div class="rounded-2xl p-4 border border-[#C9A24D]/35 bg-black/5 space-y-2">
+              <div class="text-xs font-bold uppercase tracking-wider text-[#C9A24D]">Table of Contents</div>
+              <ol class="space-y-1.5 text-xs">
+                ${data.chapters.map((c, idx) => `
+                  <li>
+                    <button data-jump-chapter="ch-${idx}" type="button" class="text-left hover:text-[#C9A24D] underline-offset-2 hover:underline font-medium flex items-center gap-2">
+                      <span class="text-[#C9A24D] font-mono">${idx + 1}.</span>
+                      <span>${c.title}</span>
+                    </button>
+                  </li>
+                `).join('')}
+              </ol>
+            </div>
+
+            <!-- All Chapters Rendered Vertically for Continuous Reading -->
+            <div class="space-y-8">
+              ${data.chapters.map((c, idx) => `
+                <section id="ch-${idx}" class="space-y-3 pt-2 border-t border-current/10">
+                  <h2 class="font-serif-editorial text-xl font-bold text-[#C9A24D]">${c.title}</h2>
+                  ${c.body.map(p => `
+                    <p style="font-size: ${isUrduBook ? state.fontSize + 2 : state.fontSize}px" class="${isUrduBook ? "font-urdu" : "leading-relaxed"} opacity-90">${p}</p>
+                  `).join('')}
+                </section>
+              `).join('')}
+            </div>
           </div>
         `;
       }
@@ -1112,6 +1160,21 @@
       if (e.target.closest('#btn-next-reflection')) {
         state.reflectionIdx = (state.reflectionIdx + 1) % REFLECTIONS.length;
     
+
+    async function loadBundledLibrary() {
+      try {
+        const res = await fetch('./content.json');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.writings) && data.writings.length) {
+          state.writings = data.writings;
+          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
+          renderApp();
+        }
+      } catch (e) {}
+    }
+    loadBundledLibrary();
+
     renderApp(); return;
       }
       const langBtn = e.target.closest('[data-lang]');
@@ -1212,6 +1275,21 @@
         state.activeTab = btn.dataset.tab;
         mainScroll.scrollTop = 0;
     
+
+    async function loadBundledLibrary() {
+      try {
+        const res = await fetch('./content.json');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.writings) && data.writings.length) {
+          state.writings = data.writings;
+          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
+          renderApp();
+        }
+      } catch (e) {}
+    }
+    loadBundledLibrary();
+
     renderApp();
       });
     });
@@ -1234,6 +1312,21 @@
       state.searchQuery = e.target.value;
       btnSearchClear.classList.toggle('hidden', !state.searchQuery);
   
+
+    async function loadBundledLibrary() {
+      try {
+        const res = await fetch('./content.json');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.writings) && data.writings.length) {
+          state.writings = data.writings;
+          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
+          renderApp();
+        }
+      } catch (e) {}
+    }
+    loadBundledLibrary();
+
     renderApp();
     });
 
@@ -1241,6 +1334,21 @@
       state.searchQuery = ''; searchInput.value = '';
       btnSearchClear.classList.add('hidden');
   
+
+    async function loadBundledLibrary() {
+      try {
+        const res = await fetch('./content.json');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.writings) && data.writings.length) {
+          state.writings = data.writings;
+          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
+          renderApp();
+        }
+      } catch (e) {}
+    }
+    loadBundledLibrary();
+
     renderApp();
     });
 
@@ -1251,6 +1359,21 @@
       aboutModal.classList.add('hidden');
       state.activeTab = 'library';
   
+
+    async function loadBundledLibrary() {
+      try {
+        const res = await fetch('./content.json');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.writings) && data.writings.length) {
+          state.writings = data.writings;
+          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
+          renderApp();
+        }
+      } catch (e) {}
+    }
+    loadBundledLibrary();
+
     renderApp();
     });
     document.getElementById('contact-form').addEventListener('submit', (e) => {
@@ -1268,6 +1391,21 @@
       readerOverlay.classList.add('hidden');
       state.readerItem = null;
   
+
+    async function loadBundledLibrary() {
+      try {
+        const res = await fetch('./content.json');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.writings) && data.writings.length) {
+          state.writings = data.writings;
+          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
+          renderApp();
+        }
+      } catch (e) {}
+    }
+    loadBundledLibrary();
+
     renderApp();
     });
 
@@ -1356,6 +1494,14 @@
       }
     });
 
+
+    readerContent.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-jump-chapter]');
+      if (!btn) return;
+      const target = document.getElementById(btn.dataset.jumpChapter);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
     readerScroll.addEventListener('scroll', () => {
       const maxScroll = readerScroll.scrollHeight - readerScroll.clientHeight;
       const pct = maxScroll > 0 ? Math.min(100, Math.max(15, Math.round((readerScroll.scrollTop / maxScroll) * 100))) : 100;
@@ -1377,7 +1523,22 @@
           if (Array.isArray(remote.books)) state.books = remote.books;
           localStorage.setItem('monotheist_feed_version', String(remote.version));
           persistState();
+      
+    async function loadBundledLibrary() {
+      try {
+        const res = await fetch('./content.json');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.writings) && data.writings.length) {
+          state.writings = data.writings;
+          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
           renderApp();
+        }
+      } catch (e) {}
+    }
+    loadBundledLibrary();
+
+    renderApp();
           const title = remote.lastAlert?.title || 'New Content Available';
           const body = remote.lastAlert?.body || 'New essays or book updates have been published.';
           pushNotification('new', title, body, 'writing', remote.writings[0]?.id || '');
@@ -1388,6 +1549,21 @@
       } catch (e) {}
     }
     window.addEventListener('load', () => { setTimeout(checkRemoteUpdates, 1200); });
+
+    async function loadBundledLibrary() {
+      try {
+        const res = await fetch('./content.json');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.writings) && data.writings.length) {
+          state.writings = data.writings;
+          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
+          renderApp();
+        }
+      } catch (e) {}
+    }
+    loadBundledLibrary();
+
     renderApp();
   </script>
 </body>
