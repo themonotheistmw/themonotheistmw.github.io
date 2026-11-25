@@ -68,6 +68,18 @@
       box-shadow: 0 8px 22px -8px rgba(11, 27, 61, 0.18);
     }
     .card-interactive:active { transform: scale(0.985); }
+
+    .reader-prose h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.55rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.75rem; }
+    .reader-prose h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.28rem; font-weight: 700; color: #C9A24D; margin-top: 1.75rem; margin-bottom: 0.6rem; padding-top: 0.75rem; border-top: 1px solid rgba(201,162,77,0.2); }
+    .reader-prose h3 { font-size: 1.05rem; font-weight: 700; margin-top: 1.1rem; margin-bottom: 0.4rem; }
+    .reader-prose p { margin-bottom: 0.9rem; line-height: 1.75; }
+    .reader-prose blockquote { border-inline-start: 3px solid #C9A24D; padding: 0.5rem 0.9rem; margin: 1rem 0; background: rgba(201,162,77,0.08); border-radius: 0.5rem; font-style: italic; }
+    .reader-prose ul, .reader-prose ol { padding-inline-start: 1.3rem; margin-bottom: 0.9rem; list-style: revert; }
+    .reader-prose li { margin-bottom: 0.35rem; line-height: 1.65; }
+    .reader-prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85em; display: block; overflow-x: auto; }
+    .reader-prose th, .reader-prose td { border: 1px solid rgba(201,162,77,0.3); padding: 0.45rem 0.6rem; text-align: start; }
+    .reader-prose sup { color: #C9A24D; font-weight: 600; }
+    .reader-prose[dir="rtl"] h1, .reader-prose[dir="rtl"] h2, .reader-prose[dir="rtl"] h3, .reader-prose[dir="rtl"] p, .reader-prose[dir="rtl"] li { font-family: 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', serif; line-height: 2.2; }
   </style>
 </head>
 <body class="min-h-screen w-full overflow-hidden">
@@ -840,8 +852,8 @@
                           <rect x="8" y="8" width="84" height="54" rx="4" fill="none" stroke="${b.accent}" stroke-width="1" stroke-opacity="0.55"/>
                           ${renderBookMotif(b)}
                         </svg>
-                        <button data-download="${b.id}" type="button" aria-label="Offline download" class="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/75 transition">
-                          <i data-lucide="${downloaded ? 'check' : 'download'}" class="w-3 h-3 ${downloaded ? 'text-[#C9A24D]' : ''}"></i>
+                        <button data-bookmark-book="${b.id}" type="button" aria-label="Save to Reading List" class="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/75 transition">
+                          <i data-lucide="bookmark" class="w-3 h-3 ${downloaded ? 'fill-[#C9A24D] text-[#C9A24D]' : ''}"></i>
                         </button>
                       </div>
                       <div class="text-[9px] font-semibold uppercase tracking-wider text-[#C9A24D] mb-0.5">${b.type}</div>
@@ -893,7 +905,7 @@
           <h2 class="font-serif-editorial text-xl font-bold ${dark ? 'text-[#E5C87D]' : ''}">Saved & Offline</h2>
 
           <div class="space-y-2">
-            <h3 class="text-xs font-semibold uppercase tracking-wider opacity-65">Offline Books (${savedBooks.length})</h3>
+            <h3 class="text-xs font-semibold uppercase tracking-wider opacity-65">Saved Books & Manuscripts (${savedBooks.length})</h3>
             ${savedBooks.length
               ? savedBooks.map(b => `
                 <div class="rounded-2xl p-3 border flex items-center justify-between gap-3 ${
@@ -905,13 +917,13 @@
                   </div>
                   <div class="flex items-center gap-1.5 shrink-0">
                     ${b.readable ? `<button data-read-book="${b.id}" type="button" class="px-2.5 py-1 rounded-lg bg-[#C9A24D] text-[#0B1B3D] text-[11px] font-semibold">Read</button>` : ''}
-                    <button data-download="${b.id}" type="button" aria-label="Remove download" class="p-1.5 rounded-lg border ${dark ? 'border-white/15' : 'border-[#E8DFCE]'} opacity-70 hover:opacity-100">
+                    <button data-bookmark-book="${b.id}" type="button" aria-label="Remove from Saved" class="p-1.5 rounded-lg border ${dark ? 'border-white/15' : 'border-[#E8DFCE]'} opacity-70 hover:opacity-100">
                       <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                     </button>
                   </div>
                 </div>
               `).join('')
-              : `<div class="rounded-xl p-4 border text-xs opacity-60 ${dark ? 'border-white/10' : 'border-[#E8DFCE]'}">No offline books yet. Tap the download icon on any book in Library.</div>`}
+              : `<div class="rounded-xl p-4 border text-xs opacity-60 ${dark ? 'border-white/10' : 'border-[#E8DFCE]'}">No saved books yet. Tap the bookmark icon on any book in Library.</div>`}
           </div>
 
           <div class="space-y-2 pt-2">
@@ -956,40 +968,32 @@
         const isUrdu = data.lang === 'ur';
         const isSaved = state.bookmarks.includes(data.id);
         document.getElementById('reader-bookmark-icon').setAttribute('class', `w-4 h-4 ${isSaved ? 'fill-[#C9A24D] text-[#C9A24D]' : ''}`);
+        const tocList = Array.isArray(data.toc) ? data.toc : [];
+        const bodyHtml = data.html || (data.paragraphs || []).map(p => `<p>${p}</p>`).join('');
 
-        const secs = Array.isArray(data.sections) && data.sections.length
-          ? data.sections
-          : [{ title: '', body: data.paragraphs || [] }];
         readerContent.innerHTML = `
           <div ${isUrdu ? 'dir="rtl" lang="ur"' : ''} class="space-y-5">
             <div>
               <div class="text-[11px] font-semibold text-[#C9A24D] uppercase tracking-wider">${data.tag} · ${data.readTime}</div>
               <h1 class="${isUrdu ? 'font-urdu text-2xl' : 'font-serif-editorial text-2xl leading-snug'} font-bold mt-1">${data.title}</h1>
             </div>
-            ${secs.length > 1 ? `
+            ${tocList.length > 1 ? `
               <div class="rounded-2xl p-4 border border-[#C9A24D]/35 bg-black/5 space-y-2">
                 <div class="text-xs font-bold uppercase tracking-wider text-[#C9A24D]">${isUrdu ? 'فہرستِ مضامین' : 'Table of Contents'}</div>
                 <ol class="space-y-1.5 text-xs">
-                  ${secs.map((s, idx) => `
+                  ${tocList.map((t, i) => `
                     <li>
-                      <button data-jump-chapter="wsec-${idx}" type="button" class="text-start hover:text-[#C9A24D] hover:underline font-medium flex items-center gap-2">
-                        <span class="text-[#C9A24D] font-mono">${idx + 1}.</span>
-                        <span class="${isUrdu ? 'font-urdu text-sm' : ''}">${s.title}</span>
+                      <button data-jump-chapter="${t.id}" type="button" class="text-start hover:text-[#C9A24D] hover:underline font-medium flex items-center gap-2">
+                        <span class="text-[#C9A24D] font-mono">${i + 1}.</span>
+                        <span class="${isUrdu ? 'font-urdu text-sm' : ''}">${t.title}</span>
                       </button>
                     </li>
                   `).join('')}
                 </ol>
               </div>
             ` : ''}
-            <div class="space-y-6">
-              ${secs.map((s, idx) => `
-                <section id="wsec-${idx}" class="space-y-3 ${idx > 0 ? 'pt-3 border-t border-current/10' : ''}">
-                  ${s.title && secs.length > 1 ? `<h2 class="${isUrdu ? 'font-urdu text-lg' : 'font-serif-editorial text-xl'} font-bold text-[#C9A24D]">${s.title}</h2>` : ''}
-                  ${(s.body || []).map(p => `
-                    <p style="font-size: ${isUrdu ? state.fontSize + 2 : state.fontSize}px" class="${isUrdu ? 'font-urdu' : 'leading-relaxed'} opacity-90">${p}</p>
-                  `).join('')}
-                </section>
-              `).join('')}
+            <div ${isUrdu ? 'dir="rtl" lang="ur"' : ''} style="font-size: ${isUrdu ? state.fontSize + 1 : state.fontSize}px" class="reader-prose">
+              ${bodyHtml}
             </div>
           </div>
         `;
@@ -997,43 +1001,35 @@
         readerTopbarTitle.textContent = data.title;
         const isSaved = state.downloads.includes(data.id);
         document.getElementById('reader-bookmark-icon').setAttribute('class', `w-4 h-4 ${isSaved ? 'fill-[#C9A24D] text-[#C9A24D]' : ''}`);
-
         readerChapterBar.classList.add('hidden');
+        const isUrduBook = data.lang === 'ur';
+        const tocList = Array.isArray(data.toc) ? data.toc : [];
+        const bodyHtml = data.html || '';
 
-        const isUrduBook = data.lang === "ur";
         readerContent.innerHTML = `
-          <div ${isUrduBook ? 'dir="rtl" lang="ur"' : ""} class="space-y-6">
+          <div ${isUrduBook ? 'dir="rtl" lang="ur"' : ''} class="space-y-6">
             <div>
               <div class="text-[11px] font-semibold text-[#C9A24D] uppercase tracking-wider">${data.type}</div>
-              <h1 class="font-serif-editorial text-2xl font-bold leading-snug mt-1">${data.title}</h1>
+              <h1 class="${isUrduBook ? 'font-urdu text-2xl' : 'font-serif-editorial text-2xl leading-snug'} font-bold mt-1">${data.title}</h1>
               <p class="text-xs opacity-70 mt-1">${data.subtitle}</p>
             </div>
-
-            <!-- Table of Contents at the top -->
-            <div class="rounded-2xl p-4 border border-[#C9A24D]/35 bg-black/5 space-y-2">
-              <div class="text-xs font-bold uppercase tracking-wider text-[#C9A24D]">Table of Contents</div>
-              <ol class="space-y-1.5 text-xs">
-                ${data.chapters.map((c, idx) => `
-                  <li>
-                    <button data-jump-chapter="ch-${idx}" type="button" class="text-left hover:text-[#C9A24D] underline-offset-2 hover:underline font-medium flex items-center gap-2">
-                      <span class="text-[#C9A24D] font-mono">${idx + 1}.</span>
-                      <span>${c.title}</span>
-                    </button>
-                  </li>
-                `).join('')}
-              </ol>
-            </div>
-
-            <!-- All Chapters Rendered Vertically for Continuous Reading -->
-            <div class="space-y-8">
-              ${data.chapters.map((c, idx) => `
-                <section id="ch-${idx}" class="space-y-3 pt-2 border-t border-current/10">
-                  <h2 class="font-serif-editorial text-xl font-bold text-[#C9A24D]">${c.title}</h2>
-                  ${c.body.map(p => `
-                    <p style="font-size: ${isUrduBook ? state.fontSize + 2 : state.fontSize}px" class="${isUrduBook ? "font-urdu" : "leading-relaxed"} opacity-90">${p}</p>
+            ${tocList.length > 0 ? `
+              <div class="rounded-2xl p-4 border border-[#C9A24D]/35 bg-black/5 space-y-2">
+                <div class="text-xs font-bold uppercase tracking-wider text-[#C9A24D]">${isUrduBook ? 'فہرستِ ابواب' : 'Table of Contents'}</div>
+                <ol class="space-y-1.5 text-xs">
+                  ${tocList.map((t, i) => `
+                    <li>
+                      <button data-jump-chapter="${t.id}" type="button" class="text-start hover:text-[#C9A24D] hover:underline font-medium flex items-center gap-2">
+                        <span class="text-[#C9A24D] font-mono">${i + 1}.</span>
+                        <span class="${isUrduBook ? 'font-urdu text-sm' : ''}">${t.title}</span>
+                      </button>
+                    </li>
                   `).join('')}
-                </section>
-              `).join('')}
+                </ol>
+              </div>
+            ` : ''}
+            <div ${isUrduBook ? 'dir="rtl" lang="ur"' : ''} style="font-size: ${isUrduBook ? state.fontSize + 1 : state.fontSize}px" class="reader-prose">
+              ${bodyHtml}
             </div>
           </div>
         `;
@@ -1169,11 +1165,45 @@
         if (data && Array.isArray(data.writings) && data.writings.length) {
           state.writings = data.writings;
           if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-          renderApp();
+      
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
         }
       } catch (e) {}
     }
     loadBundledLibrary();
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
 
     renderApp(); return;
       }
@@ -1196,15 +1226,15 @@
         }
         persistState(); renderApp(); return;
       }
-      const dlBtn = e.target.closest('[data-download]');
+      const dlBtn = e.target.closest('[data-bookmark-book]');
       if (dlBtn) {
         const id = dlBtn.dataset.download;
         if (state.downloads.includes(id)) {
           state.downloads = state.downloads.filter(x => x !== id);
-          showToast('Removed offline copy');
+          showToast('Removed from Reading List');
         } else {
           state.downloads.push(id);
-          showToast('Downloaded for offline reading');
+          showToast('Saved to Reading List');
         }
         persistState(); renderApp(); return;
       }
@@ -1284,11 +1314,45 @@
         if (data && Array.isArray(data.writings) && data.writings.length) {
           state.writings = data.writings;
           if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-          renderApp();
+      
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
         }
       } catch (e) {}
     }
     loadBundledLibrary();
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
 
     renderApp();
       });
@@ -1321,11 +1385,45 @@
         if (data && Array.isArray(data.writings) && data.writings.length) {
           state.writings = data.writings;
           if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-          renderApp();
+      
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
         }
       } catch (e) {}
     }
     loadBundledLibrary();
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
 
     renderApp();
     });
@@ -1343,11 +1441,45 @@
         if (data && Array.isArray(data.writings) && data.writings.length) {
           state.writings = data.writings;
           if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-          renderApp();
+      
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
         }
       } catch (e) {}
     }
     loadBundledLibrary();
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
 
     renderApp();
     });
@@ -1368,11 +1500,45 @@
         if (data && Array.isArray(data.writings) && data.writings.length) {
           state.writings = data.writings;
           if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-          renderApp();
+      
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
         }
       } catch (e) {}
     }
     loadBundledLibrary();
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
 
     renderApp();
     });
@@ -1400,11 +1566,45 @@
         if (data && Array.isArray(data.writings) && data.writings.length) {
           state.writings = data.writings;
           if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-          renderApp();
+      
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
         }
       } catch (e) {}
     }
     loadBundledLibrary();
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
 
     renderApp();
     });
@@ -1451,7 +1651,7 @@
       } else {
         if (state.downloads.includes(data.id)) {
           state.downloads = state.downloads.filter(x => x !== data.id);
-          showToast('Removed offline copy');
+          showToast('Removed from Reading List');
         } else {
           state.downloads.push(data.id);
           showToast('Saved offline');
@@ -1532,11 +1732,45 @@
         if (data && Array.isArray(data.writings) && data.writings.length) {
           state.writings = data.writings;
           if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-          renderApp();
+      
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
         }
       } catch (e) {}
     }
     loadBundledLibrary();
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
 
     renderApp();
           const title = remote.lastAlert?.title || 'New Content Available';
@@ -1558,11 +1792,45 @@
         if (data && Array.isArray(data.writings) && data.writings.length) {
           state.writings = data.writings;
           if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-          renderApp();
+      
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
         }
       } catch (e) {}
     }
     loadBundledLibrary();
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
 
     renderApp();
   </script>
