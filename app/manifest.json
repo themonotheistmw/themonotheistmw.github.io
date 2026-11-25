@@ -1,0 +1,10 @@
+{
+  "name": "The Monotheist",
+  "short_name": "Monotheist",
+  "description": "Independent thought, philosophy, Islamic studies, ethics, and bilingual English/Urdu essays.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0B1B3D",
+  "theme_color": "#0B1B3D",
+  "orientation": "portrait"
+}

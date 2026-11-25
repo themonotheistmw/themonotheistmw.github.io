@@ -1,0 +1,13 @@
+const CACHE_NAME = 'monotheist-v1';
+const ASSETS = ['./', './index.html', './manifest.json', './content.json'];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)).catch(() => {}));
+  self.skipWaiting();
+});
+self.addEventListener('fetch', e => {
+  if (e.request.url.includes('content.json')) {
+    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+    return;
+  }
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+});
