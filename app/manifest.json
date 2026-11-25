@@ -1,10 +1,26 @@
 {
+  "id": "/app/",
   "name": "The Monotheist",
   "short_name": "Monotheist",
-  "description": "Independent thought, philosophy, Islamic studies, ethics, and bilingual English/Urdu essays.",
-  "start_url": "./index.html",
+  "description": "Independent thought, philosophy, Islamic studies, ethics, and bilingual English and Urdu essays.",
+  "start_url": "/app/index.html",
+  "scope": "/app/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#0B1B3D",
   "theme_color": "#0B1B3D",
-  "orientation": "portrait"
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
