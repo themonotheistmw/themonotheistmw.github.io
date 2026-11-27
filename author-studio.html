@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https://api.github.com; base-uri 'none'; form-action 'none'"><title>Author Studio | The Monotheist MW</title><link rel="stylesheet" href="publication.css"><script src="author-studio.js" defer></script></head>
+<body><main><a href="./">The Monotheist MW</a><h1>Author Studio</h1><form id="studio">
+<label>Publication type<select id="kind"><option value="writings">Article</option><option value="books">Book or manuscript</option></select></label>
+<label>Language<select id="language"><option value="en">English</option><option value="ur">اردو</option></select></label>
+<label>Title<input id="title" dir="auto" required></label><label>Summary<textarea id="summary" dir="auto" rows="2"></textarea></label>
+<label>Full text<textarea id="body" dir="auto" rows="14" required placeholder="Enter your text. Leave a blank line between paragraphs."></textarea></label>
+<label>GitHub publishing token<input type="password" id="token" required autocomplete="off" spellcheck="false"></label>
+<p>Use a fine-grained token for themonotheistmw.github.io with Contents read and write access. The token stays in this tab.</p>
+<button>Publish to website and app</button></form><p id="status" role="status"></p><a href="publications.html">View publications</a></main></body></html>
