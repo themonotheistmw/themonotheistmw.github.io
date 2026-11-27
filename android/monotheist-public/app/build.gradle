@@ -1,0 +1,14 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'mw.themonotheist.publicapp'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'mw.themonotheist.publicapp'
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName '0.1.0'
+    }
+    buildTypes { release { minifyEnabled false } }
+}
