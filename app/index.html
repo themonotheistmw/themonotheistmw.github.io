@@ -1157,53 +1157,9 @@
         state.reflectionIdx = (state.reflectionIdx + 1) % REFLECTIONS.length;
     
 
-    async function loadBundledLibrary() {
-      try {
-        const res = await fetch('./content.json');
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data && Array.isArray(data.writings) && data.writings.length) {
-          state.writings = data.writings;
-          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-      
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
-
-    renderApp();
-        }
-      } catch (e) {}
-    }
-    loadBundledLibrary();
 
 
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
+
 
     renderApp(); return;
       }
@@ -1306,53 +1262,9 @@
         mainScroll.scrollTop = 0;
     
 
-    async function loadBundledLibrary() {
-      try {
-        const res = await fetch('./content.json');
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data && Array.isArray(data.writings) && data.writings.length) {
-          state.writings = data.writings;
-          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-      
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
-
-    renderApp();
-        }
-      } catch (e) {}
-    }
-    loadBundledLibrary();
 
 
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
+
 
     renderApp();
       });
@@ -1377,53 +1289,9 @@
       btnSearchClear.classList.toggle('hidden', !state.searchQuery);
   
 
-    async function loadBundledLibrary() {
-      try {
-        const res = await fetch('./content.json');
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data && Array.isArray(data.writings) && data.writings.length) {
-          state.writings = data.writings;
-          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-      
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
-
-    renderApp();
-        }
-      } catch (e) {}
-    }
-    loadBundledLibrary();
 
 
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
+
 
     renderApp();
     });
@@ -1433,53 +1301,9 @@
       btnSearchClear.classList.add('hidden');
   
 
-    async function loadBundledLibrary() {
-      try {
-        const res = await fetch('./content.json');
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data && Array.isArray(data.writings) && data.writings.length) {
-          state.writings = data.writings;
-          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-      
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
-
-    renderApp();
-        }
-      } catch (e) {}
-    }
-    loadBundledLibrary();
 
 
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
+
 
     renderApp();
     });
@@ -1492,53 +1316,9 @@
       state.activeTab = 'library';
   
 
-    async function loadBundledLibrary() {
-      try {
-        const res = await fetch('./content.json');
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data && Array.isArray(data.writings) && data.writings.length) {
-          state.writings = data.writings;
-          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-      
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
-
-    renderApp();
-        }
-      } catch (e) {}
-    }
-    loadBundledLibrary();
 
 
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
+
 
     renderApp();
     });
@@ -1558,53 +1338,9 @@
       state.readerItem = null;
   
 
-    async function loadBundledLibrary() {
-      try {
-        const res = await fetch('./content.json');
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data && Array.isArray(data.writings) && data.writings.length) {
-          state.writings = data.writings;
-          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-      
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
-
-    renderApp();
-        }
-      } catch (e) {}
-    }
-    loadBundledLibrary();
 
 
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
+
 
     renderApp();
     });
@@ -1712,50 +1448,30 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js').catch(() => {});
     }
-    async function checkRemoteUpdates() {
+    async function refreshLibrary() {
       try {
-        const res = await fetch('https://themonotheistmw.github.io/content.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return;
-        const remote = await res.json();
-        const localVer = Number(localStorage.getItem('monotheist_feed_version') || '1');
-        if (remote && remote.version && remote.version > localVer && Array.isArray(remote.writings)) {
-          state.writings = remote.writings;
-          if (Array.isArray(remote.books)) state.books = remote.books;
-          localStorage.setItem('monotheist_feed_version', String(remote.version));
-          persistState();
-      
-    async function loadBundledLibrary() {
-      try {
-        const res = await fetch('./content.json');
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data && Array.isArray(data.writings) && data.writings.length) {
-          state.writings = data.writings;
-          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-      
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
+        const response = await fetch('https://themonotheistmw.github.io/content.json', {cache: 'no-store'});
+        if (!response.ok) return;
+        const feed = await response.json();
+        if (!Array.isArray(feed.writings) || !Array.isArray(feed.books)) return;
+        state.writings = feed.writings;
+        state.books = feed.books;
+        persistState();
         renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
-
-    renderApp();
+        const previous = Number(localStorage.getItem('monotheist_feed_version') || '1');
+        if (feed.version > previous) {
+          localStorage.setItem('monotheist_feed_version', String(feed.version));
+          const title = feed.lastAlert?.title || 'Library updated';
+          const body = feed.lastAlert?.body || '';
+          pushNotification('new', title, body, 'writing', feed.writings[0]?.id || '');
+          window.AndroidBridge?.notify?.(title, body);
         }
-      } catch (e) {}
+      } catch {}
     }
-    loadBundledLibrary();
-
-
+    window.addEventListener('load', refreshLibrary);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) refreshLibrary();
+    });
     window.handleAndroidBack = function() {
       if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
       if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
@@ -1771,67 +1487,6 @@
       if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
       return 'exit';
     };
-
-    renderApp();
-          const title = remote.lastAlert?.title || 'New Content Available';
-          const body = remote.lastAlert?.body || 'New essays or book updates have been published.';
-          pushNotification('new', title, body, 'writing', remote.writings[0]?.id || '');
-          if (window.AndroidBridge && typeof window.AndroidBridge.notify === 'function') {
-            window.AndroidBridge.notify(title, body);
-          }
-        }
-      } catch (e) {}
-    }
-    window.addEventListener('load', () => { setTimeout(checkRemoteUpdates, 1200); });
-
-    async function loadBundledLibrary() {
-      try {
-        const res = await fetch('./content.json');
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data && Array.isArray(data.writings) && data.writings.length) {
-          state.writings = data.writings;
-          if (Array.isArray(data.books) && data.books.length) state.books = data.books;
-      
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
-
-    renderApp();
-        }
-      } catch (e) {}
-    }
-    loadBundledLibrary();
-
-
-    window.handleAndroidBack = function() {
-      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
-      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
-      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
-      if (!readerOverlay.classList.contains('hidden')) {
-        stopSpeech();
-        readerOverlay.classList.add('hidden');
-        state.readerItem = null;
-        renderApp();
-        return 'handled';
-      }
-      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
-      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
-      return 'exit';
-    };
-
     renderApp();
   </script>
 </body>
