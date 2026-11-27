@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1b3d">
+  <title>The Monotheist — Library</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon-192.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600&display=swap');
+    :root{font-family:system-ui,-apple-system,sans-serif;color:#142446;background:#f8f5ee}
+    *{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}
+    header{background:#0b1b3d;color:#e7c878;padding:16px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:3;box-shadow:0 3px 12px #0002}
+    .logo{width:42px;height:42px;border:2px solid #c9a24d;border-radius:12px;display:grid;place-items:center;font:bold 29px Georgia,serif;flex-shrink:0}
+    .brand{font:700 22px Georgia,serif}.sub{color:#ddd0ac;font-size:11px;margin-top:3px}
+    main{max-width:850px;margin:auto;padding:18px 16px 60px}.intro{line-height:1.6;color:#55627a;font-size:14px}
+    .tools{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tools button,.back{border:1px solid #d9c9a7;color:#0b1b3d;background:#fff;padding:10px 16px;border-radius:10px;font-weight:600}
+    .tools button[aria-pressed=true]{background:#0b1b3d;color:#e7c878}.search{padding:12px;border-radius:10px;border:1px solid #d9c9a7;width:100%;background:white}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:12px;margin-top:18px}.item{padding:17px;border-radius:14px;border:1px solid #e1d9ca;background:#fff;text-align:left;min-height:150px;box-shadow:0 2px 9px #1020400b}
+    .eyebrow{font-size:11px;color:#a0761f;text-transform:uppercase;letter-spacing:.05em;font-weight:700}.item h2{font:700 20px/1.4 Georgia,serif;margin:10px 0;color:#0b1b3d}.item p{font-size:13px;line-height:1.5;color:#5e687b;margin:0}
+    .reader{background:#fff;border:1px solid #e1d9ca;border-radius:16px;padding:clamp(18px,4vw,40px);margin-top:15px}.reader h1{font:700 clamp(26px,5vw,37px)/1.4 Georgia,serif;color:#0b1b3d}.reader h2{font-size:21px;color:#8c6519;margin-top:32px;border-bottom:1px solid #e9deca;padding-bottom:8px}.reader p{font-size:17px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}.reader .urdu{font-family:'Noto Nastaliq Urdu',serif;line-height:2.5}.reader[dir=rtl] h1,.reader[dir=rtl] h2{font-family:'Noto Nastaliq Urdu',serif;line-height:2.2}.toc{padding:14px 20px;background:#f9f3e8;border-radius:12px}.toc a{color:#0b1b3d;text-decoration:none}.toc li{margin:9px 0}.status{padding:20px;color:#56627a}.footer{margin-top:24px;font-size:12px;color:#667085;text-align:center}
+  </style>
+</head>
+<body>
+  <header><div class="logo">M</div><div><div class="brand">The Monotheist</div><div class="sub">Independent thought · Complete public library</div></div></header>
+  <main id="root"><p class="status">Loading the library…</p></main>
+  <script>
+  (() => {
+    const root=document.getElementById('root');let data={writings:[],books:[]},category='all',query='';
+    const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const urlId=()=>decodeURIComponent(location.hash.slice(1));
+    const items=()=>[...data.writings.map(x=>({...x,kind:'writing'})),...data.books.map(x=>({...x,kind:'book'}))];
+    const arrays=x=>x.kind==='writing'?(x.sections?.length?x.sections: [{title:'Text',body:x.paragraphs||[]}]):(x.chapters||[]);
+    const lang=x=>x.lang==='ur'?'ur':'en';
+    function renderList(){
+      const list=items().filter(x=>(category==='all'||(category==='writing'?x.kind==='writing':x.kind==='book'))&&[x.title,x.summary,x.subtitle,x.tag].join(' ').toLowerCase().includes(query.toLowerCase()));
+      root.innerHTML=`<p class="intro">Read the published essays, research papers, manuscripts and books in their available full-length form. Works still in development are marked accordingly.</p>
+        <input class="search" id="search" placeholder="Search titles and subjects…" aria-label="Search library" value="${esc(query)}">
+        <nav class="tools" aria-label="Categories">${[['all','All works'],['writing','Articles & essays'],['book','Books & manuscripts']].map(([k,n])=>`<button data-filter="${k}" aria-pressed="${category===k}">${n}</button>`).join('')}</nav>
+        <p class="intro">${list.length} works shown · ${data.writings.length} writings · ${data.books.length} books and series</p>
+        <div class="grid">${list.map(x=>`<button class="item" data-open="${esc(x.id)}"><div class="eyebrow">${esc(x.kind==='writing'?x.tag:x.type)}</div><h2 lang="${lang(x)}">${esc(x.title)}</h2><p>${esc(x.summary||x.subtitle||x.status||'')}</p></button>`).join('')}</div>
+        <p class="footer">© The Monotheist MW</p>`;
+      document.querySelector('#search').addEventListener('input',e=>{query=e.target.value;const pos=e.target.selectionStart;renderList();const n=document.querySelector('#search');n.focus();n.setSelectionRange(pos,pos)});
+      document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{category=b.dataset.filter;renderList()});
+      document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{location.hash=encodeURIComponent(b.dataset.open)});
+    }
+    function renderReader(x){
+      const parts=arrays(x),rtl=lang(x)==='ur';
+      root.innerHTML=`<button class="back" id="back">← Back to library</button><article class="reader" ${rtl?'dir="rtl" lang="ur"':''}>
+        <div class="eyebrow">${esc(x.kind==='writing'?x.tag:x.type||'Book')}</div><h1>${esc(x.title)}</h1>
+        <p class="intro">${esc(x.summary||x.subtitle||'')}</p>
+        ${parts.length>1?`<nav class="toc"><strong>${rtl?'فہرست':'Contents'}</strong><ol>${parts.map((s,i)=>`<li><a href="#section-${i}" data-anchor="section-${i}">${esc(s.title||'Section '+(i+1))}</a></li>`).join('')}</ol></nav>`:''}
+        ${parts.map((s,i)=>`<section id="section-${i}"><h2>${esc(s.title||'Section '+(i+1))}</h2>${(Array.isArray(s.body)?s.body:[s.body]).map(p=>`<p class="${rtl?'urdu':''}">${esc(p)}</p>`).join('')}</section>`).join('')}
+        </article><p class="footer">The Monotheist MW · End of available text</p>`;
+      document.querySelector('#back').onclick=()=>{location.hash=''};
+      document.querySelectorAll('[data-anchor]').forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById(a.dataset.anchor).scrollIntoView({behavior:'smooth'})});
+    }
+    function render(){const x=items().find(v=>v.id===urlId());x?renderReader(x):renderList();window.scrollTo(0,0)}
+    window.addEventListener('hashchange',render);
+    fetch('./content.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Failed to load');return r.json()}).then(v=>{data=v;render()}).catch(()=>{root.innerHTML='<p class="status">Unable to load the library. Check your connection and retry.</p><button class="back" onclick="location.reload()">Retry</button>'});
+  })();
+  </script>
+</body>
+</html>
