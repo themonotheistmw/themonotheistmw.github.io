@@ -16,7 +16,7 @@ import android.graphics.Color;
 
 public class MainActivity extends Activity {
     private WebView webView;
-    private static final String APP_URL = "https://themonotheistmw.github.io/app/";
+    private static final String APP_URL = "https://themonotheistmw.github.io/app/public.html";
     private static final String HOST = "themonotheistmw.github.io";
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
