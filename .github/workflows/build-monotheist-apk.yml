@@ -38,4 +38,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create monotheist-public-v0.1.0 The-Monotheist.apk --title "The Monotheist Android · Preview 0.1.0" --notes "Installable Android preview of the public reader. This build is debug-signed for testing. Future stable versions will use a persistent release signing key." --latest=false || gh release upload monotheist-public-v0.1.0 The-Monotheist.apk --clobber
+          gh release create monotheist-public-v0.2.0 The-Monotheist.apk --title "The Monotheist Android · Preview 0.2.0" --notes "Full-text public library with launcher icon. This build is debug-signed for testing. Future stable versions will use a persistent release signing key." --latest=false || gh release upload monotheist-public-v0.2.0 The-Monotheist.apk --clobber
