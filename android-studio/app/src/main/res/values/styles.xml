@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Monotheist" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/oxford_blue</item>
+        <item name="android:navigationBarColor">@color/oxford_blue</item>
+        <item name="android:windowBackground">@color/oxford_blue</item>
+    </style>
+</resources>
