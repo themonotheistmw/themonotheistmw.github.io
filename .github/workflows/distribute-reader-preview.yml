@@ -1,0 +1,32 @@
+name: Distribute public Android preview
+on:
+  push:
+    branches: [public-reader-download]
+    paths: ['.github/workflows/distribute-reader-preview.yml']
+permissions:
+  actions: read
+  contents: write
+jobs:
+  distribute:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46127888805
+          name: The-Monotheist-MW-Android
+          path: apk
+      - name: Publish verified APK
+        run: |
+          set -eu
+          mkdir -p downloads
+          mv apk/app-debug.apk downloads/The-Monotheist-MW.apk
+          sdk_signer=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort -V | tail -1)
+          "$sdk_signer" verify --verbose downloads/The-Monotheist-MW.apk
+          cd downloads
+          sha256sum The-Monotheist-MW.apk > The-Monotheist-MW.sha256
+          cd ..
+          git add downloads/The-Monotheist-MW.apk downloads/The-Monotheist-MW.sha256
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Distribute verified Android reader preview'
+          git push origin HEAD:public-reader-download
