@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0B1B3D" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>The Monotheist — Interactive Android App & Author Studio</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0B1B3D;
+      --navy-deep: #07122B;
+      --navy-card: #122652;
+      --cream: #FAF6EE;
+      --cream-border: #E8DFCE;
+      --gold: #C9A24D;
+      --gold-soft: #E5C87D;
+      --sepia: #F4ECD8;
+      --sepia-ink: #3E2F1C;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(201, 162, 77, 0.14), transparent 45%),
+        radial-gradient(circle at 80% 85%, rgba(30, 58, 138, 0.28), transparent 50%),
+        linear-gradient(160deg, #091124 0%, #0f1b38 50%, #070d1c 100%);
+      min-height: 100vh;
+    }
+
+    .font-serif-editorial { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .font-urdu { font-family: 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', serif; line-height: 2.2; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .theme-transition {
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-slide-up { animation: slideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
+
+    @keyframes pulseGold {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201, 162, 77, 0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(201, 162, 77, 0); }
+    }
+    .pulse-gold { animation: pulseGold 2.2s infinite; }
+
+    .card-interactive {
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+    .card-interactive:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px -8px rgba(11, 27, 61, 0.18);
+    }
+    .card-interactive:active { transform: scale(0.985); }
+
+    .reader-prose h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.55rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.75rem; }
+    .reader-prose h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.28rem; font-weight: 700; color: #C9A24D; margin-top: 1.75rem; margin-bottom: 0.6rem; padding-top: 0.75rem; border-top: 1px solid rgba(201,162,77,0.2); }
+    .reader-prose h3 { font-size: 1.05rem; font-weight: 700; margin-top: 1.1rem; margin-bottom: 0.4rem; }
+    .reader-prose p { margin-bottom: 0.9rem; line-height: 1.75; }
+    .reader-prose blockquote { border-inline-start: 3px solid #C9A24D; padding: 0.5rem 0.9rem; margin: 1rem 0; background: rgba(201,162,77,0.08); border-radius: 0.5rem; font-style: italic; }
+    .reader-prose ul, .reader-prose ol { padding-inline-start: 1.3rem; margin-bottom: 0.9rem; list-style: revert; }
+    .reader-prose li { margin-bottom: 0.35rem; line-height: 1.65; }
+    .reader-prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85em; display: block; overflow-x: auto; }
+    .reader-prose th, .reader-prose td { border: 1px solid rgba(201,162,77,0.3); padding: 0.45rem 0.6rem; text-align: start; }
+    .reader-prose sup { color: #C9A24D; font-weight: 600; }
+    .reader-prose[dir="rtl"] h1, .reader-prose[dir="rtl"] h2, .reader-prose[dir="rtl"] h3, .reader-prose[dir="rtl"] p, .reader-prose[dir="rtl"] li { font-family: 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', serif; line-height: 2.2; }
+  </style>
+</head>
+<body class="min-h-screen w-full overflow-hidden">
+
+  <!-- Android Device Frame -->
+  <main class="w-full h-[100dvh] flex flex-col">
+    <div id="phone-screen" class="relative w-full flex-1 overflow-hidden flex flex-col theme-transition bg-[#FAF6EE] text-[#0B1B3D]">
+
+      <!-- Top App Bar -->
+      <div id="app-bar" class="shrink-0 px-3.5 py-2.5 flex items-center justify-between border-b backdrop-blur-md theme-transition z-10">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#0B1B3D] to-[#17326B] border border-[#C9A24D]/60 flex items-center justify-center shrink-0 shadow-sm">
+            <span class="font-serif-editorial text-[#E5C87D] font-bold text-base">M</span>
+          </div>
+          <div class="truncate">
+            <div id="app-bar-title" class="font-serif-editorial font-bold text-lg leading-none truncate">The Monotheist</div>
+            <div class="text-[10px] opacity-60 tracking-wide truncate">All Content Bundled</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-0.5">
+          <button id="btn-search-toggle" type="button" aria-label="Search" class="p-1.5 rounded-full hover:bg-black/5 transition">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </button>
+          <button id="btn-notif-open" type="button" aria-label="Notifications" class="relative p-1.5 rounded-full hover:bg-black/5 transition">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span id="notif-badge" class="hidden absolute top-1 right-1 min-w-[14px] h-3.5 px-1 rounded-full bg-rose-500 text-white text-[9px] font-bold flex items-center justify-center">0</span>
+          </button>
+          <button id="btn-theme-toggle" type="button" aria-label="Toggle Dark Mode" class="p-1.5 rounded-full hover:bg-black/5 transition">
+            <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
+          </button>
+          <button id="btn-about-open" type="button" aria-label="About and Welcome" class="p-1.5 rounded-full hover:bg-black/5 transition">
+            <i data-lucide="sparkles" class="w-4 h-4 text-[#C9A24D]"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Expandable Search Bar -->
+      <div id="search-drawer" class="hidden shrink-0 px-4 py-2 border-b theme-transition">
+        <div class="relative flex items-center">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 opacity-50"></i>
+          <input id="search-input" type="text" placeholder="Search English & Urdu essays, books..." class="w-full pl-9 pr-8 py-2 text-xs rounded-xl border outline-none transition" />
+          <button id="btn-search-clear" type="button" aria-label="Clear search" class="hidden absolute right-2.5 p-1 rounded-full opacity-60 hover:opacity-100">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Scrollable Main Viewport -->
+      <div id="main-scroll" class="flex-1 overflow-y-auto no-scrollbar px-4 pt-3 pb-6 space-y-4">
+        <!-- Dynamic Content Rendered Here -->
+      </div>
+
+      <!-- Bottom Navigation Bar -->
+      <nav id="bottom-nav" class="shrink-0 px-2 pt-1.5 pb-2 border-t flex items-center justify-around theme-transition z-10 backdrop-blur-md">
+        <button data-tab="home" type="button" class="nav-btn flex flex-col items-center gap-0.5 py-1 px-3 rounded-2xl transition active:scale-95">
+          <span class="nav-pill px-4 py-1 rounded-full transition"><i data-lucide="home" class="w-4 h-4"></i></span>
+          <span class="text-[11px] font-medium">Home</span>
+        </button>
+        <button data-tab="writings" type="button" class="nav-btn flex flex-col items-center gap-0.5 py-1 px-3 rounded-2xl transition active:scale-95">
+          <span class="nav-pill px-4 py-1 rounded-full transition"><i data-lucide="pen-line" class="w-4 h-4"></i></span>
+          <span class="text-[11px] font-medium">Writings</span>
+        </button>
+        <button data-tab="library" type="button" class="nav-btn flex flex-col items-center gap-0.5 py-1 px-3 rounded-2xl transition active:scale-95">
+          <span class="nav-pill px-4 py-1 rounded-full transition"><i data-lucide="book-open" class="w-4 h-4"></i></span>
+          <span class="text-[11px] font-medium">Library</span>
+        </button>
+        <button data-tab="saved" type="button" class="nav-btn relative flex flex-col items-center gap-0.5 py-1 px-3 rounded-2xl transition active:scale-95">
+          <span class="nav-pill px-4 py-1 rounded-full transition"><i data-lucide="bookmark" class="w-4 h-4"></i></span>
+          <span class="text-[11px] font-medium">Saved</span>
+          <span id="saved-badge" class="hidden absolute top-0.5 right-2.5 min-w-[16px] h-4 px-1 rounded-full bg-[#C9A24D] text-[#0B1B3D] text-[10px] font-bold flex items-center justify-center shadow-sm">0</span>
+        </button>
+      </nav>
+
+      <!-- Full-Screen Reader Overlay -->
+      <div id="reader-overlay" class="hidden absolute inset-0 z-30 flex flex-col theme-transition animate-slide-up">
+        <div id="reader-header" class="shrink-0 px-3 py-2 flex items-center justify-between border-b">
+          <button id="btn-reader-close" type="button" aria-label="Close Reader" class="p-2 rounded-full hover:bg-black/10 transition">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <div class="flex-1 px-2 text-center truncate">
+            <div id="reader-topbar-title" class="text-xs font-semibold truncate">The Monotheist</div>
+          </div>
+          <div class="flex items-center gap-0.5">
+            <button id="btn-reader-share" type="button" aria-label="Copy Citation" class="p-2 rounded-full hover:bg-black/10 transition">
+              <i data-lucide="share-2" class="w-4 h-4"></i>
+            </button>
+            <button id="btn-reader-bookmark" type="button" aria-label="Bookmark" class="p-2 rounded-full hover:bg-black/10 transition">
+              <i id="reader-bookmark-icon" data-lucide="bookmark" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="shrink-0 h-1 w-full bg-black/10">
+          <div id="reader-progress" class="h-full bg-[#C9A24D] transition-all duration-150" style="width: 15%;"></div>
+        </div>
+
+        <div id="reader-chapter-bar" class="hidden shrink-0 px-4 py-2 border-b flex items-center gap-2 overflow-x-auto no-scrollbar"></div>
+
+        <div id="reader-scroll" class="flex-1 overflow-y-auto no-scrollbar px-5 py-5 space-y-4">
+          <div id="reader-content"></div>
+        </div>
+
+        <div id="reader-toolbar" class="shrink-0 px-3.5 py-2.5 border-t flex items-center justify-between gap-2">
+          <div class="flex items-center gap-1">
+            <button id="btn-font-dec" type="button" class="px-2 py-1 rounded-lg text-xs font-semibold border hover:opacity-80 transition">A-</button>
+            <button id="btn-font-inc" type="button" class="px-2 py-1 rounded-lg text-xs font-semibold border hover:opacity-80 transition">A+</button>
+            <button id="btn-tts-toggle" type="button" aria-label="Listen" class="p-1.5 rounded-lg border hover:opacity-80 transition" title="Read Aloud">
+              <i id="tts-icon" data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button data-rtheme="cream" type="button" title="Cream Theme" class="rtheme-btn w-6 h-6 rounded-full bg-[#FAF6EE] border-2 border-[#C9A24D] shadow-sm"></button>
+            <button data-rtheme="navy" type="button" title="Navy Dark Theme" class="rtheme-btn w-6 h-6 rounded-full bg-[#0B1B3D] border-2 border-slate-400 shadow-sm"></button>
+            <button data-rtheme="sepia" type="button" title="Sepia Theme" class="rtheme-btn w-6 h-6 rounded-full bg-[#F4ECD8] border-2 border-amber-700/50 shadow-sm"></button>
+          </div>
+          <button id="btn-reader-top" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#C9A24D] text-[#0B1B3D] hover:opacity-90 transition flex items-center gap-1">
+            <i data-lucide="list" class="w-3.5 h-3.5"></i>
+            <span>TOC</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Notifications Sheet -->
+      <div id="notif-modal" class="hidden absolute inset-0 z-40 bg-black/60 backdrop-blur-[2px] flex items-end justify-center">
+        <div id="notif-panel" class="w-full rounded-t-3xl p-5 pb-6 space-y-3 border-t theme-transition animate-slide-up max-h-[82%] overflow-y-auto no-scrollbar">
+          <div id="notif-body"></div>
+        </div>
+      </div>
+
+      <!-- Book Overview Sheet -->
+      <div id="book-sheet-modal" class="hidden absolute inset-0 z-40 bg-black/60 backdrop-blur-[2px] flex items-end justify-center">
+        <div id="book-sheet-panel" class="w-full rounded-t-3xl p-5 pb-6 space-y-3 border-t theme-transition animate-slide-up max-h-[80%] overflow-y-auto no-scrollbar">
+          <div id="book-sheet-body"></div>
+        </div>
+      </div>
+
+      <!-- About, Welcome & Correspondence Sheet -->
+      <div id="about-modal" class="hidden absolute inset-0 z-40 bg-black/60 backdrop-blur-[2px] flex items-end justify-center">
+        <div id="about-sheet" class="w-full rounded-t-3xl p-5 pb-6 space-y-3.5 border-t theme-transition animate-slide-up max-h-[85%] overflow-y-auto no-scrollbar">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-[10px] uppercase tracking-widest text-[#C9A24D] font-semibold">Independent Thought & Writing</p>
+              <h2 class="font-serif-editorial text-xl font-bold">Welcome to The Monotheist</h2>
+            </div>
+            <button id="btn-about-close" type="button" aria-label="Close" class="p-1.5 rounded-full hover:bg-black/10 transition">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <p class="text-xs leading-relaxed opacity-85">
+            An independent space for philosophy, Islamic thought, ethics, education, science, literature, and contemporary affairs—unaffiliated with any institution.
+          </p>
+          <div class="rounded-xl p-3 border text-xs space-y-1.5" id="about-video-box">
+            <div class="flex items-center gap-2 font-semibold text-[#C9A24D]">
+              <i data-lucide="smartphone" class="w-4 h-4"></i>
+              <span>Install & Offline Bundle Ready</span>
+            </div>
+            <p class="text-[11px] opacity-80">All 11 essays, 6 books, and 3 education modules are bundled for offline reading. Use Author Studio to edit or publish updates anytime.</p>
+          </div>
+          <form id="contact-form" class="space-y-2 pt-1">
+            <div class="text-xs font-semibold">Quick Correspondence (mehrajwan771@gmail.com)</div>
+            <input id="contact-subject" type="text" placeholder="Topic or question..." class="w-full px-3 py-2 text-xs rounded-xl border outline-none bg-transparent" />
+            <button type="submit" class="w-full py-2 rounded-xl border border-[#C9A24D]/50 text-[#C9A24D] font-semibold text-xs hover:bg-[#C9A24D]/10 transition">
+              Send Correspondence Note
+            </button>
+          </form>
+          <button id="btn-enter-library" type="button" class="w-full py-2.5 rounded-xl bg-[#C9A24D] text-[#0B1B3D] font-semibold text-xs hover:opacity-95 transition">
+            Enter the Library
+          </button>
+        </div>
+      </div>
+
+      <!-- Toast Notification -->
+      <div id="toast" class="pointer-events-none hidden absolute bottom-20 left-1/2 -translate-x-1/2 z-50 px-3.5 py-2 rounded-full bg-[#0B1B3D] text-[#FAF6EE] border border-[#C9A24D]/70 text-[11px] font-medium shadow-xl whitespace-nowrap max-w-[90%] truncate">
+      </div>
+
+    </div>
+  </main>
+
+  <script src="./library-data.js"></script>
+  <script>
+    const REFLECTIONS = [
+      { quote: "Thinking begins when inherited assumptions are examined rather than merely repeated.", source: "The Burden of Certainty", writingId: "burden-of-certainty" },
+      { quote: "True ethical maturity pairs moral seriousness with humility toward others.", source: "The Moral Danger of Believing Oneself Virtuous", writingId: "moral-danger-virtuous" },
+      { quote: "محبتِ الٰہی خوف اور رجا کے توازن کو سنبھالتی ہے اور عمل میں اخلاص پیدا کرتی ہے۔", source: "خوف اور رجا کا توازن", writingId: "khauf-o-raja", rtl: true },
+      { quote: "Active retrieval—testing oneself and reconstructing ideas—strengthens durable understanding.", source: "The Science of Learning", writingId: "science-of-learning" }
+    ];
+
+    const DEFAULT_WRITINGS = [
+      {
+        id: 'tanqihat-urdu', lang: 'ur', subject: 'Urdu', tag: 'Islamic Thought · Book Criticism · Urdu',
+        title: 'کتاب تنقیحات — ایک جامع تحقیقی، فکری اور تنقیدی مطالعہ',
+        summary: "A comprehensive Urdu study of Abul A'la Maududi's Tanqihat, its historical setting, philosophical arguments and critical implications.",
+        readTime: '14 min', mins: 14,
+        paragraphs: [
+          'سید ابو الاعلیٰ مودودی کی کتاب «تنقیحات» بیسویں صدی کے مسلم فکری منظرنامے میں ایک اہم مقام رکھتی ہے۔ اس مطالعے میں کتاب کے تاریخی پس منظر، استدلال کے اسلوب اور فکری اثرات کا تحقیقی جائزہ پیش کیا گیا ہے۔',
+          'تنقیحات کے مضامین میں جدید مغربی فکر، تہذیب اور اسلامی اصولوں کے باہمی تعلق کو جس انداز میں موضوع بنایا گیا ہے، وہ اپنے عہد کے فکری سوالات کی عکاسی کرتا ہے۔',
+          'اس تنقیدی مطالعے کا مقصد محض تائید یا تردید نہیں بلکہ دلائل کی بنیاد پر ان مباحث کو سمجھنا ہے جو آج بھی مسلم معاشروں میں زیرِ بحث ہیں۔'
+        ]
+      },
+      {
+        id: 'khauf-o-raja', lang: 'ur', subject: 'Urdu', tag: 'Islamic Ethics · Urdu',
+        title: 'خوف اور رجا کا توازن',
+        summary: "A critical examination of fear, hope and love in the Qur'an, al-Ghazali and Ibn al-Qayyim.",
+        readTime: '9 min', mins: 9,
+        paragraphs: [
+          'اسلامی اخلاقیات اور روحانی تربیت میں خوف اور رجا (امید) کے درمیان توازن کو بنیادی اہمیت حاصل ہے۔ قرآنِ مجید میں اللہ تعالیٰ کی رحمت اور عدل دونوں پہلوؤں کو ساتھ بیان کیا گیا ہے۔',
+          'امام غزالی اور ابن القیم نے اس بات پر زور دیا ہے کہ صرف خوف انسان کو مایوسی کی طرف لے جاتا ہے، جبکہ صرف امید بے پروائی پیدا کر سکتی ہے۔',
+          'محبتِ الٰہی اس توازن کو سنبھالتی ہے اور بندے کے عمل میں اخلاص اور وقار پیدا کرتی ہے۔'
+        ]
+      },
+      {
+        id: 'deeni-waswasay', lang: 'ur', subject: 'Urdu', tag: 'Psychology · Faith · Urdu',
+        title: 'دینی وسوسے اور وسوسۂ قہری',
+        summary: 'An evidence-informed discussion of intrusive thoughts, religious scrupulosity and clinical care.',
+        readTime: '10 min', mins: 10,
+        paragraphs: [
+          'دینی وسوسے اور وسوسۂ قہری (Religious OCD / Scrupulosity) ایک ایسا نفسیاتی و دینی مسئلہ ہے جس میں انسان غیر ارادی خیالات کے باعث شدید ذہنی دباؤ کا شکار ہو جاتا ہے۔',
+          'فقہی اور علمی روایت میں غیر اختیاری خیالات پر مؤاخذہ نہ ہونے کا اصول واضح ہے، اور جدید نفسیات بھی اسے مرض کے طور پر دیکھتی ہے نہ کہ ایمان کی کمزوری کے طور پر۔',
+          'اس مضمون میں روحانی تسلی اور مستند طبی و نفسیاتی رہنمائی کو یکجا کرنے کی ضرورت پر گفتگو کی گئی ہے۔'
+        ]
+      },
+      {
+        id: 'rehmat-e-ilahi', lang: 'ur', subject: 'Urdu', tag: "Qur'anic Studies · Urdu",
+        title: 'رحمتِ الٰہی اور نُزُلًا مِنْ غَفُورٍ رَحِيمٍ',
+        summary: "An inquiry into Qur'an 41:30–33 and the meaning of divine mercy and hospitality in classical tafsir.",
+        readTime: '8 min', mins: 8,
+        paragraphs: [
+          'سورہ حم السجدہ کی آیات 30 تا 33 میں استقامت اختیار کرنے والوں کے لیے فرشتوں کی بشارت اور «نُزُلًا مِنْ غَفُورٍ رَحِيمٍ» کی تعبیر نہایت لطیف ہے۔',
+          'کلاسیکی تفاسیر میں لفظ «نُزُل» کو مہمان نوازی اور پہلے سے تیار کیے گئے اکرام کے مفہوم میں بیان کیا گیا ہے، جو ربِ کریم کی بے پایاں رحمت کو ظاہر کرتا ہے۔',
+          'یہ آیات اس بات کی یاد دہانی کراتی ہیں کہ نیکی اور دعوت کا بہترین اسلوب حکمت، صبر اور خیر خواہی پر مبنی ہوتا ہے۔'
+        ]
+      },
+      {
+        id: 'science-of-learning', lang: 'en', subject: 'Education', tag: 'Education · Research',
+        title: 'The Science of Learning',
+        summary: 'How the human mind acquires, retains, understands and applies knowledge: memory, retrieval practice, spaced learning, feedback and effective teaching.',
+        readTime: '11 min', mins: 11,
+        paragraphs: [
+          'Durable learning rarely happens through passive re-reading. Cognitive research consistently shows that active retrieval—testing oneself and reconstructing ideas from memory—strengthens long-term retention.',
+          'Spaced practice distributes study across intervals rather than cramming, allowing the brain to consolidate schemas between sessions. Paired with timely, specific feedback, learners quickly correct misconceptions before they harden.',
+          'For teachers and independent learners alike, structuring lessons around clear mental models, worked examples, and deliberate practice turns information into usable understanding.'
+        ]
+      },
+      {
+        id: 'opinion-geopolitics', lang: 'en', subject: 'Commentary', tag: 'Geopolitics · Commentary',
+        title: 'Opinion and Contemporary Affairs',
+        summary: 'Personal analysis and commentary on geopolitical developments, international relations, political movements and the changing global order.',
+        readTime: '7 min', mins: 7,
+        paragraphs: [
+          'Understanding contemporary geopolitics requires looking past daily headlines to the structural incentives, historical grievances, and economic realities that shape state behavior.',
+          'As multipolar competition intensifies, regional powers face delicate balancing acts between security alliances, trade dependencies, and domestic legitimacy.',
+          'This section brings together ongoing essays examining global shifts with an emphasis on historical context and ethical accountability.'
+        ]
+      },
+      {
+        id: 'burden-of-certainty', lang: 'en', subject: 'Philosophy', tag: 'Philosophy · Reasoning',
+        title: 'The Burden of Certainty: Why Thinking Begins with Doubt',
+        summary: "A scholarly inquiry into knowledge, evidence, skepticism and intellectual responsibility, with Qur'anic and philosophical perspectives.",
+        readTime: '12 min', mins: 12,
+        paragraphs: [
+          'Genuine inquiry begins when inherited assumptions are examined rather than merely repeated. Methodological doubt is not cynicism; it is the discipline of asking what grounds our beliefs.',
+          'Across both classical philosophy and Qur’anic calls to reflect, reflectiveness and verification stand opposed to blind conformity. Holding certainty responsibly means proportioning confidence to evidence.',
+          'When thinkers confuse loud assertion with truth, intellectual humility disappears—and with it, the capacity to learn.'
+        ]
+      },
+      {
+        id: 'reason-revelation-cotton', lang: 'en', subject: 'Islamic Thought', tag: 'Islamic Thought',
+        title: 'Reason, Revelation and the Burning of Cotton',
+        summary: 'An exploration of reason, revelation, causation and interpretation through the debates of al-Ghazālī, Ibn Rushd and later Muslim scholars.',
+        readTime: '13 min', mins: 13,
+        paragraphs: [
+          'Al-Ghazālī’s famous example of fire meeting cotton in Tahāfut al-Falāsifa challenged naive assumptions about necessary causation, sparking centuries of debate with Ibn Rushd and later mutakallimūn.',
+          'Rather than rejecting empirical observation, al-Ghazālī sought to distinguish habitual regularity in nature from absolute metaphysical necessity—preserving space for divine agency alongside scientific study.',
+          'Revisiting this exchange clarifies how classical Muslim thinkers navigated the relationship between rational demonstration, natural law, and revelation.'
+        ]
+      },
+      {
+        id: 'moral-danger-virtuous', lang: 'en', subject: 'Ethics', tag: 'Ethics · Society',
+        title: 'The Moral Danger of Believing Oneself Virtuous',
+        summary: 'A reflection on self-righteousness, moral accountability, humility and the ethical responsibilities of judging ourselves and others.',
+        readTime: '8 min', mins: 8,
+        paragraphs: [
+          'Few traps are subtler than moral complacency—the quiet conviction that because our intentions feel noble, our judgments must be above scrutiny.',
+          'Self-righteousness dulls self-examination. Once we cast ourselves as the measure of virtue, disagreement from others looks like malice rather than perspective.',
+          'True ethical maturity pairs moral seriousness with humility: holding ourselves to strict accountability while extending fairness and restraint toward others.'
+        ]
+      },
+      {
+        id: 'ahl-e-fatrat', lang: 'ur', subject: 'Urdu', tag: 'Islamic Thought · Urdu Research',
+        title: 'اہلِ فترۃ اور الٰہی عدل',
+        summary: 'An Urdu study of divine justice, the communication of revelation, human reason and accountability in Islamic theological thought.',
+        readTime: '11 min', mins: 11,
+        paragraphs: [
+          'اہلِ فترۃ سے مراد وہ لوگ ہیں جن تک وحی کا پیغام واضح اور معتبر صورت میں نہ پہنچا ہو۔ اسلامی علمِ کلام میں ان کے اخروی انجام اور الٰہی عدل کے تقاضوں پر گہری بحث ملتی ہے۔',
+          'قرآنی اصول «وَمَا كُنَّا مُعَذِّبِينَ حَتَّىٰ نَبْعَثَ رَسُولًا» اس بات کو واضح کرتا ہے کہ ذمہ داری اور مؤاخذہ اتمامِ حجت کے بعد ہی عائد ہوتا ہے۔',
+          'اس مقالے میں اشعری، ماتریدی اور دیگر مکاتبِ فکر کے دلائل کا تقابلی جائزہ پیش کیا گیا ہے۔'
+        ]
+      },
+      {
+        id: 'literature-reflections', lang: 'en', subject: 'Philosophy', tag: 'Literature · Reflection',
+        title: 'Literature and Personal Reflections',
+        summary: 'Literary observations, philosophical reflections, cultural commentary and explorations of the human condition.',
+        readTime: '6 min', mins: 6,
+        paragraphs: [
+          'Literature preserves dimensions of human experience—grief, wonder, irony, and moral tension—that abstract treatises often leave behind.',
+          'Through close reading of poetry and prose, personal reflection meets universal questions of meaning, memory, and belonging.',
+          'More essays and literary monographs are forthcoming in this collection.'
+        ]
+      }
+    ];
+
+    const DEFAULT_BOOKS = [
+      {
+        id: 'philosophy-foundations', type: 'Book Manuscript', title: 'Philosophy: From Foundations to Frontiers',
+        subtitle: '39 chapters · 10 appendices', status: 'In development', progress: 78,
+        accent: '#C9A24D', bg: '#0B1B3D', motif: 'sphere', readable: true,
+        chapters: [
+          { title: 'Ch. 1: What Is Philosophy?', body: [
+            'Philosophy begins wherever human beings pause to ask not only what is the case, but why it matters and how we know. Across traditions, it has served as both the mother of disciplines and the critic of unexamined assumptions.',
+            'In this opening chapter, we map the core branches—epistemology, metaphysics, ethics, logic, and political philosophy—and ask how rigorous questioning clarifies everyday life.'
+          ]},
+          { title: 'Ch. 2: Foundations of Knowledge', body: [
+            'How do perception, reason, testimony, and intuition work together? Epistemology investigates the standards that separate justified belief from mere opinion.',
+            'From classical debates between rationalists and empiricists to contemporary naturalized epistemology, we trace how thinkers test the limits of human certainty.'
+          ]},
+          { title: 'Ch. 3: Reason, Faith & Frontiers', body: [
+            'Modern frontiers—from artificial intelligence to bioethics—revive ancient questions about consciousness, agency, and moral responsibility.',
+            'By bringing classical philosophical rigor into conversation with contemporary science, this manuscript bridges foundational concepts and emerging debates.'
+          ]}
+        ]
+      },
+      {
+        id: 'foundations-cs', type: 'Textbook Manuscript', title: 'Foundations of Computer Science',
+        subtitle: 'Coding, Python, AI & Ethics', status: 'Working manuscript · PDF', progress: 85,
+        accent: '#60A5FA', bg: '#102A43', motif: 'circuit', readable: true,
+        chapters: [
+          { title: 'Unit 1: Computational Thinking', body: [
+            'Computational thinking is the habit of breaking complex problems into clear, testable steps: decomposition, pattern recognition, abstraction, and algorithmic design.',
+            'Before writing a single line of Python, students learn how data representation, binary logic, and structured reasoning power modern software.'
+          ]},
+          { title: 'Unit 2: AI & Ethical Design', body: [
+            'As machine learning systems assist in education, healthcare, and daily decisions, understanding bias, privacy, and human oversight becomes essential for every young citizen.'
+          ]}
+        ]
+      },
+      {
+        id: 'cs-classes-1-8', type: 'Educational Series', title: 'Computer Studies — Classes 1–8',
+        subtitle: '8-level progressive series', status: 'Under development', progress: 55,
+        accent: '#34D399', bg: '#0F292E', motif: 'circuit', readable: true,
+        chapters: [{ title: 'Series Overview (Classes 1–8)', body: ['An eight-level educational series designed to develop computer literacy, practical skills, logical thinking, computational understanding, and familiarity with emerging technologies.'] }, { title: 'Levels 1–4: Foundations', body: ['Mouse & keyboard fluency, digital safety, visual block logic, and everyday productivity tools.'] }, { title: 'Levels 5–8: Programming & AI', body: ['Structured problem solving, Python fundamentals, data representation, and responsible AI literacy.'] }],
+        overview: 'An eight-level educational series designed to develop computer literacy, practical skills, logical thinking, computational understanding, and familiarity with emerging technologies.'
+      },
+      {
+        id: 'islamic-classes-1-10', type: 'Educational Series', title: 'Islamic Studies — Classes 1–10',
+        subtitle: "Qur'an, Sirah, Ethics & History", status: 'Under development', progress: 45,
+        accent: '#FBBF24', bg: '#231B12', motif: 'arch', readable: true,
+        chapters: [{ title: 'Series Overview (Classes 1–10)', body: ["A developing educational series intended to bring together foundational Islamic knowledge, Qur'anic studies, Sirah, history, manners, ethics, and age-appropriate religious learning."] }, { title: 'Core Pillars', body: ["Qur'anic recitation & reflection, Prophetic biography (Sirah), Islamic character & ethics, and historical literacy."] }],
+        overview: "A developing educational series intended to bring together foundational Islamic knowledge, Qur'anic studies, Sirah, history, manners, ethics, and age-appropriate religious learning."
+      },
+      {
+        id: 'muslim-philosophy', type: 'Intellectual History', title: 'Muslim Philosophy and Philosophers',
+        subtitle: 'Graeco-Arabic to modern thought', status: 'Under review', progress: 90,
+        accent: '#C9A24D', bg: '#1A1F36', motif: 'arch', readable: true,
+        chapters: [
+          { title: 'Part I: The Translation Movement', body: [
+            'Between the eighth and tenth centuries, Baghdad’s scholarly circles translated Greek scientific and philosophical works into Arabic—not passively, but through creative synthesis and critical commentary.',
+            'Thinkers such as al-Kindī, al-Fārābī, and Ibn Sīnā forged a vocabulary that reshaped both Islamic intellectual history and later European philosophy.'
+          ]},
+          { title: 'Part II: Post-Classical & Modern Thought', body: [
+            'Far from ending in the twelfth century, philosophical inquiry continued through Ishrāqī illuminationism, Mullā Ṣadrā’s transcendent philosophy, and modern reformist engagements.'
+          ]}
+        ]
+      },
+      {
+        id: 'general-philosophy', type: 'Philosophy', title: 'General Philosophy',
+        subtitle: 'Progressive introduction', status: 'Book project', progress: 35,
+        accent: '#A78BFA', bg: '#1E1B3A', motif: 'sphere', readable: true,
+        chapters: [{ title: 'Project Overview', body: ['A comprehensive philosophical project intended to introduce fundamental questions, arguments, and schools of thought through a progressive educational approach.'] }, { title: 'Planned Scope', body: ['Epistemology, logic, metaphysics, ethics, and contemporary philosophical debates written for students and general readers.'] }],
+        overview: 'A comprehensive philosophical project intended to introduce fundamental questions, arguments, and schools of thought through a progressive educational approach.'
+      }
+    ];
+
+    const EDUCATION_ITEMS = [
+      { id: 'edu-learning', tag: 'Learning Science', title: 'How Learning Works', desc: 'Research-informed principles for students, teachers and independent learners.', targetWriting: 'science-of-learning' },
+      { id: 'edu-cs', tag: 'Computer Education', title: 'Computer Literacy', desc: 'From elementary computer awareness to programming, computational thinking and AI.', targetBook: 'foundations-cs' },
+      { id: 'edu-islamic', tag: 'Islamic Education', title: 'Foundational Islamic Learning', desc: "Structured learning material covering Islamic knowledge, history, ethics and Qur'anic studies.", targetWriting: 'khauf-o-raja' }
+    ];
+
+    const SUBJECTS = ['All', 'Philosophy', 'Islamic Thought', 'Ethics', 'Urdu', 'Education', 'Commentary'];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem('monotheist_proto_v4');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return null;
+    }
+    const saved = loadState();
+
+    const state = {
+      activeTab: 'home',
+      appTheme: saved?.appTheme || 'light',
+      readerTheme: saved?.readerTheme || 'navy',
+      fontSize: saved?.fontSize || 15,
+      selectedSubject: 'All',
+      langFilter: 'all',
+      sortBy: 'featured',
+      reflectionIdx: 0,
+      searchOpen: false,
+      searchQuery: '',
+      writings: (window.MONOTHEIST_LIBRARY && window.MONOTHEIST_LIBRARY.writings) ? window.MONOTHEIST_LIBRARY.writings : structuredClone(DEFAULT_WRITINGS),
+      books: (window.MONOTHEIST_LIBRARY && window.MONOTHEIST_LIBRARY.books) ? window.MONOTHEIST_LIBRARY.books : structuredClone(DEFAULT_BOOKS),
+      bookmarks: saved?.bookmarks || ['burden-of-certainty', 'tanqihat-urdu'],
+      downloads: saved?.downloads || ['philosophy-foundations'],
+      notifyBooks: saved?.notifyBooks || [],
+      notifications: saved?.notifications || [
+        { id: 'n-init-1', type: 'new', title: 'All 11 Essays & 6 Books Bundled', detail: 'Offline reading is ready immediately after install.', time: 'Just now', unread: true, targetKind: 'book', targetId: 'philosophy-foundations' }
+      ],
+      deviceAlertsEnabled: saved?.deviceAlertsEnabled || false,
+      readerItem: null,
+      editingTarget: null, // { kind: 'writing' | 'book', id: string | null }
+      isSpeaking: false,
+    };
+
+    function persistState() {
+      try {
+        localStorage.setItem('monotheist_proto_v4', JSON.stringify({
+          appTheme: state.appTheme,
+          readerTheme: state.readerTheme,
+          fontSize: state.fontSize,
+          bookmarks: state.bookmarks,
+          downloads: state.downloads,
+          notifyBooks: state.notifyBooks,
+          notifications: state.notifications,
+          deviceAlertsEnabled: state.deviceAlertsEnabled,
+        }));
+      } catch (e) {}
+    }
+
+    const phoneScreen = document.getElementById('phone-screen');
+    const appBar = document.getElementById('app-bar');
+    const searchDrawer = document.getElementById('search-drawer');
+    const searchInput = document.getElementById('search-input');
+    const btnSearchClear = document.getElementById('btn-search-clear');
+    const mainScroll = document.getElementById('main-scroll');
+    const bottomNav = document.getElementById('bottom-nav');
+    const savedBadge = document.getElementById('saved-badge');
+    const notifBadge = document.getElementById('notif-badge');
+    const themeIcon = document.getElementById('theme-icon');
+    const readerOverlay = document.getElementById('reader-overlay');
+    const readerHeader = document.getElementById('reader-header');
+    const readerTopbarTitle = document.getElementById('reader-topbar-title');
+    const readerChapterBar = document.getElementById('reader-chapter-bar');
+    const readerScroll = document.getElementById('reader-scroll');
+    const readerContent = document.getElementById('reader-content');
+    const readerToolbar = document.getElementById('reader-toolbar');
+    const readerProgress = document.getElementById('reader-progress');
+                const notifModal = document.getElementById('notif-modal');
+    const notifPanel = document.getElementById('notif-panel');
+    const notifBody = document.getElementById('notif-body');
+    const bookSheetModal = document.getElementById('book-sheet-modal');
+    const bookSheetPanel = document.getElementById('book-sheet-panel');
+    const bookSheetBody = document.getElementById('book-sheet-body');
+    const aboutModal = document.getElementById('about-modal');
+    const aboutSheet = document.getElementById('about-sheet');
+    const aboutVideoBox = document.getElementById('about-video-box');
+    const toastEl = document.getElementById('toast');
+
+    let toastTimer = null;
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.add('hidden'), 2400);
+    }
+
+    function pushNotification(type, title, detail, targetKind, targetId) {
+      const entry = {
+        id: 'n-' + Date.now(),
+        type,
+        title,
+        detail,
+        time: 'Just now',
+        unread: true,
+        targetKind,
+        targetId
+      };
+      state.notifications.unshift(entry);
+      persistState();
+      updateBadges();
+
+      // Fire native browser/Android notification if enabled
+      if (state.deviceAlertsEnabled && 'Notification' in window && Notification.permission === 'granted') {
+        try {
+          new Notification(title, { body: detail });
+        } catch (e) {}
+      }
+      showToast(`🔔 ${title}`);
+    }
+
+    function stopSpeech() {
+      if ('speechSynthesis' in window) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+      }
+      state.isSpeaking = false;
+      const ttsIcon = document.getElementById('tts-icon');
+      if (ttsIcon) ttsIcon.setAttribute('data-lucide', 'volume-2');
+    }
+
+    function applyAppTheme() {
+      const dark = state.appTheme === 'dark';
+      phoneScreen.className = `relative w-full flex-1 overflow-hidden flex flex-col theme-transition ${
+        dark ? 'bg-[#0B1B3D] text-[#FAF6EE]' : 'bg-[#FAF6EE] text-[#0B1B3D]'
+      }`;
+      appBar.className = `shrink-0 px-3.5 py-2.5 flex items-center justify-between border-b backdrop-blur-md theme-transition z-10 ${
+        dark ? 'bg-[#0B1B3D]/95 border-white/10' : 'bg-[#FAF6EE]/95 border-[#E8DFCE]'
+      }`;
+      searchDrawer.className = `${state.searchOpen ? '' : 'hidden'} shrink-0 px-4 py-2 border-b theme-transition ${
+        dark ? 'bg-[#07122B] border-white/10' : 'bg-[#F3ECE0] border-[#E8DFCE]'
+      }`;
+      searchInput.className = `w-full pl-9 pr-8 py-2 text-xs rounded-xl border outline-none transition ${
+        dark ? 'bg-[#122652] border-white/15 text-white placeholder-slate-400' : 'bg-white border-[#E8DFCE] text-[#0B1B3D] placeholder-slate-400'
+      }`;
+      bottomNav.className = `shrink-0 px-2 pt-1.5 pb-2 border-t flex items-center justify-around theme-transition z-10 backdrop-blur-md ${
+        dark ? 'bg-[#07122B]/95 border-white/10 text-slate-300' : 'bg-white/95 border-[#E8DFCE] text-[#0B1B3D]'
+      }`;
+      const sheetCls = dark ? 'bg-[#0F2147] text-[#FAF6EE] border-[#C9A24D]/30' : 'bg-[#FAF6EE] text-[#0B1B3D] border-[#E8DFCE]';
+      aboutSheet.className = `w-full rounded-t-3xl p-5 pb-6 space-y-3.5 border-t theme-transition animate-slide-up max-h-[85%] overflow-y-auto no-scrollbar ${sheetCls}`;
+      bookSheetPanel.className = `w-full rounded-t-3xl p-5 pb-6 space-y-3 border-t theme-transition animate-slide-up max-h-[80%] overflow-y-auto no-scrollbar ${sheetCls}`;
+      notifPanel.className = `w-full rounded-t-3xl p-5 pb-6 space-y-3 border-t theme-transition animate-slide-up max-h-[82%] overflow-y-auto no-scrollbar ${sheetCls}`;
+            aboutVideoBox.className = `rounded-xl p-3 border text-xs space-y-1.5 ${
+        dark ? 'bg-[#07122B] border-white/10' : 'bg-white border-[#E8DFCE]'
+      }`;
+      themeIcon.setAttribute('data-lucide', dark ? 'sun' : 'moon');
+    }
+
+    function updateBadges() {
+      const totalSaved = state.bookmarks.length + state.downloads.length;
+      savedBadge.textContent = totalSaved;
+      savedBadge.classList.toggle('hidden', totalSaved === 0);
+
+      const unreadNotifs = state.notifications.filter(n => n.unread).length;
+      notifBadge.textContent = unreadNotifs;
+      notifBadge.classList.toggle('hidden', unreadNotifs === 0);
+    }
+
+    function updateNavState() {
+      const dark = state.appTheme === 'dark';
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        const active = btn.dataset.tab === state.activeTab;
+        const pill = btn.querySelector('.nav-pill');
+        if (active) {
+          pill.className = `nav-pill px-4 py-1 rounded-full transition ${
+            dark ? 'bg-[#C9A24D] text-[#0B1B3D]' : 'bg-[#0B1B3D] text-[#FAF6EE]'
+          }`;
+          btn.classList.add('font-semibold');
+        } else {
+          pill.className = 'nav-pill px-4 py-1 rounded-full transition opacity-70';
+          btn.classList.remove('font-semibold');
+        }
+      });
+      updateBadges();
+    }
+
+    function getFilteredWritings() {
+      const q = state.searchQuery.trim().toLowerCase();
+      let list = state.writings.filter(w => {
+        const matchSub = state.selectedSubject === 'All' || w.subject === state.selectedSubject;
+        const matchLang = state.langFilter === 'all' || w.lang === state.langFilter;
+        const matchQuery = !q || w.title.toLowerCase().includes(q) || w.summary.toLowerCase().includes(q) || w.tag.toLowerCase().includes(q);
+        return matchSub && matchLang && matchQuery;
+      });
+      if (state.sortBy === 'short') list = [...list].sort((a, b) => a.mins - b.mins);
+      if (state.sortBy === 'long') list = [...list].sort((a, b) => b.mins - a.mins);
+      return list;
+    }
+
+    function renderWritingCard(w) {
+      const dark = state.appTheme === 'dark';
+      const isSaved = state.bookmarks.includes(w.id);
+      const isUrdu = w.lang === 'ur';
+      return `
+        <article class="card-interactive rounded-2xl p-3.5 border theme-transition ${
+          dark ? 'bg-[#122652]/90 border-white/10' : 'bg-white border-[#E8DFCE]'
+        }">
+          <div class="flex items-start justify-between gap-2 mb-1.5">
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-[#C9A24D]">${w.tag}</span>
+            <div class="flex items-center gap-1 shrink-0">
+              <button data-bookmark="${w.id}" type="button" aria-label="Bookmark" class="p-1 rounded-full hover:bg-black/10 transition">
+                <i data-lucide="bookmark" class="w-3.5 h-3.5 ${isSaved ? 'fill-[#C9A24D] text-[#C9A24D]' : 'opacity-60'}"></i>
+              </button>
+            </div>
+          </div>
+          <h3 ${isUrdu ? 'dir="rtl" lang="ur"' : ''} class="${isUrdu ? 'font-urdu text-base' : 'font-serif-editorial text-lg leading-snug'} font-bold mb-1.5">
+            ${w.title}
+          </h3>
+          <p class="text-xs opacity-75 line-clamp-2 mb-3">${w.summary}</p>
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="opacity-60">${w.readTime} read</span>
+            <button data-read-writing="${w.id}" type="button" class="font-semibold text-[#C9A24D] hover:underline flex items-center gap-1">
+              <span>${isUrdu ? 'مکمل مطالعہ' : 'Read essay'}</span>
+              <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            </button>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderFilterChips() {
+      const dark = state.appTheme === 'dark';
+      return `
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+          ${SUBJECTS.map(sub => {
+            const active = state.selectedSubject === sub;
+            return `
+              <button data-subject="${sub}" type="button" class="shrink-0 px-3 py-1.5 rounded-full text-[11px] font-medium border transition active:scale-95 ${
+                active
+                  ? 'bg-[#C9A24D] text-[#0B1B3D] border-[#C9A24D] font-semibold shadow-sm'
+                  : dark
+                    ? 'bg-[#122652] text-slate-200 border-white/10'
+                    : 'bg-white text-[#0B1B3D] border-[#E8DFCE]'
+              }">${sub}</button>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function renderHome() {
+      const dark = state.appTheme === 'dark';
+      const items = getFilteredWritings();
+      const ref = REFLECTIONS[state.reflectionIdx];
+      return `
+        <div class="space-y-4 animate-fade-in">
+          <section class="rounded-2xl p-4 bg-gradient-to-br from-[#0B1B3D] via-[#132C63] to-[#1C3D82] text-[#FAF6EE] border border-[#C9A24D]/45 shadow-lg relative overflow-hidden">
+            <div class="flex items-center justify-between gap-3 relative z-10">
+              <div class="space-y-1.5 flex-1">
+                <span class="inline-block text-[10px] uppercase tracking-widest text-[#E5C87D] font-semibold">Featured Manuscript</span>
+                <h2 class="font-serif-editorial text-xl font-bold leading-tight">Philosophy: From Foundations to Frontiers</h2>
+                <p class="text-[11px] text-slate-300">39 chapters · 10 appendices</p>
+                <div class="pt-1.5">
+                  <button data-read-book="philosophy-foundations" type="button" class="px-3.5 py-1.5 rounded-xl bg-[#C9A24D] text-[#0B1B3D] text-xs font-semibold hover:opacity-95 active:scale-95 transition inline-flex items-center gap-1.5 shadow">
+                    <span>Read Online</span>
+                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+              <svg viewBox="0 0 80 110" class="w-16 h-22 shrink-0 rounded-lg shadow-xl border border-[#C9A24D]/60">
+                <rect width="80" height="110" fill="#07122B"/>
+                <rect x="6" y="6" width="68" height="98" fill="none" stroke="#C9A24D" stroke-width="1.2"/>
+                <circle cx="40" cy="46" r="18" fill="none" stroke="#C9A24D" stroke-width="1.2"/>
+                <polygon points="40,28 56,46 40,64 24,46" fill="none" stroke="#E5C87D" stroke-width="1"/>
+                <text x="40" y="88" text-anchor="middle" fill="#FAF6EE" font-size="6.5" font-family="serif">THE MONOTHEIST</text>
+              </svg>
+            </div>
+          </section>
+
+          <section class="rounded-2xl p-3.5 border theme-transition ${
+            dark ? 'bg-[#10224A] border-[#C9A24D]/25' : 'bg-white border-[#E8DFCE]'
+          }">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-semibold uppercase tracking-widest text-[#C9A24D]">Reflection · ${state.reflectionIdx + 1}/${REFLECTIONS.length}</span>
+              <button id="btn-next-reflection" type="button" class="text-[11px] font-medium opacity-75 hover:opacity-100 flex items-center gap-1">
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                <span>Next</span>
+              </button>
+            </div>
+            <p ${ref.rtl ? 'dir="rtl" lang="ur"' : ''} class="${ref.rtl ? 'font-urdu text-sm' : 'font-serif-editorial italic text-base leading-snug'} mb-2">"${ref.quote}"</p>
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="opacity-65 truncate pr-2">— ${ref.source}</span>
+              <button data-read-writing="${ref.writingId}" type="button" class="font-semibold text-[#C9A24D] shrink-0">Open</button>
+            </div>
+          </section>
+
+          <section class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h2 class="font-serif-editorial text-lg font-bold ${dark ? 'text-[#E5C87D]' : ''}">Explore Writings</h2>
+              <button data-tab-jump="writings" type="button" class="text-[11px] font-semibold text-[#C9A24D]">See all (${state.writings.length})</button>
+            </div>
+            ${renderFilterChips()}
+          </section>
+
+          <section class="space-y-3">
+            ${items.length
+              ? items.map(renderWritingCard).join('')
+              : `<div class="text-center py-8 text-xs opacity-60">No matching essays found.</div>`}
+          </section>
+        </div>
+      `;
+    }
+
+    function renderWritings() {
+      const dark = state.appTheme === 'dark';
+      const items = getFilteredWritings();
+      return `
+        <div class="space-y-3 animate-fade-in">
+          <div class="flex items-center justify-between">
+            <h2 class="font-serif-editorial text-xl font-bold ${dark ? 'text-[#E5C87D]' : ''}">Writings & Essays</h2>
+            <span class="text-[11px] opacity-65">${items.length} results</span>
+          </div>
+
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-1 p-0.5 rounded-xl border ${dark ? 'bg-[#07122B] border-white/10' : 'bg-[#EFE8DA] border-[#E8DFCE]'}">
+              ${[['all','All'],['en','English'],['ur','اردو']].map(([k,lbl]) => `
+                <button data-lang="${k}" type="button" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${
+                  state.langFilter === k ? 'bg-[#C9A24D] text-[#0B1B3D] font-semibold' : 'opacity-75'
+                }">${lbl}</button>
+              `).join('')}
+            </div>
+            <select id="sort-select" class="text-[11px] px-2.5 py-1.5 rounded-xl border outline-none ${
+              dark ? 'bg-[#122652] border-white/15 text-slate-200' : 'bg-white border-[#E8DFCE] text-[#0B1B3D]'
+            }">
+              <option value="featured" ${state.sortBy === 'featured' ? 'selected' : ''}>Featured</option>
+              <option value="short" ${state.sortBy === 'short' ? 'selected' : ''}>Shortest first</option>
+              <option value="long" ${state.sortBy === 'long' ? 'selected' : ''}>Longest first</option>
+            </select>
+          </div>
+
+          ${renderFilterChips()}
+
+          <section class="space-y-3 pt-1">
+            ${items.length
+              ? items.map(renderWritingCard).join('')
+              : `<div class="text-center py-10 text-xs opacity-60">No essays match your current filters.</div>`}
+          </section>
+        </div>
+      `;
+    }
+
+    function renderBookMotif(b) {
+      if (b.motif === 'circuit') {
+        return `
+          <line x1="22" y1="35" x2="78" y2="35" stroke="${b.accent}" stroke-width="1" stroke-opacity="0.5"/>
+          <circle cx="50" cy="35" r="11" fill="none" stroke="${b.accent}" stroke-width="1.3"/>
+          <circle cx="25" cy="35" r="3" fill="${b.accent}"/><circle cx="75" cy="35" r="3" fill="${b.accent}"/>
+        `;
+      }
+      if (b.motif === 'arch') {
+        return `
+          <path d="M35 55 V34 Q50 18 65 34 V55 Z" fill="none" stroke="${b.accent}" stroke-width="1.3"/>
+          <circle cx="50" cy="37" r="5" fill="${b.accent}" fill-opacity="0.7"/>
+        `;
+      }
+      return `
+        <circle cx="50" cy="35" r="15" fill="none" stroke="${b.accent}" stroke-width="1.2"/>
+        <polygon points="50,20 64,35 50,50 36,35" fill="none" stroke="${b.accent}" stroke-width="1"/>
+      `;
+    }
+
+    function renderLibrary() {
+      const dark = state.appTheme === 'dark';
+      const q = state.searchQuery.trim().toLowerCase();
+      const books = state.books.filter(b => !q || b.title.toLowerCase().includes(q) || b.subtitle.toLowerCase().includes(q));
+
+      return `
+        <div class="space-y-4 animate-fade-in">
+          <section class="space-y-2.5">
+            <h2 class="font-serif-editorial text-xl font-bold ${dark ? 'text-[#E5C87D]' : ''}">Books & Manuscripts</h2>
+            <div class="grid grid-cols-2 gap-3">
+              ${books.map(b => {
+                const downloaded = state.downloads.includes(b.id);
+                return `
+                  <div class="card-interactive rounded-2xl p-3 border flex flex-col justify-between theme-transition ${
+                    dark ? 'bg-[#122652]/90 border-white/10' : 'bg-white border-[#E8DFCE]'
+                  }">
+                    <div>
+                      <div class="w-full h-24 rounded-xl mb-2.5 flex items-center justify-center relative overflow-hidden shadow-inner" style="background: ${b.bg};">
+                        <svg viewBox="0 0 100 70" class="w-full h-full">
+                          <rect x="8" y="8" width="84" height="54" rx="4" fill="none" stroke="${b.accent}" stroke-width="1" stroke-opacity="0.55"/>
+                          ${renderBookMotif(b)}
+                        </svg>
+                        <button data-bookmark-book="${b.id}" type="button" aria-label="Save to Reading List" class="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/75 transition">
+                          <i data-lucide="bookmark" class="w-3 h-3 ${downloaded ? 'fill-[#C9A24D] text-[#C9A24D]' : ''}"></i>
+                        </button>
+                      </div>
+                      <div class="text-[9px] font-semibold uppercase tracking-wider text-[#C9A24D] mb-0.5">${b.type}</div>
+                      <h3 class="font-serif-editorial text-sm font-bold leading-snug mb-1">${b.title}</h3>
+                      <p class="text-[10px] opacity-70 mb-2">${b.subtitle}</p>
+                    </div>
+                    <div class="pt-2 border-t ${dark ? 'border-white/10' : 'border-[#E8DFCE]'} flex items-center justify-between gap-1">
+                      <span class="text-[9px] opacity-60 truncate">${b.status}</span>
+                      <button data-read-book="${b.id}" type="button" class="text-[10px] font-semibold text-[#C9A24D] shrink-0">Read</button>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </section>
+
+          <section class="space-y-2.5 pt-1">
+            <h2 class="font-serif-editorial text-lg font-bold ${dark ? 'text-[#E5C87D]' : ''}">Education Series</h2>
+            <div class="space-y-2.5">
+              ${EDUCATION_ITEMS.map(ed => `
+                <div class="card-interactive rounded-2xl p-3 border flex items-center justify-between gap-3 ${
+                  dark ? 'bg-[#122652]/90 border-white/10' : 'bg-white border-[#E8DFCE]'
+                }">
+                  <div class="min-w-0">
+                    <div class="text-[10px] font-semibold text-[#C9A24D] uppercase">${ed.tag}</div>
+                    <div class="font-serif-editorial text-base font-bold truncate">${ed.title}</div>
+                    <p class="text-[11px] opacity-75 line-clamp-2">${ed.desc}</p>
+                  </div>
+                  <button ${ed.targetWriting ? `data-read-writing="${ed.targetWriting}"` : `data-read-book="${ed.targetBook}"`} type="button" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-[#C9A24D]/15 text-[#C9A24D] text-[11px] font-semibold">
+                    Open
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    function renderSaved() {
+      const dark = state.appTheme === 'dark';
+      const savedWritings = state.writings.filter(w => state.bookmarks.includes(w.id));
+      const savedBooks = state.books.filter(b => state.downloads.includes(b.id));
+
+      return `
+        <div class="space-y-3 animate-fade-in">
+          <h2 class="font-serif-editorial text-xl font-bold ${dark ? 'text-[#E5C87D]' : ''}">Saved & Offline</h2>
+
+          <div class="space-y-2">
+            <h3 class="text-xs font-semibold uppercase tracking-wider opacity-65">Saved Books & Manuscripts (${savedBooks.length})</h3>
+            ${savedBooks.length
+              ? savedBooks.map(b => `
+                <div class="rounded-2xl p-3 border flex items-center justify-between gap-3 ${
+                  dark ? 'bg-[#122652]/90 border-white/10' : 'bg-white border-[#E8DFCE]'
+                }">
+                  <div class="min-w-0">
+                    <div class="font-serif-editorial text-sm font-bold truncate">${b.title}</div>
+                    <div class="text-[11px] opacity-65">${b.subtitle}</div>
+                  </div>
+                  <div class="flex items-center gap-1.5 shrink-0">
+                    ${b.readable ? `<button data-read-book="${b.id}" type="button" class="px-2.5 py-1 rounded-lg bg-[#C9A24D] text-[#0B1B3D] text-[11px] font-semibold">Read</button>` : ''}
+                    <button data-bookmark-book="${b.id}" type="button" aria-label="Remove from Saved" class="p-1.5 rounded-lg border ${dark ? 'border-white/15' : 'border-[#E8DFCE]'} opacity-70 hover:opacity-100">
+                      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+              `).join('')
+              : `<div class="rounded-xl p-4 border text-xs opacity-60 ${dark ? 'border-white/10' : 'border-[#E8DFCE]'}">No saved books yet. Tap the bookmark icon on any book in Library.</div>`}
+          </div>
+
+          <div class="space-y-2 pt-2">
+            <h3 class="text-xs font-semibold uppercase tracking-wider opacity-65">Bookmarked Essays (${savedWritings.length})</h3>
+            ${savedWritings.length
+              ? savedWritings.map(renderWritingCard).join('')
+              : `<div class="rounded-xl p-4 border text-xs opacity-60 ${dark ? 'border-white/10' : 'border-[#E8DFCE]'}">No bookmarked essays yet. Tap the bookmark icon on any article.</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function applyReaderTheme() {
+      const t = state.readerTheme;
+      let cls = '';
+      let barCls = '';
+      if (t === 'navy') {
+        cls = 'bg-[#0B1B3D] text-[#FAF6EE]';
+        barCls = 'border-white/10 bg-[#07122B]';
+      } else if (t === 'sepia') {
+        cls = 'bg-[#F4ECD8] text-[#3E2F1C]';
+        barCls = 'border-amber-900/15 bg-[#EADFC3]';
+      } else {
+        cls = 'bg-[#FAF6EE] text-[#0B1B3D]';
+        barCls = 'border-[#E8DFCE] bg-white';
+      }
+      readerOverlay.className = `absolute inset-0 z-30 flex flex-col theme-transition animate-slide-up ${cls}`;
+      readerHeader.className = `shrink-0 px-3 py-2 flex items-center justify-between border-b ${barCls}`;
+      readerToolbar.className = `shrink-0 px-3.5 py-2.5 border-t flex items-center justify-between gap-2 ${barCls}`;
+      readerChapterBar.className = `${readerChapterBar.classList.contains('hidden') ? 'hidden' : ''} shrink-0 px-4 py-2 border-b flex items-center gap-2 overflow-x-auto no-scrollbar ${barCls}`;
+    }
+
+    function renderReader() {
+      if (!state.readerItem) return;
+      stopSpeech();
+      const { kind, data, chapterIdx } = state.readerItem;
+      applyReaderTheme();
+
+      if (kind === 'writing') {
+        readerTopbarTitle.textContent = data.tag;
+        readerChapterBar.classList.add('hidden');
+        const isUrdu = data.lang === 'ur';
+        const isSaved = state.bookmarks.includes(data.id);
+        document.getElementById('reader-bookmark-icon').setAttribute('class', `w-4 h-4 ${isSaved ? 'fill-[#C9A24D] text-[#C9A24D]' : ''}`);
+        const tocList = Array.isArray(data.toc) ? data.toc : [];
+        const bodyHtml = data.html || (data.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+
+        readerContent.innerHTML = `
+          <div ${isUrdu ? 'dir="rtl" lang="ur"' : ''} class="space-y-5">
+            <div>
+              <div class="text-[11px] font-semibold text-[#C9A24D] uppercase tracking-wider">${data.tag} · ${data.readTime}</div>
+              <h1 class="${isUrdu ? 'font-urdu text-2xl' : 'font-serif-editorial text-2xl leading-snug'} font-bold mt-1">${data.title}</h1>
+            </div>
+            ${tocList.length > 1 ? `
+              <div class="rounded-2xl p-4 border border-[#C9A24D]/35 bg-black/5 space-y-2">
+                <div class="text-xs font-bold uppercase tracking-wider text-[#C9A24D]">${isUrdu ? 'فہرستِ مضامین' : 'Table of Contents'}</div>
+                <ol class="space-y-1.5 text-xs">
+                  ${tocList.map((t, i) => `
+                    <li>
+                      <button data-jump-chapter="${t.id}" type="button" class="text-start hover:text-[#C9A24D] hover:underline font-medium flex items-center gap-2">
+                        <span class="text-[#C9A24D] font-mono">${i + 1}.</span>
+                        <span class="${isUrdu ? 'font-urdu text-sm' : ''}">${t.title}</span>
+                      </button>
+                    </li>
+                  `).join('')}
+                </ol>
+              </div>
+            ` : ''}
+            <div ${isUrdu ? 'dir="rtl" lang="ur"' : ''} style="font-size: ${isUrdu ? state.fontSize + 1 : state.fontSize}px" class="reader-prose">
+              ${bodyHtml}
+            </div>
+          </div>
+        `;
+      } else {
+        readerTopbarTitle.textContent = data.title;
+        const isSaved = state.downloads.includes(data.id);
+        document.getElementById('reader-bookmark-icon').setAttribute('class', `w-4 h-4 ${isSaved ? 'fill-[#C9A24D] text-[#C9A24D]' : ''}`);
+        readerChapterBar.classList.add('hidden');
+        const isUrduBook = data.lang === 'ur';
+        const tocList = Array.isArray(data.toc) ? data.toc : [];
+        const bodyHtml = data.html || '';
+
+        readerContent.innerHTML = `
+          <div ${isUrduBook ? 'dir="rtl" lang="ur"' : ''} class="space-y-6">
+            <div>
+              <div class="text-[11px] font-semibold text-[#C9A24D] uppercase tracking-wider">${data.type}</div>
+              <h1 class="${isUrduBook ? 'font-urdu text-2xl' : 'font-serif-editorial text-2xl leading-snug'} font-bold mt-1">${data.title}</h1>
+              <p class="text-xs opacity-70 mt-1">${data.subtitle}</p>
+            </div>
+            ${tocList.length > 0 ? `
+              <div class="rounded-2xl p-4 border border-[#C9A24D]/35 bg-black/5 space-y-2">
+                <div class="text-xs font-bold uppercase tracking-wider text-[#C9A24D]">${isUrduBook ? 'فہرستِ ابواب' : 'Table of Contents'}</div>
+                <ol class="space-y-1.5 text-xs">
+                  ${tocList.map((t, i) => `
+                    <li>
+                      <button data-jump-chapter="${t.id}" type="button" class="text-start hover:text-[#C9A24D] hover:underline font-medium flex items-center gap-2">
+                        <span class="text-[#C9A24D] font-mono">${i + 1}.</span>
+                        <span class="${isUrduBook ? 'font-urdu text-sm' : ''}">${t.title}</span>
+                      </button>
+                    </li>
+                  `).join('')}
+                </ol>
+              </div>
+            ` : ''}
+            <div ${isUrduBook ? 'dir="rtl" lang="ur"' : ''} style="font-size: ${isUrduBook ? state.fontSize + 1 : state.fontSize}px" class="reader-prose">
+              ${bodyHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      readerScroll.scrollTop = 0;
+      readerProgress.style.width = '18%';
+      window.lucide?.createIcons();
+    }
+
+    function openWriting(id) {
+      const w = state.writings.find(item => item.id === id);
+      if (!w) return;
+      state.readerItem = { kind: 'writing', data: w, chapterIdx: 0 };
+      readerOverlay.classList.remove('hidden');
+      renderReader();
+    }
+
+    function openBook(id) {
+      const b = state.books.find(item => item.id === id);
+      if (!b) return;
+      state.readerItem = { kind: 'book', data: b, chapterIdx: 0 };
+      readerOverlay.classList.remove('hidden');
+      renderReader();
+    }
+
+    function openBookPreview(id) {
+      const b = state.books.find(item => item.id === id);
+      if (!b) return;
+      const notified = state.notifyBooks.includes(b.id);
+      bookSheetBody.innerHTML = `
+        <div class="flex items-start justify-between gap-2">
+          <div>
+            <span class="text-[10px] uppercase tracking-widest text-[#C9A24D] font-semibold">${b.type}</span>
+            <h3 class="font-serif-editorial text-xl font-bold leading-snug">${b.title}</h3>
+          </div>
+          <button id="btn-close-book-sheet" type="button" aria-label="Close" class="p-1.5 rounded-full hover:bg-black/10">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <p class="text-xs leading-relaxed opacity-85">${b.overview || b.subtitle}</p>
+        <div class="space-y-1.5 pt-1">
+          <div class="flex justify-between text-[11px]">
+            <span class="opacity-70">Manuscript Progress</span>
+            <span class="font-semibold text-[#C9A24D]">${b.progress}% · ${b.status}</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-black/15 overflow-hidden">
+            <div class="h-full bg-[#C9A24D] rounded-full" style="width: ${b.progress}%"></div>
+          </div>
+        </div>
+        <button data-notify-book="${b.id}" type="button" class="w-full py-2.5 rounded-xl font-semibold text-xs transition ${
+          notified ? 'bg-emerald-600 text-white' : 'bg-[#C9A24D] text-[#0B1B3D]'
+        }">
+          ${notified ? '✓ Release Notification Enabled' : 'Notify Me When Published'}
+        </button>
+      `;
+      bookSheetModal.classList.remove('hidden');
+      window.lucide?.createIcons();
+    }
+
+    // Notifications Modal
+    function openNotifications() {
+      const dark = state.appTheme === 'dark';
+      notifBody.innerHTML = `
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-[10px] uppercase tracking-widest text-[#C9A24D] font-semibold">Alerts & Updates</p>
+            <h3 class="font-serif-editorial text-xl font-bold">Notifications</h3>
+          </div>
+          <button id="btn-close-notif" type="button" aria-label="Close" class="p-1.5 rounded-full hover:bg-black/10">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="rounded-xl p-3 border flex items-center justify-between gap-2 ${dark ? 'bg-[#07122B] border-white/10' : 'bg-white border-[#E8DFCE]'}">
+          <div class="text-xs">
+            <div class="font-semibold">Device Push Alerts</div>
+            <div class="text-[10px] opacity-70">Notify when content is added or updated</div>
+          </div>
+          <button id="btn-toggle-device-alerts" type="button" class="px-3 py-1.5 rounded-lg text-[11px] font-semibold transition ${
+            state.deviceAlertsEnabled ? 'bg-emerald-600 text-white' : 'bg-[#C9A24D] text-[#0B1B3D]'
+          }">${state.deviceAlertsEnabled ? 'Enabled' : 'Enable'}</button>
+        </div>
+
+        <div class="space-y-2 max-h-64 overflow-y-auto no-scrollbar">
+          ${state.notifications.map(n => `
+            <div class="rounded-xl p-3 border flex items-start justify-between gap-2 ${
+              dark ? 'bg-[#122652]/70 border-white/10' : 'bg-white border-[#E8DFCE]'
+            }">
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full ${n.type === 'new' ? 'bg-emerald-400' : 'bg-[#C9A24D]'}"></span>
+                  <span class="text-xs font-semibold truncate">${n.title}</span>
+                </div>
+                <p class="text-[11px] opacity-75 mt-0.5">${n.detail}</p>
+                <span class="text-[9px] opacity-50">${n.time}</span>
+              </div>
+              ${n.targetId ? `<button data-open-notif-target="${n.targetKind}:${n.targetId}" type="button" class="shrink-0 text-[11px] font-semibold text-[#C9A24D]">Open</button>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `;
+      state.notifications.forEach(n => { n.unread = false; });
+      persistState();
+      updateBadges();
+      notifModal.classList.remove('hidden');
+      window.lucide?.createIcons();
+    }
+
+    function renderApp() {
+      applyAppTheme();
+      updateNavState();
+
+      if (state.activeTab === 'home') mainScroll.innerHTML = renderHome();
+      else if (state.activeTab === 'writings') mainScroll.innerHTML = renderWritings();
+      else if (state.activeTab === 'library') mainScroll.innerHTML = renderLibrary();
+      else mainScroll.innerHTML = renderSaved();
+
+      window.lucide?.createIcons();
+    }
+
+    // Main Viewport Event Delegation
+    mainScroll.addEventListener('click', (e) => {
+      if (e.target.closest('#btn-next-reflection')) {
+        state.reflectionIdx = (state.reflectionIdx + 1) % REFLECTIONS.length;
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp(); return;
+      }
+      const langBtn = e.target.closest('[data-lang]');
+      if (langBtn) { state.langFilter = langBtn.dataset.lang; renderApp(); return; }
+      const subBtn = e.target.closest('[data-subject]');
+      if (subBtn) { state.selectedSubject = subBtn.dataset.subject; renderApp(); return; }
+      const tabJump = e.target.closest('[data-tab-jump]');
+      if (tabJump) { state.activeTab = tabJump.dataset.tabJump; mainScroll.scrollTop = 0; renderApp(); return; }
+      
+      const bmBtn = e.target.closest('[data-bookmark]');
+      if (bmBtn) {
+        const id = bmBtn.dataset.bookmark;
+        if (state.bookmarks.includes(id)) {
+          state.bookmarks = state.bookmarks.filter(x => x !== id);
+          showToast('Removed from Saved');
+        } else {
+          state.bookmarks.push(id);
+          showToast('Saved to Bookmarks');
+        }
+        persistState(); renderApp(); return;
+      }
+      const dlBtn = e.target.closest('[data-bookmark-book]');
+      if (dlBtn) {
+        const id = dlBtn.dataset.download;
+        if (state.downloads.includes(id)) {
+          state.downloads = state.downloads.filter(x => x !== id);
+          showToast('Removed from Reading List');
+        } else {
+          state.downloads.push(id);
+          showToast('Saved to Reading List');
+        }
+        persistState(); renderApp(); return;
+      }
+      const readW = e.target.closest('[data-read-writing]');
+      if (readW) { openWriting(readW.dataset.readWriting); return; }
+      const readB = e.target.closest('[data-read-book]');
+      if (readB) { openBook(readB.dataset.readBook); return; }
+      const peekB = e.target.closest('[data-peek-book]');
+      if (peekB) { openBookPreview(peekB.dataset.peekBook); }
+    });
+
+    mainScroll.addEventListener('change', (e) => {
+      if (e.target.id === 'sort-select') { state.sortBy = e.target.value; renderApp(); }
+    });
+
+    // Notifications Modal Events
+    notifModal.addEventListener('click', (e) => {
+      if (e.target === notifModal || e.target.closest('#btn-close-notif')) {
+        notifModal.classList.add('hidden'); return;
+      }
+      if (e.target.closest('#btn-toggle-device-alerts')) {
+        if (!('Notification' in window)) {
+          state.deviceAlertsEnabled = !state.deviceAlertsEnabled;
+          persistState(); openNotifications();
+          showToast('In-app alerts updated'); return;
+        }
+        Notification.requestPermission().then(perm => {
+          state.deviceAlertsEnabled = perm === 'granted' ? !state.deviceAlertsEnabled : false;
+          persistState(); openNotifications();
+          showToast(perm === 'granted' ? 'Device alerts toggled' : 'Permission blocked; in-app alerts active');
+        }).catch(() => {
+          state.deviceAlertsEnabled = !state.deviceAlertsEnabled;
+          persistState(); openNotifications();
+        });
+        return;
+      }
+      const openTarget = e.target.closest('[data-open-notif-target]');
+      if (openTarget) {
+        const [kind, id] = openTarget.dataset.openNotifTarget.split(':');
+        notifModal.classList.add('hidden');
+        if (kind === 'writing') openWriting(id);
+        else openBook(id);
+      }
+    });
+
+    // Book Preview Sheet Events
+    bookSheetModal.addEventListener('click', (e) => {
+      if (e.target === bookSheetModal || e.target.closest('#btn-close-book-sheet')) {
+        bookSheetModal.classList.add('hidden'); return;
+      }
+      const notifyBtn = e.target.closest('[data-notify-book]');
+      if (notifyBtn) {
+        const id = notifyBtn.dataset.notifyBook;
+        if (state.notifyBooks.includes(id)) {
+          state.notifyBooks = state.notifyBooks.filter(x => x !== id);
+          showToast('Notification turned off');
+        } else {
+          state.notifyBooks.push(id);
+          showToast('You will be notified on release');
+        }
+        persistState(); openBookPreview(id);
+      }
+    });
+
+    // Bottom Navigation
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.activeTab = btn.dataset.tab;
+        mainScroll.scrollTop = 0;
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
+      });
+    });
+
+    // Top App Bar & Outer Controls
+    function toggleAppTheme() {
+      state.appTheme = state.appTheme === 'light' ? 'dark' : 'light';
+      persistState(); renderApp();
+    }
+    document.getElementById('btn-theme-toggle').addEventListener('click', toggleAppTheme);
+    document.getElementById('btn-notif-open').addEventListener('click', openNotifications);
+
+    document.getElementById('btn-search-toggle').addEventListener('click', () => {
+      state.searchOpen = !state.searchOpen;
+      applyAppTheme();
+      if (state.searchOpen) searchInput.focus();
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      state.searchQuery = e.target.value;
+      btnSearchClear.classList.toggle('hidden', !state.searchQuery);
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
+    });
+
+    btnSearchClear.addEventListener('click', () => {
+      state.searchQuery = ''; searchInput.value = '';
+      btnSearchClear.classList.add('hidden');
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
+    });
+
+    // About Modal & Quick Correspondence
+    document.getElementById('btn-about-open').addEventListener('click', () => aboutModal.classList.remove('hidden'));
+    document.getElementById('btn-about-close').addEventListener('click', () => aboutModal.classList.add('hidden'));
+    document.getElementById('btn-enter-library').addEventListener('click', () => {
+      aboutModal.classList.add('hidden');
+      state.activeTab = 'library';
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
+    });
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('contact-subject');
+      if (!input.value.trim()) { showToast('Enter a topic first'); return; }
+      input.value = '';
+      aboutModal.classList.add('hidden');
+      showToast('Note queued for mehrajwan771@gmail.com');
+    });
+
+    // Reader Controls
+    document.getElementById('btn-reader-close').addEventListener('click', () => {
+      stopSpeech();
+      readerOverlay.classList.add('hidden');
+      state.readerItem = null;
+
+
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
+    });
+
+
+    document.getElementById('btn-reader-share').addEventListener('click', () => {
+      if (!state.readerItem) return;
+      const text = `${state.readerItem.data.title} — The Monotheist (https://themonotheistmw.github.io/)`;
+      try {
+        if (navigator.clipboard) navigator.clipboard.writeText(text);
+        else document.execCommand('copy');
+      } catch (e) {}
+      showToast('Citation copied to clipboard');
+    });
+
+    document.getElementById('btn-tts-toggle').addEventListener('click', () => {
+      if (!state.readerItem || !('speechSynthesis' in window)) { showToast('Read-aloud unavailable here'); return; }
+      if (state.isSpeaking) { stopSpeech(); showToast('Stopped reading'); return; }
+      const text = (readerContent.innerText || '').slice(0, 4000);
+      try {
+        const utt = new SpeechSynthesisUtterance(text);
+        utt.onend = () => stopSpeech();
+        window.speechSynthesis.speak(utt);
+        state.isSpeaking = true;
+        document.getElementById('tts-icon').setAttribute('data-lucide', 'square');
+        window.lucide?.createIcons();
+        showToast('Reading aloud...');
+      } catch (e) { showToast('Read-aloud unavailable'); }
+    });
+
+    document.getElementById('btn-reader-bookmark').addEventListener('click', () => {
+      if (!state.readerItem) return;
+      const { kind, data } = state.readerItem;
+      if (kind === 'writing') {
+        if (state.bookmarks.includes(data.id)) {
+          state.bookmarks = state.bookmarks.filter(x => x !== data.id);
+          showToast('Removed from Saved');
+        } else {
+          state.bookmarks.push(data.id);
+          showToast('Saved to Bookmarks');
+        }
+      } else {
+        if (state.downloads.includes(data.id)) {
+          state.downloads = state.downloads.filter(x => x !== data.id);
+          showToast('Removed from Reading List');
+        } else {
+          state.downloads.push(data.id);
+          showToast('Saved offline');
+        }
+      }
+      persistState(); renderReader();
+    });
+
+    readerChapterBar.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-chapter-idx]');
+      if (!btn || !state.readerItem) return;
+      state.readerItem.chapterIdx = Number(btn.dataset.chapterIdx);
+      renderReader();
+    });
+
+    document.getElementById('btn-font-dec').addEventListener('click', () => {
+      state.fontSize = Math.max(12, state.fontSize - 1);
+      persistState(); renderReader();
+    });
+    document.getElementById('btn-font-inc').addEventListener('click', () => {
+      state.fontSize = Math.min(22, state.fontSize + 1);
+      persistState(); renderReader();
+    });
+
+    document.querySelectorAll('.rtheme-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.readerTheme = btn.dataset.rtheme;
+        persistState(); applyReaderTheme();
+      });
+    });
+
+    document.getElementById('btn-reader-top').addEventListener('click', () => {
+      readerScroll.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+
+    readerContent.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-jump-chapter]');
+      if (!btn) return;
+      const target = document.getElementById(btn.dataset.jumpChapter);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    readerScroll.addEventListener('scroll', () => {
+      const maxScroll = readerScroll.scrollHeight - readerScroll.clientHeight;
+      const pct = maxScroll > 0 ? Math.min(100, Math.max(15, Math.round((readerScroll.scrollTop / maxScroll) * 100))) : 100;
+      readerProgress.style.width = `${pct}%`;
+    });
+
+
+    const feedUrl = 'https://themonotheistmw.github.io/content.json';
+    const catalog = window.MONOTHEIST_LIBRARY;
+    let refreshing = false;
+    function includeFormatting(remoteItems, bundledItems) {
+      const originals = new Map(bundledItems.map(item => [item.id, item]));
+      return remoteItems.map(item => ({...originals.get(item.id), ...item}));
+    }
+    async function refreshLibrary() {
+      if (refreshing) return;
+      refreshing = true;
+      try {
+        let cache;
+        try { cache = await caches.open('monotheist-android-feed-v1'); } catch {}
+        let response;
+        try {
+          response = await fetch(feedUrl, {cache: 'no-store'});
+          if (!response.ok) throw new Error();
+        } catch {
+          response = await cache?.match(feedUrl);
+        }
+        if (!response) return;
+        const feed = await response.clone().json();
+        if (!Number.isSafeInteger(feed.version) || !Array.isArray(feed.writings) || !Array.isArray(feed.books)) return;
+        if (feed.version < catalog.version) return;
+        state.writings = includeFormatting(feed.writings, catalog.writings);
+        state.books = includeFormatting(feed.books, catalog.books);
+        renderApp();
+        try { await cache?.put(feedUrl, response); } catch {}
+        const previous = Number(localStorage.getItem('monotheist_feed_version') || catalog.version);
+        if (feed.version > previous) {
+          localStorage.setItem('monotheist_feed_version', String(feed.version));
+          const title = feed.lastAlert?.title || 'New publication';
+          const body = feed.lastAlert?.body || '';
+          pushNotification('new', title, body, 'writing', feed.writings[0]?.id || '');
+          if (state.deviceAlertsEnabled) window.AndroidBridge?.notify?.(title, body);
+        }
+      } finally { refreshing = false; }
+    }
+    window.addEventListener('load', () => refreshLibrary().catch(() => {}));
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) refreshLibrary().catch(() => {});
+    });
+    window.handleAndroidBack = function() {
+      if (!aboutModal.classList.contains('hidden')) { aboutModal.classList.add('hidden'); return 'handled'; }
+      if (!notifModal.classList.contains('hidden')) { notifModal.classList.add('hidden'); return 'handled'; }
+      if (!bookSheetModal.classList.contains('hidden')) { bookSheetModal.classList.add('hidden'); return 'handled'; }
+      if (!readerOverlay.classList.contains('hidden')) {
+        stopSpeech();
+        readerOverlay.classList.add('hidden');
+        state.readerItem = null;
+        renderApp();
+        return 'handled';
+      }
+      if (state.searchOpen) { state.searchOpen = false; applyAppTheme(); return 'handled'; }
+      if (state.activeTab !== 'home') { state.activeTab = 'home'; mainScroll.scrollTop = 0; renderApp(); return 'handled'; }
+      return 'exit';
+    };
+
+    renderApp();
+  </script>
+</body>
+</html>
